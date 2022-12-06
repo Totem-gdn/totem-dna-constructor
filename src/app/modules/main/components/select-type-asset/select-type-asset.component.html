@@ -1,5 +1,6 @@
 <div class="row">
-    <div class="col-md-2 title">Avatar</div>
-    <div class="col-md-2 title">Item</div>
-    <div class="col-md-2 title">Gem</div>
+    <div class="col-md-2 title" [ngClass]="{'active': item.active}" *ngFor="let item of menu"
+        (click)="onSelectType(item)">
+        {{item.title}}
+    </div>
 </div>

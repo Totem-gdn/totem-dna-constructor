@@ -12,4 +12,14 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  selectTypeEvent(event: string): void {
+    console.log('Select type asset',event);
+
+  }
+
+  selectPropertyEvent(event: string): void {
+    console.log('Select property asset',event);
+
+  }
+
 }
