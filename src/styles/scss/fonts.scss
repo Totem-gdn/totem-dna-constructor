@@ -1,0 +1,17 @@
+@font-face {
+    font-family: "Totem";
+    src: local("Totem"), url('../../assets/fonts/TOTEM.TTF') format("truetype");
+    font-display: swap;
+  }
+  
+  @font-face {
+    font-family: "Roboto";
+    src: local("Roboto"), url('../../assets/fonts/Roboto/Roboto-Regular.ttf') format("truetype");
+    font-display: swap;
+  }
+
+  @font-face {
+    font-family: "Roboto-small";
+    src: local("Roboto"), url('../../assets/fonts/Roboto/Roboto-Medium.ttf') format("truetype");
+    font-display: swap;
+  }
