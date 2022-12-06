@@ -19,6 +19,7 @@ import { LayoutComponent } from './layout.component';
   ],
   exports:[
     DnaHeaderComponent,
+    // MainModule,
   ]
 })
 export class LayoutModule { }
