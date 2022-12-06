@@ -1,0 +1,21 @@
+@import "src/styles/scss/variables.scss";
+
+.wraper {
+    background-color: $yellow;
+    .container {
+        padding: 20px 0;
+        .title {
+            font-family: "Totem";
+            text-transform: uppercase;
+            font-size: 48px;
+            padding: 25px 0;
+        }
+        .text {
+            font-family: "Roboto-small";
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 19px;
+            color: $black;
+        }
+    }
+}

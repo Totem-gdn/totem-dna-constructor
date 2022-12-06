@@ -1,1 +1,11 @@
-@import 'reset-default-styles.scss';
+@import "scss/reset-default-styles.scss";
+@import "scss/fonts.scss";
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: 'Roboto';
+}
