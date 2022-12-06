@@ -1,8 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
+import { MainModule } from '../modules/main/main.module';
 import { DnaHeaderComponent } from './components/dna-header/dna-header.component';
-import { DnaNavComponent } from './components/dna-nav/dna-nav.component';
 import { LayoutComponent } from './layout.component';
 
 
@@ -11,15 +11,14 @@ import { LayoutComponent } from './layout.component';
   declarations: [
     LayoutComponent,
     DnaHeaderComponent,
-    DnaNavComponent
   ],
   imports: [
     CommonModule,
     RouterModule,
+    MainModule,
   ],
   exports:[
     DnaHeaderComponent,
-    DnaNavComponent
   ]
 })
 export class LayoutModule { }
