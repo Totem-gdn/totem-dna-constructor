@@ -12,4 +12,9 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  selectTypeEvent(event: string): void {
+    console.log(event);
+
+  }
+
 }
