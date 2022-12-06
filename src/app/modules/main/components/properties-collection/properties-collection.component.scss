@@ -1,0 +1,22 @@
+@import 'src/styles/scss/variables.scss';
+
+.dna_container{
+    border: 1px dashed $grey;
+    margin-top: 25px;
+    position: relative;
+    .label{
+        font-family: 'Roboto-small';
+        font-weight: 500;
+        font-size: 16px;
+        position: absolute;
+        margin-top: -13px;
+        width: auto;
+        background-color: #fff;
+    }
+    .button{
+        background-color: $yellow;
+        padding: 10px;
+        margin: 16px 0px 16px 16px;
+        cursor: pointer;
+    }
+}

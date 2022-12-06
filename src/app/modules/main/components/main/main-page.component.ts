@@ -13,7 +13,12 @@ export class MainPageComponent implements OnInit {
   }
 
   selectTypeEvent(event: string): void {
-    console.log(event);
+    console.log('Select type asset',event);
+
+  }
+
+  selectPropertyEvent(event: string): void {
+    console.log('Select property asset',event);
 
   }
 

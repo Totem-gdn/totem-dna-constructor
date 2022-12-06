@@ -1,11 +1,14 @@
 <div class="container">
-    <div class="row">
+    <div class="row mt-2">
         <div class="col-md-8">
             <app-select-type-asset (selectTypeEvent)="selectTypeEvent($event)"></app-select-type-asset>
         </div>
         <div class="col-md-4">
             <app-choose-template></app-choose-template>
         </div>
+    </div>
+    <div class="row mt-2">
+        <app-properties-collection (selectPropertyEvent)="selectPropertyEvent($event)"></app-properties-collection>
     </div>
 
 </div>
