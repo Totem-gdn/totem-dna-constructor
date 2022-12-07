@@ -6,7 +6,7 @@
         <div class="col-md-10">
             {{item.description}}
         </div>
-        <div class="col-md-2 deleteBtn" (click)="$event.stopPropagation(); ondelete(i)">
+        <div class="col-md-2 deleteBtn" (click)="$event.stopPropagation(); ondelete(item, i)">
             <img src="assets/images/svg/delete.svg" alt="">
         </div>
     </div>

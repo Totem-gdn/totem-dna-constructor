@@ -1,1 +1,17 @@
-<p>property-form works!</p>
+<div class="wraper">
+        <ng-container *ngIf="property">
+            <div class="row">
+                <div class="col-md">
+                    {{property.description}}
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="!property">
+            <div class="empty_form_placeholder">
+                <p>Add one property</p>
+                <p>or select</p>
+            </div>
+        </ng-container>
+
+</div>
