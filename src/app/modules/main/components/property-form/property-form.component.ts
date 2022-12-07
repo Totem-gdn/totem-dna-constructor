@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { PropertyModel } from '../../models/property.model';
 
@@ -6,7 +6,6 @@ import { PropertyModel } from '../../models/property.model';
   selector: 'app-property-form',
   templateUrl: './property-form.component.html',
   styleUrls: ['./property-form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PropertyFormComponent implements OnInit {
   @Input() property?: PropertyModel;
@@ -30,6 +29,10 @@ export class PropertyFormComponent implements OnInit {
   reactiveForm() {
     this.propertyForm = this.fb.group({
       description: ['', Validators.required],
+      id: ['', Validators.required],
+      gene: ['', Validators.required],
+      offset: ['', Validators.required],
+      lenght: ['', Validators.required],
     })
   }
 

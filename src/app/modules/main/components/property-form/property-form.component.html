@@ -11,16 +11,55 @@
                     Type: {{property.type}}
                 </div>
             </div>
-            <div class="row">
-                <div class="col-md">
-                    <mat-form-field class="w-full">
-                        <mat-label>Description</mat-label>
-                        <input matInput type="text" formControlName="description">
-                        <button matSuffix mat-icon-button aria-label="Clear">
-                          <mat-icon>close</mat-icon>
-                        </button>
-                      </mat-form-field>
-                </div>
+            <div class="row mt-2">
+                <mat-form-field class="w-full">
+                    <mat-label>Description</mat-label>
+                    <input matInput type="text" formControlName="description">
+                    <mat-error *ngIf="propertyForm.get('description')!.hasError('required')">Field required</mat-error>
+                    <button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+                
+            </div>
+            <div class="row  mt-2">
+                <mat-form-field class="w-full">
+                    <mat-label>ID</mat-label>
+                    <input matInput type="text" formControlName="id">
+                    <button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <div class="row  mt-2">
+                <mat-form-field class="w-full">
+                    <mat-label>Gene</mat-label>
+                    <input matInput type="text" formControlName="gene">
+                    <button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <div class="row  mt-2">
+                <mat-form-field class="w-full">
+                    <mat-label>Offset</mat-label>
+                    <input matInput type="text" formControlName="offset">
+                    <button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <div class="row  mt-2">
+                <mat-form-field class="w-full">
+                    <mat-label>Lenght</mat-label>
+                    <input matInput type="text" formControlName="lenght">
+                    <button matSuffix mat-icon-button aria-label="Clear">
+                        <mat-icon>close</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div>
+            <div class="confirm_btn_row">
+                <button mat-raised-button>Basic</button>
             </div>
         </form>
     </ng-container>
