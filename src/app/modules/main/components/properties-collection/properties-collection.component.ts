@@ -16,14 +16,14 @@ export class PropertiesCollectionComponent implements OnInit {
     { title: PROPERTIES.COLOR, value: PROPERTIES_LOWERCASE.COLOR },
   ]
 
-  @Output() selectPropertyEvent: EventEmitter<string> = new EventEmitter();
+  @Output() selectPropertyEvent: EventEmitter<PROPERTIES_LOWERCASE> = new EventEmitter();
   constructor() { }
 
   ngOnInit(): void {
   }
 
   onSelectProperty(asset: PropertiesModel): void {
-    this.selectPropertyEvent.emit(asset.value);
+    this.selectPropertyEvent.emit(asset.value as PROPERTIES_LOWERCASE);
   }
 
 }

@@ -8,7 +8,25 @@
         </div>
     </div>
     <div class="row mt-2">
-        <app-properties-collection (selectPropertyEvent)="selectPropertyEvent($event)"></app-properties-collection>
+        <app-properties-collection (selectPropertyEvent)="selectTypePropertyEvent($event)"></app-properties-collection>
+    </div>
+    <div class="row mt-4 column_wraper">
+        <div class="col-md-3">
+            <app-property-list 
+            [propertyList]="propertyList"
+            (onDeleteProperty)="onDeleteProperty($event)"
+            (onSelectProperty)="onSelectProperty($event)"
+            ></app-property-list>
+        </div>
+        <div class="col-md-5">
+            <app-property-form></app-property-form>
+        </div>
+        <div class="col-md-4">
+            <app-property-visual-gene></app-property-visual-gene>
+        </div>
+    </div>
+    <div class="row">
+        <app-json-visual-file></app-json-visual-file>
     </div>
 
 </div>

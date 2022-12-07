@@ -1,0 +1,13 @@
+<div class="wraper" >
+    <div class="row mb-2 propertyItem" *ngFor="let item of propertyList; let i = index"
+        [ngClass]="{'active': item.active}"
+        (click)="$event.stopPropagation(); onSelect(i);"
+        >
+        <div class="col-md-10">
+            {{item.description}}
+        </div>
+        <div class="col-md-2 deleteBtn" (click)="$event.stopPropagation(); ondelete(i)">
+            <img src="assets/images/svg/delete.svg" alt="">
+        </div>
+    </div>
+</div>

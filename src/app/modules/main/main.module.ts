@@ -6,6 +6,10 @@ import { SelectTypeAssetComponent } from './components/select-type-asset/select-
 import { MainRoutingModule } from './main-routing.module';
 import { ChooseTemplateComponent } from './components/choose-template/choose-template.component';
 import { PropertiesCollectionComponent } from './components/properties-collection/properties-collection.component';
+import { PropertyListComponent } from './components/property-list/property-list.component';
+import { PropertyFormComponent } from './components/property-form/property-form.component';
+import { PropertyVisualGeneComponent } from './components/property-visual-gene/property-visual-gene.component';
+import { JsonVisualFileComponent } from './components/json-visual-file/json-visual-file.component';
 
 
 
@@ -15,6 +19,10 @@ import { PropertiesCollectionComponent } from './components/properties-collectio
     MainPageComponent,
     ChooseTemplateComponent,
     PropertiesCollectionComponent,
+    PropertyListComponent,
+    PropertyFormComponent,
+    PropertyVisualGeneComponent,
+    JsonVisualFileComponent,
   ],
   imports: [
     CommonModule,
