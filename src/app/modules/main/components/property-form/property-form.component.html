@@ -1,17 +1,35 @@
 <div class="wraper">
-        <ng-container *ngIf="property">
+    <ng-container *ngIf="property">
+        <form [formGroup]="propertyForm">
             <div class="row">
-                <div class="col-md">
+                <div class="col-md title">
                     {{property.description}}
                 </div>
             </div>
-        </ng-container>
-
-        <ng-container *ngIf="!property">
-            <div class="empty_form_placeholder">
-                <p>Add one property</p>
-                <p>or select</p>
+            <div class="row">
+                <div class="col-md title">
+                    Type: {{property.type}}
+                </div>
             </div>
-        </ng-container>
+            <div class="row">
+                <div class="col-md">
+                    <mat-form-field class="w-full">
+                        <mat-label>Description</mat-label>
+                        <input matInput type="text" formControlName="description">
+                        <button matSuffix mat-icon-button aria-label="Clear">
+                          <mat-icon>close</mat-icon>
+                        </button>
+                      </mat-form-field>
+                </div>
+            </div>
+        </form>
+    </ng-container>
+
+    <ng-container *ngIf="!property">
+        <div class="empty_form_placeholder">
+            <p>Add one property</p>
+            <p>or select</p>
+        </div>
+    </ng-container>
 
 </div>

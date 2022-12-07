@@ -1,4 +1,5 @@
-import { ChangeDetectionStrategy, Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { PropertyModel } from '../../models/property.model';
 
 @Component({
@@ -9,9 +10,28 @@ import { PropertyModel } from '../../models/property.model';
 })
 export class PropertyFormComponent implements OnInit {
   @Input() property?: PropertyModel;
-  constructor() { }
+  propertyForm!: FormGroup;
+  constructor(
+    private fb: FormBuilder,
+  ) { }
 
   ngOnInit(): void {
+    this.reactiveForm();
   }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    console.log('changes', changes);
+
+    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
+    //Add '${implements OnChanges}' to the class.
+
+  }
+
+  reactiveForm() {
+    this.propertyForm = this.fb.group({
+      description: ['', Validators.required],
+    })
+  }
+
 
 }
