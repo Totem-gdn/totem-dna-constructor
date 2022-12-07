@@ -1,7 +1,7 @@
 <div class="container">
     <div class="row mt-2">
         <div class="col-md-8">
-            <app-select-type-asset (selectTypeEvent)="selectTypeEvent($event)"></app-select-type-asset>
+            <app-select-type-asset (selectTypeEvent)="selectTypeAssetEvent($event)"></app-select-type-asset>
         </div>
         <div class="col-md-4">
             <app-choose-template></app-choose-template>
@@ -12,14 +12,14 @@
     </div>
     <div class="row mt-4 column_wraper">
         <div class="col-md-3">
-            <app-property-list 
+            <app-property-list
             [propertyList]="propertyList"
             (onDeleteProperty)="onDeleteProperty($event)"
             (onSelectProperty)="onSelectProperty($event)"
             ></app-property-list>
         </div>
         <div class="col-md-5">
-            <app-property-form></app-property-form>
+            <app-property-form [property]="selectedProperty"></app-property-form>
         </div>
         <div class="col-md-4">
             <app-property-visual-gene></app-property-visual-gene>

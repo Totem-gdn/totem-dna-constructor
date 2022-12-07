@@ -9,7 +9,8 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnInit {
-  propertyList: PropertyModel[] = []
+  propertyList: PropertyModel[] = [];
+  selectedProperty?: PropertyModel;
   constructor(
     private dataService: DataService
   ) { }
@@ -17,18 +18,27 @@ export class MainPageComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  selectTypeEvent(event: string): void {
+  selectTypeAssetEvent(event: string): void {
     console.log('Select type asset', event);
 
   }
 
-  onDeleteProperty(itemIndex: number): void {
-    this.propertyList.splice(itemIndex, 1);
+  onDeleteProperty(event: { item: PropertyModel, index: number }): void {
+    this.propertyList.splice(event.index, 1);
+    if (event.item.active) {
+      this.selectedProperty = undefined;
+    }
+
   }
 
   onSelectProperty(indexSelectedItem: number): void {
     this.propertyList.forEach((item: PropertyModel, index: number) => {
-      item.active = index === indexSelectedItem ? true : false
+      if (index === indexSelectedItem) {
+        this.selectedProperty = item;
+        item.active = true;
+      } else {
+        item.active = false;
+      }
     })
   }
 
@@ -40,7 +50,8 @@ export class MainPageComponent implements OnInit {
       ...this.dataService.defaultTypesObject[type],
       active: true,
     };
-    this.propertyList.push(objectTemp)
+    this.propertyList.push(objectTemp);
+    this.selectedProperty = objectTemp;
   }
 
 }
