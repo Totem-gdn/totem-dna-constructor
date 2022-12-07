@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, Input, OnInit, SimpleChanges } from '@angular/core';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { PropertyModel } from '../../models/property.model';
 
 @Component({
@@ -10,9 +10,9 @@ import { PropertyModel } from '../../models/property.model';
 })
 export class PropertyFormComponent implements OnInit {
   @Input() property?: PropertyModel;
-  propertyForm!: FormGroup;
+  propertyForm!: UntypedFormGroup;
   constructor(
-    private fb: FormBuilder,
+    private fb: UntypedFormBuilder,
   ) { }
 
   ngOnInit(): void {

@@ -110,5 +110,7 @@
       }
     }
   },
-  "defaultProject": "dna"
+  "cli": {
+    "analytics": false
+  }
 }
