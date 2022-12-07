@@ -1,0 +1,20 @@
+@import 'src/styles/scss/variables.scss';
+.wraper{
+    height: $main_column_height;
+    overflow-y: auto;
+    overflow-x: hidden;
+    .propertyItem{
+        padding: 14px;
+        background-color: $light_grey;
+        font-weight: bold;
+        cursor: pointer;
+        .deleteBtn{
+    
+        }
+    
+    }
+    .active{
+        background-color: $grey;
+    }
+}
+
