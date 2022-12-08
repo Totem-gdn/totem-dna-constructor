@@ -14,19 +14,35 @@ export class PropertyFormComponent implements OnInit {
   propertyIndex!: number;
   constructor(
     private fb: UntypedFormBuilder,
-  ) { }
-
-  ngOnInit(): void {
+  ) {
     this.reactiveForm();
   }
 
+  ngOnInit(): void {
+    // this.reactiveForm();
+  }
+
   ngOnChanges(changes: SimpleChanges): void {
+    console.log('property',this.property);
+    
     // this.resetForm(this.propertyForm)
+    const obj: PropertyModel = {};
+    let key: keyof PropertyModel;
+    if (this.property) {
+      for (key in this.property) {
+        (obj[key] as any) = this.property[key]
+      }
+    }
+    this.propertyForm.patchValue({
+      ...obj
+    })
   }
 
   onConfirm(): void {
+    this.propertyForm.get('active')?.setValue(false);
     this.updatePropertyInJson.emit(this.propertyForm.value);
     this.resetForm(this.propertyForm);
+    this.property = undefined;
   }
 
   onClearField(field: string): void {
@@ -40,6 +56,7 @@ export class PropertyFormComponent implements OnInit {
       gene: ['', Validators.required],
       offset: ['', Validators.required],
       lenght: ['', Validators.required],
+      active: [''],
     })
   }
 

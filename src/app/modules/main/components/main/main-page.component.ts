@@ -52,16 +52,16 @@ export class MainPageComponent implements OnInit {
     })
   }
 
-  selectTypePropertyEvent(type: PROPERTIES_LOWERCASE): void {
+  addNewPropertyEvent(type: PROPERTIES_LOWERCASE): void {
     this.propertyList.forEach((elem: PropertyModel) => {
       elem.active = false;
     })
-    const objectTemp: PropertyModel = {
+    const newProperty: PropertyModel = {
       ...this.dataService.defaultTypesObject[type],
       active: true,
     };
-    this.propertyList.push(objectTemp);
-    this.selectedProperty = objectTemp;
+    this.propertyList.push(newProperty);
+    this.selectedProperty = newProperty;
   }
 
 }
