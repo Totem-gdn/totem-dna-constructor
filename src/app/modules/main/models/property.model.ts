@@ -7,3 +7,8 @@ export interface PropertyModel {
     length?: number,
     active?: boolean,
 }
+
+export interface PropertyUpdateModel {
+    item: PropertyModel;
+    index?: number;
+}

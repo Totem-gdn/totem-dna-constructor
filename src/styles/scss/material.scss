@@ -1,3 +1,5 @@
+@import "variables.scss";
+
 .w-full {
     width: 100% !important;
 }
@@ -5,3 +7,47 @@
 // .mat-form-field{
 //     border: 1px solid black;
 // }
+.btn {
+    border-radius: 2px !important;
+    padding: 14px 83px !important;
+}
+.btn-warning {
+    background-color: $yellow !important;
+    &:hover {
+        background-color: $yellow_hover !important;
+    }
+}
+
+// input
+.mat-mdc-text-field-wrapper {
+    border: none !important;
+}
+.mdc-text-field--filled {
+    background-color: white !important;
+    border: 1px solid black !important;
+    border-radius: 0px !important;
+    z-index: 1;
+    overflow: visible !important;
+}
+.mat-focused {
+    background-color: white !important;
+}
+
+.mdc-line-ripple::before {
+    border-bottom-color: white !important;
+}
+.mdc-text-field--filled .mdc-floating-label--float-above {
+    transform: translateY(-196%) scale(0.9) !important;
+    background-color: white;
+    z-index: 2;
+}
+.mat-mdc-form-field:not(.mat-form-field-no-animations) .mdc-floating-label {
+    z-index: 999;
+}
+.mat-mdc-text-field-wrapper {
+    background-color: white !important;
+}
+.mat-mdc-text-field-wrapper:not(.mdc-text-field--outlined) .mat-mdc-form-field-infix {
+    padding-top: 15px !important;
+    font-size: 16px !important;
+}

@@ -11,6 +11,7 @@ import { DataService } from '../../services/data.service';
 export class MainPageComponent implements OnInit {
   propertyList: PropertyModel[] = [];
   selectedProperty?: PropertyModel;
+  indexSelectedProperty!: number;
   constructor(
     private dataService: DataService
   ) { }
@@ -21,6 +22,14 @@ export class MainPageComponent implements OnInit {
   selectTypeAssetEvent(event: string): void {
     console.log('Select type asset', event);
 
+  }
+
+  updatePropertyInJson(property: PropertyModel): void {
+    const index: number = this.indexSelectedProperty ? this.indexSelectedProperty : this.propertyList.length - 1;
+    let key: keyof PropertyModel;
+    for (key in property) {
+      (this.propertyList[index][key] as any) = property[key];
+    }
   }
 
   onDeleteProperty(event: { item: PropertyModel, index: number }): void {
@@ -35,6 +44,7 @@ export class MainPageComponent implements OnInit {
     this.propertyList.forEach((item: PropertyModel, index: number) => {
       if (index === indexSelectedItem) {
         this.selectedProperty = item;
+        this.indexSelectedProperty = indexSelectedItem;
         item.active = true;
       } else {
         item.active = false;
@@ -42,16 +52,16 @@ export class MainPageComponent implements OnInit {
     })
   }
 
-  selectTypePropertyEvent(type: PROPERTIES_LOWERCASE): void {
+  addNewPropertyEvent(type: PROPERTIES_LOWERCASE): void {
     this.propertyList.forEach((elem: PropertyModel) => {
       elem.active = false;
     })
-    const objectTemp = {
+    const newProperty: PropertyModel = {
       ...this.dataService.defaultTypesObject[type],
       active: true,
     };
-    this.propertyList.push(objectTemp);
-    this.selectedProperty = objectTemp;
+    this.propertyList.push(newProperty);
+    this.selectedProperty = newProperty;
   }
 
 }

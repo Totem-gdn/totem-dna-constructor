@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { PropertyModel } from '../../models/property.model';
 
@@ -9,31 +9,61 @@ import { PropertyModel } from '../../models/property.model';
 })
 export class PropertyFormComponent implements OnInit {
   @Input() property?: PropertyModel;
+  @Output() updatePropertyInJson: EventEmitter<PropertyModel> = new EventEmitter()
   propertyForm!: UntypedFormGroup;
+  propertyIndex!: number;
   constructor(
     private fb: UntypedFormBuilder,
-  ) { }
-
-  ngOnInit(): void {
+  ) {
     this.reactiveForm();
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes);
-
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-
+  ngOnInit(): void {
+    // this.reactiveForm();
   }
 
-  reactiveForm() {
+  ngOnChanges(changes: SimpleChanges): void {
+    const obj: PropertyModel = {};
+    let key: keyof PropertyModel;
+    if (this.property) {
+      for (key in this.property) {
+        (obj[key] as any) = this.property[key]
+      }
+    }
+    this.propertyForm.patchValue({
+      ...obj
+    })
+  }
+
+  onConfirm(): void {
+    this.propertyForm.get('active')?.setValue(false);
+    this.updatePropertyInJson.emit(this.propertyForm.value);
+    this.resetForm(this.propertyForm);
+    this.property = undefined;
+  }
+
+  onClearField(field: string): void {
+    this.propertyForm.get(field)?.reset();
+  }
+
+  reactiveForm(): void {
     this.propertyForm = this.fb.group({
       description: ['', Validators.required],
       id: ['', Validators.required],
       gene: ['', Validators.required],
       offset: ['', Validators.required],
       lenght: ['', Validators.required],
+      active: [''],
     })
+  }
+
+  resetForm(form: UntypedFormGroup): void {
+    if (form) {
+      form.reset();
+      Object.keys(form.controls).forEach(key => {
+        form.controls[key].setErrors(null)
+      });
+    }
   }
 
 

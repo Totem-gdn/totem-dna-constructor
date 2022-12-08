@@ -5,11 +5,23 @@
     box-shadow: 1px 2px 11px rgba(20, 38, 48, 0.15);
     position: relative;
     padding: 21px 40px;
+    .title{
+        font-size: 32px;
+        font-weight: 500;
+    }
+    .separator{
+        width: 100%;
+        border-top: 1px solid $grey;
+    }
     .empty_form_placeholder{
         width: 100%;
         position: absolute;
         top: $main_column_height / 2;
         text-align: center;
         color: $middle_grey;
+    }
+    .confirm_btn_row{
+        display: flex;
+        justify-content: center;
     }
 }
