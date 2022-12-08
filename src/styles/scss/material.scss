@@ -1,3 +1,5 @@
+@import 'variables.scss';
+
 .w-full {
     width: 100% !important;
 }
@@ -5,3 +7,13 @@
 // .mat-form-field{
 //     border: 1px solid black;
 // }
+.btn{
+    border-radius: 2px !important;
+    padding: 14px 83px !important;
+}
+.btn-warning{
+    background-color: $yellow !important;
+    &:hover{
+        background-color: $yellow_hover !important;
+    }
+}

@@ -26,7 +26,11 @@ export class PropertyFormComponent implements OnInit {
 
   }
 
-  reactiveForm() {
+  onConfirm(): void {
+
+  }
+
+  reactiveForm(): void {
     this.propertyForm = this.fb.group({
       description: ['', Validators.required],
       id: ['', Validators.required],
