@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { PropertyModel, PropertyUpdateModel } from '../../models/property.model';
+import { PropertyModel } from '../../models/property.model';
 
 @Component({
   selector: 'app-property-form',
@@ -9,7 +9,7 @@ import { PropertyModel, PropertyUpdateModel } from '../../models/property.model'
 })
 export class PropertyFormComponent implements OnInit {
   @Input() property?: PropertyModel;
-  @Output() updatePropertyInJson: EventEmitter<PropertyUpdateModel> = new EventEmitter()
+  @Output() updatePropertyInJson: EventEmitter<PropertyModel> = new EventEmitter()
   propertyForm!: UntypedFormGroup;
   propertyIndex!: number;
   constructor(
