@@ -9,7 +9,7 @@ import { PropertyModel } from '../../models/property.model';
 export class PropertyListComponent implements OnInit {
   @Input() propertyList?: PropertyModel[];
   @Output() onDeleteProperty: EventEmitter<{ item: PropertyModel, index: number }> = new EventEmitter()
-  @Output() onSelectProperty: EventEmitter<number> = new EventEmitter()
+  @Output() onSelectProperty: EventEmitter<number> = new EventEmitter();
 
   constructor() { }
 

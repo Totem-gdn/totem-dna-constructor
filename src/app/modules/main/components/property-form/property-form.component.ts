@@ -1,6 +1,6 @@
-import { Component, Input, OnInit, SimpleChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { PropertyModel } from '../../models/property.model';
+import { PropertyModel, PropertyUpdateModel } from '../../models/property.model';
 
 @Component({
   selector: 'app-property-form',
@@ -9,7 +9,9 @@ import { PropertyModel } from '../../models/property.model';
 })
 export class PropertyFormComponent implements OnInit {
   @Input() property?: PropertyModel;
+  @Output() updatePropertyInJson: EventEmitter<PropertyUpdateModel> = new EventEmitter()
   propertyForm!: UntypedFormGroup;
+  propertyIndex!: number;
   constructor(
     private fb: UntypedFormBuilder,
   ) { }
@@ -19,15 +21,12 @@ export class PropertyFormComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('changes', changes);
-
-    //Called before any other lifecycle hook. Use it to inject dependencies, but avoid any serious work here.
-    //Add '${implements OnChanges}' to the class.
-
+    // this.resetForm(this.propertyForm)
   }
 
   onConfirm(): void {
-
+    this.updatePropertyInJson.emit(this.propertyForm.value);
+    this.resetForm(this.propertyForm);
   }
 
   reactiveForm(): void {
@@ -38,6 +37,15 @@ export class PropertyFormComponent implements OnInit {
       offset: ['', Validators.required],
       lenght: ['', Validators.required],
     })
+  }
+
+  resetForm(form: UntypedFormGroup): void {
+    if (form) {
+      form.reset();
+      Object.keys(form.controls).forEach(key => {
+        form.controls[key].setErrors(null)
+      });
+    }
   }
 
 

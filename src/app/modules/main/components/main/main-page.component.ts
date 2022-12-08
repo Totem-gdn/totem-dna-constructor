@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
-import { PropertyModel } from '../../models/property.model';
+import { PropertyModel, PropertyUpdateModel } from '../../models/property.model';
 import { DataService } from '../../services/data.service';
 
 @Component({
@@ -20,6 +20,12 @@ export class MainPageComponent implements OnInit {
 
   selectTypeAssetEvent(event: string): void {
     console.log('Select type asset', event);
+
+  }
+
+  updatePropertyInJson(property: PropertyUpdateModel): void {
+    console.log('property', property);
+    console.log('propertyList', this.propertyList);
 
   }
 
@@ -46,7 +52,7 @@ export class MainPageComponent implements OnInit {
     this.propertyList.forEach((elem: PropertyModel) => {
       elem.active = false;
     })
-    const objectTemp = {
+    const objectTemp: PropertyModel = {
       ...this.dataService.defaultTypesObject[type],
       active: true,
     };

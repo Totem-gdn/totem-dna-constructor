@@ -19,7 +19,10 @@
             ></app-property-list>
         </div>
         <div class="col-md-5">
-            <app-property-form [property]="selectedProperty"></app-property-form>
+            <app-property-form 
+                [property]="selectedProperty"
+                (updatePropertyInJson)="updatePropertyInJson($event)"
+            ></app-property-form>
         </div>
         <div class="col-md-4">
             <app-property-visual-gene></app-property-visual-gene>
