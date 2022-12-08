@@ -23,9 +23,6 @@ export class PropertyFormComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log('property',this.property);
-    
-    // this.resetForm(this.propertyForm)
     const obj: PropertyModel = {};
     let key: keyof PropertyModel;
     if (this.property) {
