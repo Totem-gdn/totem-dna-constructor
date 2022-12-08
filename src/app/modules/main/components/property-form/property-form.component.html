@@ -17,7 +17,7 @@
                     <mat-label>Description</mat-label>
                     <input matInput type="text" formControlName="description">
                     <mat-error *ngIf="propertyForm.get('description')!.hasError('required')">Field required</mat-error>
-                    <button matSuffix mat-icon-button aria-label="Clear">
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('description')">
                         <mat-icon>cancel</mat-icon>
                     </button>
                 </mat-form-field>
@@ -28,7 +28,7 @@
                     <mat-label>ID</mat-label>
                     <input matInput type="text" formControlName="id">
                     <mat-error *ngIf="propertyForm.get('id')!.hasError('required')">Field required</mat-error>
-                    <button matSuffix mat-icon-button aria-label="Clear">
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('id')">
                         <mat-icon>cancel</mat-icon>
                     </button>
                 </mat-form-field>
@@ -38,7 +38,7 @@
                     <mat-label>Gene</mat-label>
                     <input matInput type="text" formControlName="gene">
                     <mat-error *ngIf="propertyForm.get('gene')!.hasError('required')">Field required</mat-error>
-                    <button matSuffix mat-icon-button aria-label="Clear">
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('gene')">
                         <mat-icon>cancel</mat-icon>
                     </button>
                 </mat-form-field>
@@ -48,7 +48,7 @@
                     <mat-label>Offset</mat-label>
                     <input matInput type="text" formControlName="offset">
                     <mat-error *ngIf="propertyForm.get('offset')!.hasError('required')">Field required</mat-error>
-                    <button matSuffix mat-icon-button aria-label="Clear">
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('offset')">
                         <mat-icon>cancel</mat-icon>
                     </button>
                 </mat-form-field>
@@ -58,13 +58,14 @@
                     <mat-label>Lenght</mat-label>
                     <input matInput type="text" formControlName="lenght">
                     <mat-error *ngIf="propertyForm.get('lenght')!.hasError('required')">Field required</mat-error>
-                    <button matSuffix mat-icon-button aria-label="Clear">
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('lenght')">
                         <mat-icon>cancel</mat-icon>
                     </button>
                 </mat-form-field>
             </div>
             <div class="confirm_btn_row">
-                <button type="button" [disabled]="!this.propertyForm.valid" class="btn btn-warning" (click)="onConfirm()">Confirm</button>
+                <button type="button" [disabled]="!this.propertyForm.valid" class="btn btn-warning"
+                    (click)="onConfirm()">Confirm</button>
             </div>
         </form>
     </ng-container>

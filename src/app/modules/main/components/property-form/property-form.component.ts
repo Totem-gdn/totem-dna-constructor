@@ -29,6 +29,10 @@ export class PropertyFormComponent implements OnInit {
     this.resetForm(this.propertyForm);
   }
 
+  onClearField(field: string): void {
+    this.propertyForm.get(field)?.reset();
+  }
+
   reactiveForm(): void {
     this.propertyForm = this.fb.group({
       description: ['', Validators.required],
