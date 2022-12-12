@@ -4,8 +4,9 @@ export interface PropertyModel {
     type?: string,
     gene?: number,
     start?: number,
-    length?: number,
+    lenght?: number,
     active?: boolean,
+    offset?: number;
 }
 
 export interface PropertyUpdateModel {
