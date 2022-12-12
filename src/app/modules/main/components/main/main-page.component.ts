@@ -9,7 +9,9 @@ import { DataService } from '../../services/data.service';
   styleUrls: ['./main-page.component.scss']
 })
 export class MainPageComponent implements OnInit {
-  propertyList: PropertyModel[] = [];
+  propertyList: PropertyModel[] = [
+    { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, lenght: 5, active: true },
+  ];
   selectedProperty?: PropertyModel;
   indexSelectedProperty!: number;
   constructor(
