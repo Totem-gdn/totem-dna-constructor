@@ -1,1 +1,13 @@
-<p>json-visual-file works!</p>
+<div class="wraper mt-4">
+    <div class="row">
+        <div class="col-md-2 downloadBtn">
+             <a [href]="jsonUrl" download="file.json"><span>download</span></a>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md">
+            {{jsonAsString}}
+        </div>
+    </div>
+</div>
