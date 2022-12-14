@@ -13,6 +13,9 @@ import { ValueToStringPipe } from './value-to-string.pipe';
   ],
   exports: [
     ValueToStringPipe
+  ],
+  providers: [
+    ValueToStringPipe
   ]
 })
 export class PipesModule { }
