@@ -1,11 +1,21 @@
-<div class="wraper mt-4">
-    <div class="row">
-        <div class="col-md-2 downloadBtn">
-             <a [href]="jsonUrl" download="file.json"><span>download</span></a>
+<div class="wraper">
+    <div class="row mb-2 justify-content-between">
+        <div class="col-md-2">
+            <span class="title">JSON</span>
+        </div>
+        <div class="col-md-1">
+            <div class="row justify-content-end">
+                <div class="col-md-6 d-flex justify-content-end">
+                    <a [href]="jsonUrl" download="file.json"><span><img src="assets/images/svg/content_copy.svg" alt=""></span></a>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <a [href]="jsonUrl" download="file.json"><span><img src="assets/images/svg/download.svg" alt=""></span></a>
+                </div>
+            </div>
         </div>
     </div>
 
-    <div class="row">
+    <div class="row json_wraper">
         <div class="col-md">
             {{jsonAsString}}
         </div>
