@@ -29,7 +29,8 @@ export class MainPageComponent implements OnInit {
   }
 
   updatePropertyInJson(property: PropertyModel): void {
-    const index: number = this.indexSelectedProperty ? this.indexSelectedProperty : this.propertyList.length - 1;
+    const index: number = this.indexSelectedProperty >= 0 ? this.indexSelectedProperty : this.propertyList.length - 1;
+    // console.log('index property updated', index);
     let key: keyof PropertyModel;
     for (key in property) {
       (this.propertyList[index][key] as any) = property[key];
@@ -41,10 +42,10 @@ export class MainPageComponent implements OnInit {
     if (event.item.active) {
       this.selectedProperty = undefined;
     }
-
   }
 
   onSelectProperty(indexSelectedItem: number): void {
+    // console.log('indexSelectedItem', indexSelectedItem);
     this.propertyList.forEach((item: PropertyModel, index: number) => {
       if (index === indexSelectedItem) {
         this.selectedProperty = item;
@@ -65,6 +66,7 @@ export class MainPageComponent implements OnInit {
       active: true,
     };
     this.propertyList.push(newProperty);
+    this.indexSelectedProperty = this.propertyList.length - 1
     this.selectedProperty = newProperty;
   }
 

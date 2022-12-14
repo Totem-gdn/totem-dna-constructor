@@ -1,5 +1,6 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { ValueToStringPipe } from 'src/app/shared/pipes/value-to-string.pipe';
 import { PropertyModel } from '../../models/property.model';
 
 @Component({
@@ -7,28 +8,29 @@ import { PropertyModel } from '../../models/property.model';
   templateUrl: './json-visual-file.component.html',
   styleUrls: ['./json-visual-file.component.scss']
 })
-export class JsonVisualFileComponent implements OnInit, OnChanges {
+export class JsonVisualFileComponent implements OnInit {
   @Input() propertyList!: PropertyModel[];
-  jsonAsString: string = '';
+  propertyLustForDisplay: (string | null)[] = [];
   jsonUrl: any;;
   constructor(
-    private sanitizer: DomSanitizer
+    private sanitizer: DomSanitizer,
+    private valueToStringPipe: ValueToStringPipe,
   ) { }
 
   ngOnInit(): void {
-    console.log('propertyList', this.propertyList);
+
   }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('change');
-    
-    this.jsonAsString = JSON.stringify(this.propertyList);
+  ngDoCheck(): void {
     this.createJsonForDownload();
+    this.propertyLustForDisplay = this.propertyList.map((property: PropertyModel) => {
+      return this.valueToStringPipe.transform(property);
+    })
   }
 
-  createJsonForDownload(): void {
+  private createJsonForDownload(): void {
     const theJSON = JSON.stringify(this.propertyList);
-    const blob = new Blob([theJSON],{type: 'text/json'});
+    const blob = new Blob([theJSON], { type: 'text/json' });
     const url = window.URL.createObjectURL(blob);
     const uri: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(url);
     this.jsonUrl = uri;

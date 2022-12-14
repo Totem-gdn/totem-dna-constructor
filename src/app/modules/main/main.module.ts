@@ -38,6 +38,6 @@ import { MainRoutingModule } from './main-routing.module';
   exports:[
     SelectTypeAssetComponent,
     MainPageComponent,
-  ]
+  ],
 })
 export class MainModule { }
