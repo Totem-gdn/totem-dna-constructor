@@ -2,11 +2,11 @@ export interface PropertyModel {
     description?: string,
     id?: string,
     type?: string,
-    gene?: number,
-    start?: number,
-    lenght?: number,
+    gene?: number | null,
+    start?: number | null,
+    lenght?: number | null,
     active?: boolean,
-    offset?: number;
+    offset?: number | null;
 }
 
 export interface PropertyUpdateModel {
