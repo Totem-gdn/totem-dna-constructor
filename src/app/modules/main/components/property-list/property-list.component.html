@@ -4,7 +4,7 @@
         (click)="$event.stopPropagation(); onSelect(i);"
         >
         <div class="col-md-10">
-            {{item.description ? item.description : 'Untitle'}}
+            {{item.description ? item.description : 'Untitled'}}
         </div>
         <div class="col-md-2 deleteBtn" (click)="$event.stopPropagation(); ondelete(item, i)">
             <img src="assets/images/svg/delete.svg" alt="">
