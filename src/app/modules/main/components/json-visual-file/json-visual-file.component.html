@@ -16,8 +16,16 @@
     </div>
 
     <div class="row json_wraper">
-        <div class="col-md">
-            {{jsonAsString}}
+        <div class="row">
+            [
+        </div>
+        <div class="row mt-2" *ngFor="let item of propertyList">
+            <div class="col-md">
+                {{item | valueToString}}
+            </div>
+        </div>
+        <div class="row">
+            ]
         </div>
     </div>
 </div>

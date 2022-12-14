@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from 'src/app/shared/material/material.module';
+import { PipesModule } from 'src/app/shared/pipes/pipes.module';
 import { ChooseTemplateComponent } from './components/choose-template/choose-template.component';
 import { JsonVisualFileComponent } from './components/json-visual-file/json-visual-file.component';
 import { MainPageComponent } from './components/main/main-page.component';
@@ -32,6 +33,7 @@ import { MainRoutingModule } from './main-routing.module';
     MainRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+    PipesModule,
   ],
   exports:[
     SelectTypeAssetComponent,
