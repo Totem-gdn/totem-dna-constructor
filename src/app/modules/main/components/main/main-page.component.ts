@@ -35,6 +35,7 @@ export class MainPageComponent implements OnInit {
     for (key in property) {
       (this.propertyList[index][key] as any) = property[key];
     }
+    this.selectedProperty = undefined;
   }
 
   onDeleteProperty(event: { item: PropertyModel, index: number }): void {
@@ -45,7 +46,6 @@ export class MainPageComponent implements OnInit {
   }
 
   onSelectProperty(indexSelectedItem: number): void {
-    // console.log('indexSelectedItem', indexSelectedItem);
     this.propertyList.forEach((item: PropertyModel, index: number) => {
       if (index === indexSelectedItem) {
         this.selectedProperty = item;
