@@ -11,6 +11,7 @@ import { PropertyModel } from '../../models/property.model';
 export class JsonVisualFileComponent implements OnInit {
   @Input() propertyList!: PropertyModel[];
   propertyLustForDisplay: (string | null)[] = [];
+  jsonForClipboard: string = '';
   jsonUrl: any;;
   constructor(
     private sanitizer: DomSanitizer,
@@ -28,9 +29,14 @@ export class JsonVisualFileComponent implements OnInit {
     })
   }
 
+  onCopyToClipboard(): void {
+    console.log('copy');
+
+  }
+
   private createJsonForDownload(): void {
-    const theJSON = JSON.stringify(this.propertyList);
-    const blob = new Blob([theJSON], { type: 'text/json' });
+    this.jsonForClipboard = JSON.stringify(this.propertyList);
+    const blob = new Blob([this.jsonForClipboard], { type: 'text/json' });
     const url = window.URL.createObjectURL(blob);
     const uri: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(url);
     this.jsonUrl = uri;
