@@ -1,1 +1,31 @@
-<p>json-visual-file works!</p>
+<div class="wraper">
+    <div class="row mb-2 justify-content-between">
+        <div class="col-md-2">
+            <span class="title">JSON</span>
+        </div>
+        <div class="col-md-1">
+            <div class="row justify-content-end">
+                <div class="col-md-6 d-flex justify-content-end">
+                    <a [href]="jsonUrl" download="file.json"><span><img src="assets/images/svg/content_copy.svg" alt=""></span></a>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <a [href]="jsonUrl" download="file.json"><span><img src="assets/images/svg/download.svg" alt=""></span></a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row json_wraper">
+        <div class="row">
+            [
+        </div>
+        <div class="row mt-2" *ngFor="let item of propertyList">
+            <div class="col-md">
+                {{item | valueToString}}
+            </div>
+        </div>
+        <div class="row">
+            ]
+        </div>
+    </div>
+</div>

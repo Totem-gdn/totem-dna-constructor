@@ -10,7 +10,9 @@ import { DataService } from '../../services/data.service';
 })
 export class MainPageComponent implements OnInit {
   propertyList: PropertyModel[] = [
-    { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, lenght: 5, active: true },
+    // { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, lenght: 5, active: false },
+    // { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, lenght: 5, active: true },
+    // { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, lenght: 5, active: false },
   ];
   selectedProperty?: PropertyModel;
   indexSelectedProperty!: number;
