@@ -32,7 +32,7 @@ export class MainPageComponent implements OnInit {
 
   updatePropertyInJson(property: PropertyModel): void {
     const index: number = this.indexSelectedProperty >= 0 ? this.indexSelectedProperty : this.propertyList.length - 1;
-    console.log('index property updated', index);
+    // console.log('index property updated', index);
     let key: keyof PropertyModel;
     for (key in property) {
       (this.propertyList[index][key] as any) = property[key];

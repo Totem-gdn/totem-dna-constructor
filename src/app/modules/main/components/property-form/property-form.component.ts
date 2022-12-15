@@ -57,6 +57,8 @@ export class PropertyFormComponent implements OnInit {
       offset: ['', Validators.required],
       lenght: ['', Validators.required],
       active: [''],
+      type: [''],
+      // values: this.fb.array([]),
     })
   }
 
