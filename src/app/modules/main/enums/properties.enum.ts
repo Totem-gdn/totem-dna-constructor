@@ -11,7 +11,7 @@ export enum PROPERTIES_LOWERCASE {
     INTEGER = 'integer',
     ENUM = 'enum',
     RANGE = 'range',
-    COLOR = 'color',
+    COLOR = 'Color',
 }
 
 export enum BOOLEAN_VALUES {

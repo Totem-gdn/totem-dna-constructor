@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { ValueToStringPipe } from 'src/app/shared/pipes/value-to-string.pipe';
+import { PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
 import { PropertyModel } from '../../models/property.model';
 
 @Component({
@@ -42,11 +43,25 @@ export class JsonVisualFileComponent implements OnInit {
   private preparePropertyList(list: PropertyModel[]): PropertyModel[] {
     return list.map((property: PropertyModel) => {
       const modifyProperty = {
-        ...property
+        ...property,
+        type: this.changeTypeForParser(property.type as string)
       }
       delete modifyProperty.active;
       return modifyProperty;
     })
+  }
+
+  private changeTypeForParser(type: string): any {
+    switch (type) {
+      case PROPERTIES_LOWERCASE.BOOLEAN:
+        return 'bool'
+      case PROPERTIES_LOWERCASE.ENUM:
+        return 'map'
+      case PROPERTIES_LOWERCASE.INTEGER:
+        return 'int'
+      default:
+        return type
+    }
   }
 
 }
