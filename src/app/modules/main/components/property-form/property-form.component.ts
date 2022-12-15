@@ -12,6 +12,7 @@ export class PropertyFormComponent implements OnInit {
   @Output() updatePropertyInJson: EventEmitter<PropertyModel> = new EventEmitter()
   propertyForm!: UntypedFormGroup;
   propertyIndex!: number;
+  valuesArray: any[] = [];
   constructor(
     private fb: UntypedFormBuilder,
   ) {
@@ -33,13 +34,15 @@ export class PropertyFormComponent implements OnInit {
     this.propertyForm.patchValue({
       ...obj
     })
+    console.log('property in form', this.property);
+    
   }
 
   onConfirm(): void {
-    this.propertyForm.get('active')?.setValue(false);
+    // this.propertyForm.get('active')?.setValue(false);
     this.updatePropertyInJson.emit(this.propertyForm.value);
-    this.resetForm(this.propertyForm);
-    this.property = undefined;
+    // this.resetForm(this.propertyForm);
+    // this.property = undefined;
   }
 
   onClearField(field: string): void {

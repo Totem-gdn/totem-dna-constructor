@@ -13,3 +13,8 @@ export enum PROPERTIES_LOWERCASE {
     RANGE = 'range',
     COLOR = 'color',
 }
+
+export enum BOOLEAN_VALUES {
+    NEGATIVE_VALUE = 'Negative-Value',
+    POSITIVE_VALUE = 'Positive-Value'
+}

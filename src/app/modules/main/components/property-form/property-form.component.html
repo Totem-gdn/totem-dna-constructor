@@ -63,6 +63,19 @@
                     </button>
                 </mat-form-field>
             </div>
+
+
+            <div class="separator mt-2"></div>
+            <!-- <div class="row  mt-2" *ngFor="let item of valuesArray">
+                <mat-form-field class="w-full">
+                    <mat-label>Va</mat-label>
+                    <input matInput type="number" formControlName="lenght">
+                    <mat-error *ngIf="propertyForm.get('lenght')!.hasError('required')">Field required</mat-error>
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('lenght')">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-form-field>
+            </div> -->
             <div class="confirm_btn_row">
                 <button type="button" [disabled]="!this.propertyForm.valid" class="btn btn-warning"
                     (click)="onConfirm()">Confirm</button>
