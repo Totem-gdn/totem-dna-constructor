@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { BOOLEAN_VALUES } from '../../enums/properties.enum';
 import { PropertyModel } from '../../models/property.model';
 
 @Component({
@@ -12,7 +13,11 @@ export class PropertyFormComponent implements OnInit {
   @Output() updatePropertyInJson: EventEmitter<PropertyModel> = new EventEmitter()
   propertyForm!: UntypedFormGroup;
   propertyIndex!: number;
-  valuesArray: any[] = [];
+  valuesFormArray!: FormArray;
+  values = [
+    { value: BOOLEAN_VALUES.NEGATIVE_VALUE },
+    { value: BOOLEAN_VALUES.POSITIVE_VALUE },
+  ]
   constructor(
     private fb: UntypedFormBuilder,
   ) {
@@ -35,7 +40,7 @@ export class PropertyFormComponent implements OnInit {
       ...obj
     })
     console.log('property in form', this.property);
-    
+
   }
 
   onConfirm(): void {
@@ -49,6 +54,13 @@ export class PropertyFormComponent implements OnInit {
     this.propertyForm.get(field)?.reset();
   }
 
+  onAddValue(): void {
+    this.valuesFormArray.push(this.fb.group({
+      value: [''],
+      valueKey: ['']
+    }))
+  }
+
   reactiveForm(): void {
     this.propertyForm = this.fb.group({
       description: ['', Validators.required],
@@ -58,8 +70,10 @@ export class PropertyFormComponent implements OnInit {
       lenght: ['', Validators.required],
       active: [''],
       type: [''],
-      // values: this.fb.array([]),
+      values: this.fb.array([]),
     })
+    this.valuesFormArray = this.propertyForm.get('values') as FormArray;
+
   }
 
   resetForm(form: UntypedFormGroup): void {

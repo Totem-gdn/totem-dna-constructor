@@ -64,20 +64,42 @@
                 </mat-form-field>
             </div>
 
-<!-- -------------array  -->
-            <!-- <div class="separator mt-2"></div>
-            <div class="" formArrayName="values"></div>
-            <div class="row  mt-2" *ngFor="let item of propertyForm().controls">
-                <mat-form-field class="w-full">
-                    <mat-label>Va</mat-label>
-                    <input matInput type="number" formControlName="lenght">
+            <!-- -------------array  -->
+            <div class="separator mt-2"></div>
+            <div class="row mt-2" *ngFor="let item of valuesFormArray.controls">
+                <!-- <mat-form-field class="w-full">
+                    <mat-label>Value</mat-label>
+                    <input matInput type="number">
                     <mat-error *ngIf="propertyForm.get('lenght')!.hasError('required')">Field required</mat-error>
                     <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('lenght')">
                         <mat-icon>cancel</mat-icon>
                     </button>
-                </mat-form-field>
-            </div> -->
-<!-- ------------------------------ -->
+                </mat-form-field> -->
+                <div class="col-md">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Favorite food</mat-label>
+                        <mat-select>
+                          <mat-option *ngFor="let food of values" [value]="food.value">
+                            {{food.value}}
+                          </mat-option>
+                        </mat-select>
+                      </mat-form-field>
+                    <!-- <mat-form-field class="w-full">
+                        <mat-label>Value</mat-label>
+                        <mat-select>
+                            <mat-option *ngFor="let item of values" [value]="item">
+                                <span>{{item.value}}</span>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field> -->
+                </div>
+            </div>
+            <div class="row mt-2">
+                <div class="add_value_row">
+                    <button type="button" class="btn add_value_btn" (click)="onAddValue()">+Add Value</button>
+                </div>
+            </div>
+            <!-- ------------------------------ -->
             <div class="confirm_btn_row">
                 <button type="button" [disabled]="!this.propertyForm.valid" class="btn btn-warning"
                     (click)="onConfirm()">Confirm</button>
