@@ -1,6 +1,7 @@
 @import "scss/reset-default-styles.scss";
 @import "scss/fonts.scss";
 @import "scss/material.scss";
+@import 'ngx-toastr/toastr';
 
 html,
 body {
@@ -11,6 +12,9 @@ body {
     font-family: 'Roboto';
     font-size: 16px;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

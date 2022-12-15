@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastrService } from 'ngx-toastr';
 import { PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
 import { PropertyModel } from '../../models/property.model';
 import { DataService } from '../../services/data.service';
@@ -10,14 +11,15 @@ import { DataService } from '../../services/data.service';
 })
 export class MainPageComponent implements OnInit {
   propertyList: PropertyModel[] = [
-    // { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, lenght: 5, active: false },
-    // { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, lenght: 5, active: true },
-    // { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, lenght: 5, active: false },
+    // { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, length: 5, active: false },
+    // { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, length: 5, active: true },
+    // { description: "some description", id: "some ID", type: PROPERTIES_LOWERCASE.BOOLEAN, gene: 3, offset: 6, length: 5, active: false },
   ];
   selectedProperty?: PropertyModel;
   indexSelectedProperty!: number;
   constructor(
-    private dataService: DataService
+    private dataService: DataService,
+    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +37,7 @@ export class MainPageComponent implements OnInit {
     for (key in property) {
       (this.propertyList[index][key] as any) = property[key];
     }
-    this.selectedProperty = undefined;
+    this.toastr.success('Property is updated')
   }
 
   onDeleteProperty(event: { item: PropertyModel, index: number }): void {
