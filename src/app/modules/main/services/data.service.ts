@@ -25,7 +25,7 @@ export class DataService {
       length: 0,
       active: false
     },
-    color: {
+    Color: {
       description: "",
       id: "",
       type: PROPERTIES_LOWERCASE.COLOR,

@@ -43,18 +43,11 @@ export class PropertyFormComponent implements OnInit {
     this.propertyForm.patchValue({
       ...obj
     })
-    console.log('property in form', this.property);
-    // this.propertyForm.valueChanges.subscribe(() => {
-    //   console.log(this.propertyForm);
 
-    // })
-
+    this.setReadOnlyLengthValue(this.propertyForm.get('type')?.value)
   }
 
   onConfirm(): void {
-    // this.propertyForm.get('active')?.setValue(false);
-    // add boolean values
-
     if (this.propertyForm.get('type')?.value === PROPERTIES_LOWERCASE.BOOLEAN) {
       this.valuesFormArray.push(this.booleanValuesForm.get('negative_value'));
       this.valuesFormArray.push(this.booleanValuesForm.get('positive_value'));
@@ -63,12 +56,8 @@ export class PropertyFormComponent implements OnInit {
     if (!this.propertyForm.value.values.length) {
       delete this.propertyForm.value.values;
     }
-    console.log(this.propertyForm);
-
-
+    
     this.updatePropertyInJson.emit(this.propertyForm.value);
-    // this.resetForm(this.propertyForm);
-    // this.property = undefined;
   }
 
   onClearField(field: string, typeForm?: string): void {
@@ -95,6 +84,22 @@ export class PropertyFormComponent implements OnInit {
     })
   }
 
+  private setReadOnlyLengthValue(type: PROPERTIES_LOWERCASE): void {
+    switch (type) {
+      case PROPERTIES_LOWERCASE.BOOLEAN:
+        this.propertyForm.get('length')?.setValue(1);
+        this.propertyForm.get('length')?.disable();
+        break;
+      case PROPERTIES_LOWERCASE.COLOR:
+        this.propertyForm.get('length')?.setValue(24);
+        this.propertyForm.get('length')?.disable();
+        break;
+      default:
+        break;
+    }
+    
+  }
+
   private reactiveForm(): void {
     this.propertyForm = this.fb.group({
       description: ['', Validators.required],
@@ -118,7 +123,8 @@ export class PropertyFormComponent implements OnInit {
     if (form) {
       form.reset();
       Object.keys(form.controls).forEach(key => {
-        form.controls[key].setErrors(null)
+        form.controls[key].setErrors(null);
+        form.controls[key].enable();
       });
     }
   }
