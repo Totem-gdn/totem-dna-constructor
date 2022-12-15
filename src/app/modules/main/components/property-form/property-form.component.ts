@@ -88,14 +88,16 @@ export class PropertyFormComponent implements OnInit {
     switch (type) {
       case PROPERTIES_LOWERCASE.BOOLEAN:
         this.propertyForm.get('length')?.setValue(1);
+        this.propertyForm.get('length')?.disable();
         break;
       case PROPERTIES_LOWERCASE.COLOR:
         this.propertyForm.get('length')?.setValue(24);
+        this.propertyForm.get('length')?.disable();
         break;
       default:
         break;
     }
-    this.propertyForm.get('length')?.disable();
+    
   }
 
   private reactiveForm(): void {
