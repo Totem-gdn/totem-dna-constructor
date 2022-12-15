@@ -10,7 +10,8 @@ import { PropertyModel } from '../../models/property.model';
 })
 export class JsonVisualFileComponent implements OnInit {
   @Input() propertyList!: PropertyModel[];
-  propertyLustForDisplay: (string | null)[] = [];
+
+  propertyListForDisplay: (string | null)[] = [];
   jsonForClipboard: string = '';
   jsonUrl: any;;
   constructor(
@@ -24,22 +25,28 @@ export class JsonVisualFileComponent implements OnInit {
 
   ngDoCheck(): void {
     this.createJsonForDownload();
-    this.propertyLustForDisplay = this.propertyList.map((property: PropertyModel) => {
-      return this.valueToStringPipe.transform(property);
-    })
-  }
-
-  onCopyToClipboard(): void {
-    console.log('copy');
-
+    this.propertyListForDisplay = this.preparePropertyList(this.propertyList)
+      .map((property: PropertyModel) => {
+        return this.valueToStringPipe.transform(property);
+      })
   }
 
   private createJsonForDownload(): void {
-    this.jsonForClipboard = JSON.stringify(this.propertyList);
+    this.jsonForClipboard = JSON.stringify(this.preparePropertyList(this.propertyList));
     const blob = new Blob([this.jsonForClipboard], { type: 'text/json' });
     const url = window.URL.createObjectURL(blob);
     const uri: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(url);
     this.jsonUrl = uri;
+  }
+
+  private preparePropertyList(list: PropertyModel[]): PropertyModel[] {
+    return list.map((property: PropertyModel) => {
+      const modifyProperty = {
+        ...property
+      }
+      delete modifyProperty.active;
+      return modifyProperty;
+    })
   }
 
 }
