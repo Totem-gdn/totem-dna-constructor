@@ -38,6 +38,7 @@
                     <mat-label>Gene</mat-label>
                     <input matInput type="number" formControlName="gene">
                     <mat-error *ngIf="propertyForm.get('gene')!.hasError('required')">Field required</mat-error>
+                    <mat-error *ngIf="propertyForm.get('gene')!.hasError('min')">Value should be mor then 0</mat-error>
                     <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('gene')">
                         <mat-icon>cancel</mat-icon>
                     </button>
@@ -48,6 +49,7 @@
                     <mat-label>Offset</mat-label>
                     <input matInput type="number" formControlName="offset">
                     <mat-error *ngIf="propertyForm.get('offset')!.hasError('required')">Field required</mat-error>
+                    <mat-error *ngIf="propertyForm.get('offset')!.hasError('min')">Value should be mor then 0</mat-error>
                     <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('offset')">
                         <mat-icon>cancel</mat-icon>
                     </button>
@@ -58,6 +60,7 @@
                     <mat-label>Length</mat-label>
                     <input matInput type="number" formControlName="length">
                     <mat-error *ngIf="propertyForm.get('length')!.hasError('required')">Field required</mat-error>
+                    <mat-error *ngIf="propertyForm.get('length')!.hasError('min')">Value should be mor then 0</mat-error>
                     <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
                         <mat-icon>cancel</mat-icon>
                     </button>
@@ -109,7 +112,7 @@
                         <input matInput type="text" formControlName="negative_value">
                         <mat-error *ngIf="booleanValuesForm.get('negative_value')!.hasError('required')">Field
                             required</mat-error>
-                        <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('negative_value', 'booleanValuesForm')">
                             <mat-icon>cancel</mat-icon>
                         </button>
                     </mat-form-field>
@@ -120,7 +123,7 @@
                         <input matInput type="text" formControlName="positive_value">
                         <mat-error *ngIf="booleanValuesForm.get('positive_value')!.hasError('required')">Field
                             required</mat-error>
-                        <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('positive_value', 'booleanValuesForm')">
                             <mat-icon>cancel</mat-icon>
                         </button>
                     </mat-form-field>

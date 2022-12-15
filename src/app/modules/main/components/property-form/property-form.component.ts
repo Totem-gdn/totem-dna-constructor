@@ -44,13 +44,17 @@ export class PropertyFormComponent implements OnInit {
       ...obj
     })
     console.log('property in form', this.property);
+    // this.propertyForm.valueChanges.subscribe(() => {
+    //   console.log(this.propertyForm);
+
+    // })
 
   }
 
   onConfirm(): void {
     // this.propertyForm.get('active')?.setValue(false);
     // add boolean values
-    
+
     if (this.propertyForm.get('type')?.value === PROPERTIES_LOWERCASE.BOOLEAN) {
       this.valuesFormArray.push(this.booleanValuesForm.get('negative_value'));
       this.valuesFormArray.push(this.booleanValuesForm.get('positive_value'));
@@ -59,14 +63,21 @@ export class PropertyFormComponent implements OnInit {
     if (!this.propertyForm.value.values.length) {
       delete this.propertyForm.value.values;
     }
+    console.log(this.propertyForm);
+
 
     this.updatePropertyInJson.emit(this.propertyForm.value);
     // this.resetForm(this.propertyForm);
     // this.property = undefined;
   }
 
-  onClearField(field: string): void {
-    this.propertyForm.get(field)?.reset();
+  onClearField(field: string, typeForm?: string): void {
+    if (typeForm === 'booleanValuesForm') {
+      this.booleanValuesForm.get(field)?.reset();
+    } else {
+      this.propertyForm.get(field)?.reset();
+    }
+
   }
 
   onAddValue(): void {
@@ -88,9 +99,9 @@ export class PropertyFormComponent implements OnInit {
     this.propertyForm = this.fb.group({
       description: ['', Validators.required],
       id: ['', Validators.required],
-      gene: ['', Validators.required],
-      offset: ['', Validators.required],
-      length: ['', Validators.required],
+      gene: ['', [Validators.required, Validators.min(0)]],
+      offset: ['', [Validators.required, Validators.min(0)]],
+      length: ['', [Validators.required, Validators.min(0)]],
       active: [''],
       type: [''],
       values: this.fb.array([]),
@@ -111,6 +122,4 @@ export class PropertyFormComponent implements OnInit {
       });
     }
   }
-
-
 }
