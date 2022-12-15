@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormArray, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
-import { BOOLEAN_VALUES } from '../../enums/properties.enum';
+import { FormArray, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { BOOLEAN_VALUES, PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
 import { PropertyModel } from '../../models/property.model';
 
 @Component({
@@ -12,11 +12,13 @@ export class PropertyFormComponent implements OnInit {
   @Input() property?: PropertyModel;
   @Output() updatePropertyInJson: EventEmitter<PropertyModel> = new EventEmitter()
   propertyForm!: UntypedFormGroup;
+  booleanValuesForm!: UntypedFormGroup;
   propertyIndex!: number;
   valuesFormArray!: FormArray;
+
   values = [
-    { value: BOOLEAN_VALUES.NEGATIVE_VALUE },
-    { value: BOOLEAN_VALUES.POSITIVE_VALUE },
+    { value: BOOLEAN_VALUES.NEGATIVE_VALUE, title: 'Negative value' },
+    { value: BOOLEAN_VALUES.POSITIVE_VALUE, title: '' },
   ]
   constructor(
     private fb: UntypedFormBuilder,
@@ -29,6 +31,8 @@ export class PropertyFormComponent implements OnInit {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
+    this.resetForm(this.propertyForm);
+    this.resetForm(this.booleanValuesForm);
     const obj: PropertyModel = {};
     let key: keyof PropertyModel;
     if (this.property) {
@@ -45,6 +49,17 @@ export class PropertyFormComponent implements OnInit {
 
   onConfirm(): void {
     // this.propertyForm.get('active')?.setValue(false);
+    // add boolean values
+    
+    if (this.propertyForm.get('type')?.value === PROPERTIES_LOWERCASE.BOOLEAN) {
+      this.valuesFormArray.push(this.booleanValuesForm.get('negative_value'));
+      this.valuesFormArray.push(this.booleanValuesForm.get('positive_value'));
+    }
+
+    if (!this.propertyForm.value.values.length) {
+      delete this.propertyForm.value.values;
+    }
+
     this.updatePropertyInJson.emit(this.propertyForm.value);
     // this.resetForm(this.propertyForm);
     // this.property = undefined;
@@ -55,28 +70,40 @@ export class PropertyFormComponent implements OnInit {
   }
 
   onAddValue(): void {
-    this.valuesFormArray.push(this.fb.group({
-      value: [''],
-      valueKey: ['']
-    }))
+    this.valuesFormArray.push(this.createValue())
   }
 
-  reactiveForm(): void {
+  ondeleteValue(index: number): void {
+    this.valuesFormArray.removeAt(index);
+  }
+
+  private createValue(): FormGroup {
+    return this.fb.group({
+      value: [''],
+      valueKey: ['']
+    })
+  }
+
+  private reactiveForm(): void {
     this.propertyForm = this.fb.group({
       description: ['', Validators.required],
       id: ['', Validators.required],
       gene: ['', Validators.required],
       offset: ['', Validators.required],
-      lenght: ['', Validators.required],
+      length: ['', Validators.required],
       active: [''],
       type: [''],
       values: this.fb.array([]),
     })
     this.valuesFormArray = this.propertyForm.get('values') as FormArray;
 
+    this.booleanValuesForm = this.fb.group({
+      negative_value: ['', Validators.required],
+      positive_value: ['', Validators.required],
+    })
   }
 
-  resetForm(form: UntypedFormGroup): void {
+  private resetForm(form: UntypedFormGroup): void {
     if (form) {
       form.reset();
       Object.keys(form.controls).forEach(key => {

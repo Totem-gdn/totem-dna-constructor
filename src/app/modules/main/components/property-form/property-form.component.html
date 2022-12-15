@@ -55,56 +55,87 @@
             </div>
             <div class="row  mt-2">
                 <mat-form-field class="w-full">
-                    <mat-label>Lenght</mat-label>
-                    <input matInput type="number" formControlName="lenght">
-                    <mat-error *ngIf="propertyForm.get('lenght')!.hasError('required')">Field required</mat-error>
-                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('lenght')">
+                    <mat-label>Length</mat-label>
+                    <input matInput type="number" formControlName="length">
+                    <mat-error *ngIf="propertyForm.get('length')!.hasError('required')">Field required</mat-error>
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
                         <mat-icon>cancel</mat-icon>
                     </button>
                 </mat-form-field>
             </div>
+            <!-- -------------values array  -->
+            <ng-container *ngIf="propertyForm.get('type')!.value =='range'">
 
-            <!-- -------------array  -->
-            <div class="separator mt-2"></div>
-            <div class="row mt-2" *ngFor="let item of valuesFormArray.controls">
-                <!-- <mat-form-field class="w-full">
+
+
+                <div class="separator mt-2"></div>
+                <div class="row mt-4" *ngFor="let item of valuesFormArray.controls; let i = index">
+                    <!-- <mat-form-field class="w-full">
                     <mat-label>Value</mat-label>
                     <input matInput type="number">
-                    <mat-error *ngIf="propertyForm.get('lenght')!.hasError('required')">Field required</mat-error>
-                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('lenght')">
+                    <mat-error *ngIf="propertyForm.get('length')!.hasError('required')">Field required</mat-error>
+                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
                         <mat-icon>cancel</mat-icon>
                     </button>
                 </mat-form-field> -->
-                <div class="col-md">
-                    <mat-form-field appearance="fill">
-                        <mat-label>Favorite food</mat-label>
-                        <mat-select>
-                          <mat-option *ngFor="let food of values" [value]="food.value">
-                            {{food.value}}
-                          </mat-option>
-                        </mat-select>
-                      </mat-form-field>
-                    <!-- <mat-form-field class="w-full">
-                        <mat-label>Value</mat-label>
-                        <mat-select>
-                            <mat-option *ngFor="let item of values" [value]="item">
-                                <span>{{item.value}}</span>
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field> -->
+                    <div class="col-md-10">
+                        <mat-form-field class="w-full">
+                            <mat-label>Value</mat-label>
+                            <mat-select>
+                                <mat-option *ngFor="let item of values" [value]="item">
+                                    <span>{{item.value}}</span>
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2 deleteBtn" (click)="$event.stopPropagation(); ondeleteValue(i)">
+                        <img src="assets/images/svg/delete.svg" alt="">
+                    </div>
                 </div>
-            </div>
-            <div class="row mt-2">
-                <div class="add_value_row">
-                    <button type="button" class="btn add_value_btn" (click)="onAddValue()">+Add Value</button>
+                <div class="row mt-2">
+                    <div class="add_value_row">
+                        <button type="button" class="btn add_value_btn" (click)="onAddValue()">+Add Value</button>
+                    </div>
                 </div>
-            </div>
+            </ng-container>
             <!-- ------------------------------ -->
-            <div class="confirm_btn_row">
-                <button type="button" [disabled]="!this.propertyForm.valid" class="btn btn-warning"
-                    (click)="onConfirm()">Confirm</button>
+        </form>
+        <!-- Boolean type -->
+        <form [formGroup]="booleanValuesForm" *ngIf="propertyForm.get('type')!.value =='boolean'">
+            <div class="col-md">
+                <div class="row">
+                    <mat-form-field class="w-full">
+                        <mat-label>Negative Value</mat-label>
+                        <input matInput type="text" formControlName="negative_value">
+                        <mat-error *ngIf="booleanValuesForm.get('negative_value')!.hasError('required')">Field
+                            required</mat-error>
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
+                <div class="row">
+                    <mat-form-field class="w-full">
+                        <mat-label>Positive Value</mat-label>
+                        <input matInput type="text" formControlName="positive_value">
+                        <mat-error *ngIf="booleanValuesForm.get('positive_value')!.hasError('required')">Field
+                            required</mat-error>
+                        <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
+                            <mat-icon>cancel</mat-icon>
+                        </button>
+                    </mat-form-field>
+                </div>
             </div>
         </form>
+
+        <!--  -->
+
+
+        <div class="confirm_btn_row">
+            <button type="button" [disabled]="!this.propertyForm.valid" class="btn btn-warning"
+                (click)="onConfirm()">Confirm</button>
+        </div>
+
     </ng-container>
 
     <ng-container *ngIf="!property">

@@ -4,7 +4,7 @@ export interface PropertyModel {
     type?: string,
     gene?: number,
     start?: number,
-    lenght?: number,
+    length?: number,
     active?: boolean,
     offset?: number;
 }
