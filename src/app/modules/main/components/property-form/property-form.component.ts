@@ -44,6 +44,10 @@ export class PropertyFormComponent implements OnInit {
       ...obj
     })
     console.log('property in form', this.property);
+    if (this.propertyForm.get('type')?.value === PROPERTIES_LOWERCASE.BOOLEAN) {
+      this.propertyForm.get('length')?.setValue(1);
+      this.propertyForm.get('length')?.disable();
+    }
     // this.propertyForm.valueChanges.subscribe(() => {
     //   console.log(this.propertyForm);
 
@@ -118,7 +122,8 @@ export class PropertyFormComponent implements OnInit {
     if (form) {
       form.reset();
       Object.keys(form.controls).forEach(key => {
-        form.controls[key].setErrors(null)
+        form.controls[key].setErrors(null);
+        form.controls[key].enable();
       });
     }
   }
