@@ -17,8 +17,7 @@
     }
     .empty_form_placeholder {
         width: 100%;
-        position: absolute;
-        top: $main_column_height / 2;
+        margin-top: $main_column_height / 2;
         text-align: center;
         color: $middle_grey;
     }
