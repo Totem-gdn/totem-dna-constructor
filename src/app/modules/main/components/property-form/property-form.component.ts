@@ -29,7 +29,7 @@ export class PropertyFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    // this.reactiveForm();
+
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -61,7 +61,6 @@ export class PropertyFormComponent implements OnInit {
     if (!this.propertyForm.value.values.length) {
       delete this.propertyForm.value.values;
     }
-    // console.log(this.propertyForm.value);
 
     this.updatePropertyInJson.emit(this.propertyForm.value);
   }
@@ -114,11 +113,9 @@ export class PropertyFormComponent implements OnInit {
       case PROPERTIES_LOWERCASE.BOOLEAN:
         this.propertyForm.get('length')?.setValue(1);
         this.disableLength = true;
-        // this.propertyForm.get('length')?.disable();
         break;
       case PROPERTIES_LOWERCASE.COLOR:
         this.propertyForm.get('length')?.setValue(24);
-        // this.propertyForm.get('length')?.disable();
         this.disableLength = true;
         break;
       default:
