@@ -13,10 +13,10 @@ export class PropertyFormComponent implements OnInit {
   @Output() updatePropertyInJson: EventEmitter<PropertyModel> = new EventEmitter()
   propertyForm!: UntypedFormGroup;
   booleanValuesForm!: UntypedFormGroup;
-  // enumValuesForm!: UntypedFormGroup;
   propertyIndex!: number;
   valuesFormArray!: FormArray;
   disableLength: boolean = false;
+  type!: PROPERTIES_LOWERCASE;
 
   values = [
     { value: BOOLEAN_VALUES.NEGATIVE_VALUE, title: 'Negative value' },
@@ -48,6 +48,7 @@ export class PropertyFormComponent implements OnInit {
     this.propertyForm.patchValue({
       ...obj
     })
+    this.type = this.propertyForm.get('type')?.value;
     this.setReadOnlyLengthValue(this.propertyForm.get('type')?.value);
   }
 
@@ -60,7 +61,7 @@ export class PropertyFormComponent implements OnInit {
     if (!this.propertyForm.value.values.length) {
       delete this.propertyForm.value.values;
     }
-    console.log(this.propertyForm.value);
+    // console.log(this.propertyForm.value);
 
     this.updatePropertyInJson.emit(this.propertyForm.value);
   }
@@ -82,18 +83,30 @@ export class PropertyFormComponent implements OnInit {
   }
 
   onAddValue(): void {
-    this.valuesFormArray.push(this.createValue());
+    this.valuesFormArray.push(this.createValue(this.type));
   }
 
   ondeleteValue(index: number): void {
     this.valuesFormArray.removeAt(index);
   }
 
-  private createValue(): FormGroup {
-    return this.fb.group({
-      value: ['', Validators.required],
-      key: ['', Validators.required]
-    })
+  private createValue(type: PROPERTIES_LOWERCASE): FormGroup {
+    switch (type) {
+      case PROPERTIES_LOWERCASE.ENUM:
+        return this.fb.group({
+          value: ['', Validators.required],
+          key: ['', Validators.required]
+        })
+      case PROPERTIES_LOWERCASE.RANGE:
+        return this.fb.group({
+          min: [0, Validators.required],
+          max: [0, Validators.required],
+          key: ['', Validators.required],
+        })
+      default:
+        return this.fb.group({})
+    }
+
   }
 
   private setReadOnlyLengthValue(type: PROPERTIES_LOWERCASE): void {
