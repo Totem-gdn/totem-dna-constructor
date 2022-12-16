@@ -66,6 +66,7 @@ export class MainPageComponent implements OnInit {
     const newProperty: PropertyModel = {
       ...this.dataService.defaultTypesObject[type],
       active: true,
+      description: `Untitled ${this.propertyList.length + 1}`,
     };
     this.propertyList.push(newProperty);
     this.indexSelectedProperty = this.propertyList.length - 1

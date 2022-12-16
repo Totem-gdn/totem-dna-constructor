@@ -3,7 +3,7 @@
         <form [formGroup]="propertyForm">
             <div class="row">
                 <div class="col-md title">
-                    {{property.description ? property.description : 'Untitled'}}
+                    {{property.description}}
                 </div>
             </div>
             <div class="row mt-2">
@@ -63,7 +63,8 @@
                     <mat-error *ngIf="propertyForm.get('length')!.hasError('required')">Required field</mat-error>
                     <mat-error *ngIf="propertyForm.get('length')!.hasError('min')">Value should be mor then
                         0</mat-error>
-                    <button [disabled]="disableLength" matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
+                    <button [disabled]="disableLength" matSuffix mat-icon-button aria-label="Clear"
+                        (click)="onClearField('length')">
                         <mat-icon>cancel</mat-icon>
                     </button>
                 </mat-form-field>
