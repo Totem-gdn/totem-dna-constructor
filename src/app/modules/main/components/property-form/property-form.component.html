@@ -71,7 +71,7 @@
             </div>
 
             <!-- Enum type form -->
-            <ng-container *ngIf="propertyForm.get('type')!.value =='enum'" formArrayName="values">
+            <ng-container *ngIf="type =='enum'" formArrayName="values">
                 <div class="separator mt-2"></div>
                 <div class="row mt-4" *ngFor="let item of valuesFormArray.controls; let i = index" [formGroupName]="i">
                     <div class="col-md-3">
@@ -98,16 +98,57 @@
                 </div>
 
             </ng-container>
-            <div class="row mt-2" *ngIf="propertyForm.get('type')!.value =='enum'">
-                <div class="add_value_row">
-                    <button type="button" class="btn add_value_btn" (click)="onAddValue()">+Add Value</button>
+
+            <!-- ---------------- -->
+            <!-- Range type form -->
+            <ng-container *ngIf="type =='range'" formArrayName="values">
+                <div class="separator mt-2"></div>
+                <div class="row mt-4" *ngFor="let item of valuesFormArray.controls; let i = index" [formGroupName]="i">
+                    <div class="col-md-3">
+                        <mat-form-field class="w-full">
+                            <mat-label>min</mat-label>
+                            <input matInput type="number" formControlName="min">
+                            <mat-error *ngIf="item.get('min')!.hasError('required')">Field
+                                required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                        <mat-form-field class="w-full">
+                            <mat-label>max</mat-label>
+                            <input matInput type="number" formControlName="max">
+                            <mat-error *ngIf="item.get('max')!.hasError('required')">Field
+                                required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-4">
+                        <mat-form-field class="w-full">
+                            <mat-label>key</mat-label>
+                            <input matInput type="text" formControlName="key">
+                            <mat-error *ngIf="item.get('key')!.hasError('required')">Field
+                                required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-md-2 deleteBtn">
+                        <img src="assets/images/svg/delete.svg" alt="icon"
+                            (click)="$event.stopPropagation(); ondeleteValue(i)">
+                    </div>
+
                 </div>
-            </div>
+
+            </ng-container>
         </form>
-        <!-- ---------------- -->
+        <!-- --------------- -->
+
+        <div class="row mt-2" *ngIf="type === 'enum' || type === 'range'">
+            <div class="add_value_row">
+                <button type="button" class="btn add_value_btn" (click)="onAddValue()">+Add Value</button>
+            </div>
+        </div>
+
+
 
         <!-- Boolean type form-->
-        <form [formGroup]="booleanValuesForm" *ngIf="propertyForm.get('type')!.value =='boolean'">
+        <form [formGroup]="booleanValuesForm" *ngIf="type =='boolean'">
             <div class="separator mt-2"></div>
             <div class="col-md">
                 <div class="row">
