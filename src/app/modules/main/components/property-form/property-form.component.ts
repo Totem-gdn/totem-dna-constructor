@@ -13,8 +13,10 @@ export class PropertyFormComponent implements OnInit {
   @Output() updatePropertyInJson: EventEmitter<PropertyModel> = new EventEmitter()
   propertyForm!: UntypedFormGroup;
   booleanValuesForm!: UntypedFormGroup;
+  // enumValuesForm!: UntypedFormGroup;
   propertyIndex!: number;
   valuesFormArray!: FormArray;
+  disableLength: boolean = false;
 
   values = [
     { value: BOOLEAN_VALUES.NEGATIVE_VALUE, title: 'Negative value' },
@@ -33,6 +35,8 @@ export class PropertyFormComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     this.resetForm(this.propertyForm);
     this.resetForm(this.booleanValuesForm);
+    this.resetFormArray(this.valuesFormArray);
+    
     const obj: PropertyModel = {};
     let key: keyof PropertyModel;
     if (this.property) {
@@ -40,11 +44,11 @@ export class PropertyFormComponent implements OnInit {
         (obj[key] as any) = this.property[key]
       }
     }
+    
     this.propertyForm.patchValue({
       ...obj
     })
-
-    this.setReadOnlyLengthValue(this.propertyForm.get('type')?.value)
+    this.setReadOnlyLengthValue(this.propertyForm.get('type')?.value);
   }
 
   onConfirm(): void {
@@ -56,21 +60,29 @@ export class PropertyFormComponent implements OnInit {
     if (!this.propertyForm.value.values.length) {
       delete this.propertyForm.value.values;
     }
-    
+    console.log(this.propertyForm.value);
+
     this.updatePropertyInJson.emit(this.propertyForm.value);
   }
 
   onClearField(field: string, typeForm?: string): void {
-    if (typeForm === 'booleanValuesForm') {
-      this.booleanValuesForm.get(field)?.reset();
-    } else {
-      this.propertyForm.get(field)?.reset();
+    switch (typeForm) {
+      case 'booleanValuesForm':
+        this.booleanValuesForm.get(field)?.reset();
+        break;
+      // case 'enumValuesForm':
+      //   this.enumValuesForm.get(field)?.reset();
+      //   break;
+
+      default:
+        this.propertyForm.get(field)?.reset();
+        break;
     }
 
   }
 
   onAddValue(): void {
-    this.valuesFormArray.push(this.createValue())
+    this.valuesFormArray.push(this.createValue());
   }
 
   ondeleteValue(index: number): void {
@@ -79,8 +91,8 @@ export class PropertyFormComponent implements OnInit {
 
   private createValue(): FormGroup {
     return this.fb.group({
-      value: [''],
-      valueKey: ['']
+      value: ['', Validators.required],
+      key: ['', Validators.required]
     })
   }
 
@@ -88,16 +100,18 @@ export class PropertyFormComponent implements OnInit {
     switch (type) {
       case PROPERTIES_LOWERCASE.BOOLEAN:
         this.propertyForm.get('length')?.setValue(1);
-        this.propertyForm.get('length')?.disable();
+        this.disableLength = true;
+        // this.propertyForm.get('length')?.disable();
         break;
       case PROPERTIES_LOWERCASE.COLOR:
         this.propertyForm.get('length')?.setValue(24);
-        this.propertyForm.get('length')?.disable();
+        // this.propertyForm.get('length')?.disable();
+        this.disableLength = true;
         break;
       default:
+        this.disableLength = false;
         break;
     }
-    
   }
 
   private reactiveForm(): void {
@@ -109,7 +123,7 @@ export class PropertyFormComponent implements OnInit {
       length: ['', [Validators.required, Validators.min(0)]],
       active: [''],
       type: [''],
-      values: this.fb.array([]),
+      valuesenable: this.fb.array([]),
     })
     this.valuesFormArray = this.propertyForm.get('values') as FormArray;
 
@@ -117,6 +131,11 @@ export class PropertyFormComponent implements OnInit {
       negative_value: ['', Validators.required],
       positive_value: ['', Validators.required],
     })
+
+    // this.enumValuesForm = this.fb.group({
+    //   value: ['', Validators.required],
+    //   key: ['', Validators.required]
+    // })
   }
 
   private resetForm(form: UntypedFormGroup): void {
@@ -126,6 +145,12 @@ export class PropertyFormComponent implements OnInit {
         form.controls[key].setErrors(null);
         form.controls[key].enable();
       });
+    }
+  }
+
+  private resetFormArray(formArray: FormArray): void {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
     }
   }
 }
