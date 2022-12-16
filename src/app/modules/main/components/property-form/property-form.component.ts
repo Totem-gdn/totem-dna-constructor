@@ -141,11 +141,6 @@ export class PropertyFormComponent implements OnInit {
       negative_value: ['', Validators.required],
       positive_value: ['', Validators.required],
     })
-
-    // this.enumValuesForm = this.fb.group({
-    //   value: ['', Validators.required],
-    //   key: ['', Validators.required]
-    // })
   }
 
   private resetForm(form: UntypedFormGroup): void {
