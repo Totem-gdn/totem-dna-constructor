@@ -33,13 +33,13 @@
             width: 100%;
         }
     }
-    .deleteBtn{
-        cursor: pointer;
+    .deleteBtn {
         margin-top: 15px;
         // display: flex;
         // flex-direction: column;
         // justify-content: center;
-        img{
+        img {
+            cursor: pointer;
             width: 24px;
         }
     }

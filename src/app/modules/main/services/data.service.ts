@@ -52,7 +52,7 @@ export class DataService {
       offset: 0,
       length: 0,
       active: false,
-      values: [{ value: 0, keyName: '' }]
+      values: []
     },
   }
 

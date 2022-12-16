@@ -13,6 +13,7 @@ export class PropertyFormComponent implements OnInit {
   @Output() updatePropertyInJson: EventEmitter<PropertyModel> = new EventEmitter()
   propertyForm!: UntypedFormGroup;
   booleanValuesForm!: UntypedFormGroup;
+  // enumValuesForm!: UntypedFormGroup;
   propertyIndex!: number;
   valuesFormArray!: FormArray;
 
@@ -33,6 +34,9 @@ export class PropertyFormComponent implements OnInit {
   ngOnChanges(changes: SimpleChanges): void {
     this.resetForm(this.propertyForm);
     this.resetForm(this.booleanValuesForm);
+    this.resetFormArray(this.valuesFormArray);
+    // this.resetForm(this.enumValuesForm);
+
     const obj: PropertyModel = {};
     let key: keyof PropertyModel;
     if (this.property) {
@@ -44,7 +48,10 @@ export class PropertyFormComponent implements OnInit {
       ...obj
     })
 
-    this.setReadOnlyLengthValue(this.propertyForm.get('type')?.value)
+    this.setReadOnlyLengthValue(this.propertyForm.get('type')?.value);
+
+    console.log(this.propertyForm);
+
   }
 
   onConfirm(): void {
@@ -56,21 +63,30 @@ export class PropertyFormComponent implements OnInit {
     if (!this.propertyForm.value.values.length) {
       delete this.propertyForm.value.values;
     }
-    
+
     this.updatePropertyInJson.emit(this.propertyForm.value);
   }
 
   onClearField(field: string, typeForm?: string): void {
-    if (typeForm === 'booleanValuesForm') {
-      this.booleanValuesForm.get(field)?.reset();
-    } else {
-      this.propertyForm.get(field)?.reset();
+    switch (typeForm) {
+      case 'booleanValuesForm':
+        this.booleanValuesForm.get(field)?.reset();
+        break;
+      // case 'enumValuesForm':
+      //   this.enumValuesForm.get(field)?.reset();
+      //   break;
+
+      default:
+        this.propertyForm.get(field)?.reset();
+        break;
     }
 
   }
 
   onAddValue(): void {
-    this.valuesFormArray.push(this.createValue())
+    this.valuesFormArray.push(this.createValue());
+    console.log(this.valuesFormArray);
+
   }
 
   ondeleteValue(index: number): void {
@@ -79,8 +95,8 @@ export class PropertyFormComponent implements OnInit {
 
   private createValue(): FormGroup {
     return this.fb.group({
-      value: [''],
-      valueKey: ['']
+      value: ['', Validators.required],
+      key: ['', Validators.required]
     })
   }
 
@@ -97,7 +113,7 @@ export class PropertyFormComponent implements OnInit {
       default:
         break;
     }
-    
+
   }
 
   private reactiveForm(): void {
@@ -117,6 +133,11 @@ export class PropertyFormComponent implements OnInit {
       negative_value: ['', Validators.required],
       positive_value: ['', Validators.required],
     })
+
+    // this.enumValuesForm = this.fb.group({
+    //   value: ['', Validators.required],
+    //   key: ['', Validators.required]
+    // })
   }
 
   private resetForm(form: UntypedFormGroup): void {
@@ -126,6 +147,12 @@ export class PropertyFormComponent implements OnInit {
         form.controls[key].setErrors(null);
         form.controls[key].enable();
       });
+    }
+  }
+  
+  private resetFormArray(formArray: FormArray): void {
+    while (formArray.length !== 0) {
+      formArray.removeAt(0)
     }
   }
 }

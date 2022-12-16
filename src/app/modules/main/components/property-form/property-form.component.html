@@ -49,7 +49,8 @@
                     <mat-label>Offset</mat-label>
                     <input matInput type="number" formControlName="offset">
                     <mat-error *ngIf="propertyForm.get('offset')!.hasError('required')">Required field</mat-error>
-                    <mat-error *ngIf="propertyForm.get('offset')!.hasError('min')">Value should be mor then 0</mat-error>
+                    <mat-error *ngIf="propertyForm.get('offset')!.hasError('min')">Value should be mor then
+                        0</mat-error>
                     <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('offset')">
                         <mat-icon>cancel</mat-icon>
                     </button>
@@ -60,51 +61,53 @@
                     <mat-label>Length</mat-label>
                     <input matInput type="number" formControlName="length">
                     <mat-error *ngIf="propertyForm.get('length')!.hasError('required')">Required field</mat-error>
-                    <mat-error *ngIf="propertyForm.get('length')!.hasError('min')">Value should be mor then 0</mat-error>
+                    <mat-error *ngIf="propertyForm.get('length')!.hasError('min')">Value should be mor then
+                        0</mat-error>
                     <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
                         <mat-icon>cancel</mat-icon>
                     </button>
                 </mat-form-field>
             </div>
-            <!-- -------------values array  -->
-            <ng-container *ngIf="propertyForm.get('type')!.value =='range'">
 
-
-
+            <!-- Enum type form -->
+            <ng-container *ngIf="propertyForm.get('type')!.value =='enum'" formArrayName="values">
                 <div class="separator mt-2"></div>
-                <div class="row mt-4" *ngFor="let item of valuesFormArray.controls; let i = index">
-                    <!-- <mat-form-field class="w-full">
-                    <mat-label>Value</mat-label>
-                    <input matInput type="number">
-                    <mat-error *ngIf="propertyForm.get('length')!.hasError('required')">Required field</mat-error>
-                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
-                        <mat-icon>cancel</mat-icon>
-                    </button>
-                </mat-form-field> -->
-                    <div class="col-md-10">
+                <div class="row mt-4" *ngFor="let item of valuesFormArray.controls; let i = index" [formGroupName]="i">
+                    <div class="col-md-3">
                         <mat-form-field class="w-full">
                             <mat-label>Value</mat-label>
-                            <mat-select>
-                                <mat-option *ngFor="let item of values" [value]="item">
-                                    <span>{{item.value}}</span>
-                                </mat-option>
-                            </mat-select>
+                            <input matInput type="text" formControlName="value">
+                            <mat-error *ngIf="item.get('value')!.hasError('required')">Field
+                                required</mat-error>
                         </mat-form-field>
                     </div>
-                    <div class="col-md-2 deleteBtn" (click)="$event.stopPropagation(); ondeleteValue(i)">
-                        <img src="assets/images/svg/delete.svg" alt="">
+                    <div class="col-md-7">
+                        <mat-form-field class="w-full">
+                            <mat-label>Key</mat-label>
+                            <input matInput type="text" formControlName="key">
+                            <mat-error *ngIf="item.get('key')!.hasError('required')">Field
+                                required</mat-error>
+                        </mat-form-field>
                     </div>
-                </div>
-                <div class="row mt-2">
-                    <div class="add_value_row">
-                        <button type="button" class="btn add_value_btn" (click)="onAddValue()">+Add Value</button>
+                    <div class="col-md-2 deleteBtn">
+                        <img src="assets/images/svg/delete.svg" alt="icon"
+                            (click)="$event.stopPropagation(); ondeleteValue(i)">
                     </div>
+
                 </div>
+
             </ng-container>
-            <!-- ------------------------------ -->
+            <div class="row mt-2" *ngIf="propertyForm.get('type')!.value =='enum'">
+                <div class="add_value_row">
+                    <button type="button" class="btn add_value_btn" (click)="onAddValue()">+Add Value</button>
+                </div>
+            </div>
         </form>
-        <!-- Boolean type -->
+        <!-- ---------------- -->
+
+        <!-- Boolean type form-->
         <form [formGroup]="booleanValuesForm" *ngIf="propertyForm.get('type')!.value =='boolean'">
+            <div class="separator mt-2"></div>
             <div class="col-md">
                 <div class="row">
                     <mat-form-field class="w-full">
@@ -112,7 +115,8 @@
                         <input matInput type="text" formControlName="negative_value">
                         <mat-error *ngIf="booleanValuesForm.get('negative_value')!.hasError('required')">Field
                             required</mat-error>
-                        <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('negative_value', 'booleanValuesForm')">
+                        <button matSuffix mat-icon-button aria-label="Clear"
+                            (click)="onClearField('negative_value', 'booleanValuesForm')">
                             <mat-icon>cancel</mat-icon>
                         </button>
                     </mat-form-field>
@@ -123,7 +127,8 @@
                         <input matInput type="text" formControlName="positive_value">
                         <mat-error *ngIf="booleanValuesForm.get('positive_value')!.hasError('required')">Field
                             required</mat-error>
-                        <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('positive_value', 'booleanValuesForm')">
+                        <button matSuffix mat-icon-button aria-label="Clear"
+                            (click)="onClearField('positive_value', 'booleanValuesForm')">
                             <mat-icon>cancel</mat-icon>
                         </button>
                     </mat-form-field>
@@ -131,8 +136,7 @@
             </div>
         </form>
 
-        <!--  -->
-
+        <!-- --------------- -->
 
         <div class="confirm_btn_row">
             <button type="button" [disabled]="!this.propertyForm.valid" class="btn btn-warning"
