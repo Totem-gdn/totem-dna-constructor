@@ -36,7 +36,7 @@ export class PropertyFormComponent implements OnInit {
     this.resetForm(this.propertyForm);
     this.resetForm(this.booleanValuesForm);
     this.resetFormArray(this.valuesFormArray);
-    
+
     const obj: PropertyModel = {};
     let key: keyof PropertyModel;
     if (this.property) {
@@ -44,7 +44,7 @@ export class PropertyFormComponent implements OnInit {
         (obj[key] as any) = this.property[key]
       }
     }
-    
+
     this.propertyForm.patchValue({
       ...obj
     })
@@ -123,7 +123,7 @@ export class PropertyFormComponent implements OnInit {
       length: ['', [Validators.required, Validators.min(0)]],
       active: [''],
       type: [''],
-      valuesenable: this.fb.array([]),
+      values: this.fb.array([]),
     })
     this.valuesFormArray = this.propertyForm.get('values') as FormArray;
 
@@ -153,4 +153,5 @@ export class PropertyFormComponent implements OnInit {
       formArray.removeAt(0)
     }
   }
+
 }
