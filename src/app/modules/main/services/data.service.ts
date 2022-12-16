@@ -42,7 +42,7 @@ export class DataService {
       offset: 0,
       length: 0,
       active: false,
-      values: [{ min: 0, max: 0, key: '' }]
+      values: []
     },
     enum: {
       description: "",

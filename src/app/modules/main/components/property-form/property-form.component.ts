@@ -99,8 +99,8 @@ export class PropertyFormComponent implements OnInit {
         })
       case PROPERTIES_LOWERCASE.RANGE:
         return this.fb.group({
-          min: ['', Validators.required],
-          max: ['', Validators.required],
+          min: [0, Validators.required],
+          max: [0, Validators.required],
           key: ['', Validators.required],
         })
       default:
