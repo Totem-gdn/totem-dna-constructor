@@ -16,6 +16,7 @@ export class PropertyFormComponent implements OnInit {
   // enumValuesForm!: UntypedFormGroup;
   propertyIndex!: number;
   valuesFormArray!: FormArray;
+  disableLength: boolean = false;
 
   values = [
     { value: BOOLEAN_VALUES.NEGATIVE_VALUE, title: 'Negative value' },
@@ -35,8 +36,7 @@ export class PropertyFormComponent implements OnInit {
     this.resetForm(this.propertyForm);
     this.resetForm(this.booleanValuesForm);
     this.resetFormArray(this.valuesFormArray);
-    // this.resetForm(this.enumValuesForm);
-
+    
     const obj: PropertyModel = {};
     let key: keyof PropertyModel;
     if (this.property) {
@@ -44,14 +44,11 @@ export class PropertyFormComponent implements OnInit {
         (obj[key] as any) = this.property[key]
       }
     }
+    
     this.propertyForm.patchValue({
       ...obj
     })
-
     this.setReadOnlyLengthValue(this.propertyForm.get('type')?.value);
-
-    console.log(this.propertyForm);
-
   }
 
   onConfirm(): void {
@@ -63,6 +60,7 @@ export class PropertyFormComponent implements OnInit {
     if (!this.propertyForm.value.values.length) {
       delete this.propertyForm.value.values;
     }
+    console.log(this.propertyForm.value);
 
     this.updatePropertyInJson.emit(this.propertyForm.value);
   }
@@ -85,8 +83,6 @@ export class PropertyFormComponent implements OnInit {
 
   onAddValue(): void {
     this.valuesFormArray.push(this.createValue());
-    console.log(this.valuesFormArray);
-
   }
 
   ondeleteValue(index: number): void {
@@ -104,16 +100,18 @@ export class PropertyFormComponent implements OnInit {
     switch (type) {
       case PROPERTIES_LOWERCASE.BOOLEAN:
         this.propertyForm.get('length')?.setValue(1);
-        this.propertyForm.get('length')?.disable();
+        this.disableLength = true;
+        // this.propertyForm.get('length')?.disable();
         break;
       case PROPERTIES_LOWERCASE.COLOR:
         this.propertyForm.get('length')?.setValue(24);
-        this.propertyForm.get('length')?.disable();
+        // this.propertyForm.get('length')?.disable();
+        this.disableLength = true;
         break;
       default:
+        this.disableLength = false;
         break;
     }
-
   }
 
   private reactiveForm(): void {
@@ -125,7 +123,7 @@ export class PropertyFormComponent implements OnInit {
       length: ['', [Validators.required, Validators.min(0)]],
       active: [''],
       type: [''],
-      values: this.fb.array([]),
+      valuesenable: this.fb.array([]),
     })
     this.valuesFormArray = this.propertyForm.get('values') as FormArray;
 
@@ -149,7 +147,7 @@ export class PropertyFormComponent implements OnInit {
       });
     }
   }
-  
+
   private resetFormArray(formArray: FormArray): void {
     while (formArray.length !== 0) {
       formArray.removeAt(0)

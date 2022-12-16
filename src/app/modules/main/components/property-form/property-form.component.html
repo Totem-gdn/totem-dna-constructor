@@ -59,11 +59,11 @@
             <div class="row  mt-2">
                 <mat-form-field class="w-full">
                     <mat-label>Length</mat-label>
-                    <input matInput type="number" formControlName="length">
+                    <input matInput type="number" [readonly]="disableLength" formControlName="length">
                     <mat-error *ngIf="propertyForm.get('length')!.hasError('required')">Required field</mat-error>
                     <mat-error *ngIf="propertyForm.get('length')!.hasError('min')">Value should be mor then
                         0</mat-error>
-                    <button matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
+                    <button [disabled]="disableLength" matSuffix mat-icon-button aria-label="Clear" (click)="onClearField('length')">
                         <mat-icon>cancel</mat-icon>
                     </button>
                 </mat-form-field>
