@@ -1,5 +1,5 @@
 @import 'src/styles/scss/variables.scss';
 
 .column_wraper{
-    height: $main_column_height;
+    min-height: $main_column_height;
 }
