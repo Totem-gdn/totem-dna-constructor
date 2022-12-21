@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import * as _ from 'lodash';
 import { BOOLEAN_VALUES, PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
 import { PropertyModel } from '../../models/property.model';
 
@@ -56,6 +57,10 @@ export class PropertyFormComponent implements OnInit {
     if (this.propertyForm.get('type')?.value === PROPERTIES_LOWERCASE.BOOLEAN) {
       this.valuesFormArray.push(this.booleanValuesForm.get('negative_value'));
       this.valuesFormArray.push(this.booleanValuesForm.get('positive_value'));
+    }
+
+    if (this.propertyForm.get('type')?.value === PROPERTIES_LOWERCASE.ENUM) {
+      this.propertyForm.get('length')?.setValue(this.calculateLengthForEnum())
     }
 
     if (!this.propertyForm.value.values.length) {
@@ -118,10 +123,21 @@ export class PropertyFormComponent implements OnInit {
         this.propertyForm.get('length')?.setValue(24);
         this.disableLength = true;
         break;
+      case PROPERTIES_LOWERCASE.ENUM:
+        // this.propertyForm.get('length')?.setValue(24);
+        this.disableLength = true;
+        break;
       default:
         this.disableLength = false;
         break;
     }
+  }
+
+  private calculateLengthForEnum(): number {
+    const valuesArr = this.propertyForm.value.values;
+    const maxValueObj: any = _.maxBy(valuesArr, 'value');
+    const length = (maxValueObj.value >>> 0).toString(2).length;
+    return length;
   }
 
   private reactiveForm(): void {
