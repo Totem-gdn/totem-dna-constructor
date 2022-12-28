@@ -14,6 +14,7 @@ export class SelectTypeAssetComponent implements OnInit {
     { title: MENUTITLE.ITEM, active: false },
     { title: MENUTITLE.GEM, active: false },
   ];
+  
   constructor() { }
 
   ngOnInit(): void {
