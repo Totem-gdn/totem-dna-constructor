@@ -1,14 +1,14 @@
 <div class="container">
     <div class="row mt-2">
         <div class="col-md-8">
-            <app-select-type-asset (selectTypeEvent)="selectTypeAssetEvent($event)"></app-select-type-asset>
+            <select-type-asset (selectTypeEvent)="selectTypeAssetEvent($event)"></select-type-asset>
         </div>
         <div class="col-md-4">
             <app-choose-template></app-choose-template>
         </div>
     </div>
     <div class="row mt-2">
-        <app-properties-collection (addNewPropertyEvent)="addNewPropertyEvent($event)"></app-properties-collection>
+        <dna-properties (addNewPropertyEvent)="addNewPropertyEvent($event)"></dna-properties>
     </div>
     <div class="row mt-4 column_wraper">
         <div class="col-md-3">
@@ -19,17 +19,17 @@
             ></app-property-list>
         </div>
         <div class="col-md-5">
-            <app-property-form 
+            <property 
                 [property]="selectedProperty"
                 (updatePropertyInJson)="updatePropertyInJson($event)"
-            ></app-property-form>
+            ></property>
         </div>
         <div class="col-md-4">
-            <app-property-visual-gene></app-property-visual-gene>
+            <genes-preview></genes-preview>
         </div>
     </div>
     <div class="row">
-        <app-json-visual-file [propertyList]="propertyList"></app-json-visual-file>
+        <json-preview [propertyList]="propertyList"></json-preview>
     </div>
 
 </div>

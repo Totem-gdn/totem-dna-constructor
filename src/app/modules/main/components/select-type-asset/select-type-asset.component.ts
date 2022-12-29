@@ -3,7 +3,7 @@ import { MENUTITLE } from '../../enums/menu.enum';
 import { MenuModel } from '../../models/menu.model';
 
 @Component({
-  selector: 'app-select-type-asset',
+  selector: 'select-type-asset',
   templateUrl: './select-type-asset.component.html',
   styleUrls: ['./select-type-asset.component.scss']
 })

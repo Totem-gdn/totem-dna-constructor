@@ -1,15 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormGroup, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import * as _ from 'lodash';
-import { BOOLEAN_VALUES, PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
-import { PropertyModel } from '../../models/property.model';
+import { BOOLEAN_VALUES, PROPERTIES_LOWERCASE } from '../../../enums/properties.enum';
+import { PropertyModel } from '../../../models/property.model';
 
 @Component({
-  selector: 'app-property-form',
-  templateUrl: './property-form.component.html',
-  styleUrls: ['./property-form.component.scss'],
+  selector: 'property',
+  templateUrl: './property.component.html',
+  styleUrls: ['./property.component.scss'],
 })
-export class PropertyFormComponent implements OnInit {
+export class PropertyComponent implements OnInit {
   @Input() property?: PropertyModel;
   @Output() updatePropertyInJson: EventEmitter<PropertyModel> = new EventEmitter()
   propertyForm!: UntypedFormGroup;

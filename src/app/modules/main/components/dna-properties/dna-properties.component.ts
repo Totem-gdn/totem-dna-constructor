@@ -3,11 +3,11 @@ import { PROPERTIES, PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
 import { PropertiesModel } from '../../models/properties.model';
 
 @Component({
-  selector: 'app-properties-collection',
-  templateUrl: './properties-collection.component.html',
-  styleUrls: ['./properties-collection.component.scss']
+  selector: 'dna-properties',
+  templateUrl: './dna-properties.component.html',
+  styleUrls: ['./dna-properties.component.scss']
 })
-export class PropertiesCollectionComponent implements OnInit {
+export class DNAPropertiesComponent implements OnInit {
   properties: PropertiesModel[] = [
     { title: PROPERTIES.BOOLEAN, value: PROPERTIES_LOWERCASE.BOOLEAN },
     { title: PROPERTIES.INTEGER, value: PROPERTIES_LOWERCASE.INTEGER },

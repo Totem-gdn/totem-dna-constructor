@@ -5,11 +5,11 @@ import { PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
 import { PropertyModel } from '../../models/property.model';
 
 @Component({
-  selector: 'app-json-visual-file',
-  templateUrl: './json-visual-file.component.html',
-  styleUrls: ['./json-visual-file.component.scss']
+  selector: 'json-preview',
+  templateUrl: './json-preview.component.html',
+  styleUrls: ['./json-preview.component.scss']
 })
-export class JsonVisualFileComponent implements OnInit {
+export class JSONPreviewComponent implements OnInit {
   @Input() propertyList!: PropertyModel[];
 
   propertyListForDisplay: (string | null)[] = [];
