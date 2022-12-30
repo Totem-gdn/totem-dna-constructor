@@ -1,6 +1,6 @@
 <div class="wraper">
     <p>Coming soon...</p>
-    <div class="genes">
+    <div #matrix class="genes">
         <div class="title">
             <span>Gene</span>
             <span class="text-end">8</span>
@@ -10,13 +10,12 @@
 
         </div>
 
-        <div class="gene" *ngFor="let gene of genes; let i = index">
+        <div class="gene" *ngFor="let _ of [].constructor(24); let i = index">
             <span>{{i}}</span>
             <div class="cell-group" *ngFor="let _ of [].constructor(4); let j = index">
-                <div class="cell"  
+                    <div class="cell"  
                     *ngFor="let _ of [].constructor(8); let k = index"
-                    [attr.background-color] = "genes[1][1]">
-
+                    [attr.background-color] = "blue">
                 </div>
             </div>
         </div>

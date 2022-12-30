@@ -1,4 +1,42 @@
-<div class="wraper">
+<form [formGroup]="propertiesForm" class="wrapper">
+    <div class="title">
+        <h2>{{title}}</h2>
+        <p>Type: <span>{{type}}</span></p>
+    </div>
+
+    
+    <property-field 
+        (addForm)="onAddForm($event)"
+        (valueChanges)="controlValueChanges($event)"
+        [placeholder]="'Description'">
+    </property-field>
+
+    <property-field 
+        (addForm)="onAddForm($event)"
+        (valueChanges)="controlValueChanges($event)"
+        [placeholder]="'ID'">
+    </property-field>
+
+    <property-field 
+        (addForm)="onAddForm($event)"
+        (valueChanges)="controlValueChanges($event)"
+        [placeholder]="'Gene'">
+    </property-field>
+
+    <property-field 
+        (addForm)="onAddForm($event)"
+        (valueChanges)="controlValueChanges($event)"
+        [placeholder]="'Offset'">
+    </property-field>
+
+    <property-field 
+        (addForm)="onAddForm($event)"
+        (valueChanges)="controlValueChanges($event)"
+        [placeholder]="'Length'">
+    </property-field>
+</form>
+
+<!-- <div class="wraper">
     <ng-container *ngIf="property">
         <form [formGroup]="propertyForm">
             <div class="row">
@@ -70,7 +108,6 @@
                 </mat-form-field>
             </div>
 
-            <!-- Enum type form -->
             <ng-container *ngIf="type =='enum'" formArrayName="values">
                 <div class="separator mt-2"></div>
                 <div class="row mt-4" *ngFor="let item of valuesFormArray.controls; let i = index" [formGroupName]="i">
@@ -99,8 +136,6 @@
 
             </ng-container>
 
-            <!-- ---------------- -->
-            <!-- Range type form -->
             <ng-container *ngIf="type =='range'" formArrayName="values">
                 <div class="separator mt-2"></div>
                 <div class="row mt-4" *ngFor="let item of valuesFormArray.controls; let i = index" [formGroupName]="i">
@@ -137,7 +172,6 @@
 
             </ng-container>
         </form>
-        <!-- --------------- -->
 
         <div class="row mt-2" *ngIf="type === 'enum' || type === 'range'">
             <div class="add_value_row">
@@ -146,8 +180,6 @@
         </div>
 
 
-
-        <!-- Boolean type form-->
         <form [formGroup]="booleanValuesForm" *ngIf="type =='boolean'">
             <div class="separator mt-2"></div>
             <div class="col-md">
@@ -178,7 +210,6 @@
             </div>
         </form>
 
-        <!-- --------------- -->
 
         <div class="confirm_btn_row mt-4">
             <button type="button" [disabled]="!this.propertyForm.valid" class="btn btn-warning"
@@ -194,4 +225,4 @@
         </div>
     </ng-container>
 
-</div>
+</div> -->

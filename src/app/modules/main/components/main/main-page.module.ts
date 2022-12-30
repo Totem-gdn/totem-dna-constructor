@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
-import { SharedModule } from "src/app/shared/shared.module";
+import { SharedModule } from "@app/shared/shared.module";
 import { ChooseTemplateModule } from "../choose-template/choose-template.module";
-import { DNAPropertiesModule } from "../dna-properties/dna-properties.module";
-import { PropertyModule } from "../dna-properties/property/property.module";
+import { DNAPropertiesModule } from "../property-types/property-types.module";
 import { GenesPreviewModule } from "../genes-preview/genes-preview.module";
 import { JSONPreviewModule } from "../json-preview/json-preview.module";
+import { PropertiesFormModule } from "../properties-form/properties-form.module";
 import { PropertyListModule } from "../property-list/property-list.module";
 import { SelectTypeAssetModule } from "../select-type-asset/select-type-asset.module";
 import { MainPageComponent } from "./main-page.component";
@@ -17,7 +17,7 @@ import { MainPageComponent } from "./main-page.component";
     imports: [
         SharedModule,
         DNAPropertiesModule,
-        PropertyModule,
+        PropertiesFormModule,
         DNAPropertiesModule,
 
         JSONPreviewModule,

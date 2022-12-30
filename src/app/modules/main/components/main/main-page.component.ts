@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
+import { PROPERTIES } from '../../enums/properties.enum';
 import { PropertyModel } from '../../models/property.model';
 import { DataService } from '../../services/data.service';
 
@@ -59,7 +59,7 @@ export class MainPageComponent implements OnInit {
     })
   }
 
-  addNewPropertyEvent(type: PROPERTIES_LOWERCASE): void {
+  addProperty(type: PROPERTIES): void {
     this.propertyList.forEach((elem: PropertyModel) => {
       elem.active = false;
     })

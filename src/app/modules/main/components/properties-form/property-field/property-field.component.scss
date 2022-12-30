@@ -1,0 +1,30 @@
+@import 'styles/scss/variables';
+
+.wrapper {
+    height: 48px;
+    border: 1px solid $black;
+    width: 100%;
+    padding: 12px;
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    input {
+        outline: none;
+        border: none;
+        height: 100%;
+        font-size: 16px;
+        font-weight: 500;
+    }
+    mat-icon {
+        display: flex;
+    }
+    .label {
+        padding: 0 5px;
+        position: absolute;
+        top: 0;
+        left: 12px;
+        transform: translateY(-60%);
+        background-color: $white;
+    }
+}

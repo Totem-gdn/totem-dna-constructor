@@ -1,4 +1,5 @@
 import { CommonModule } from "@angular/common";
+import { HttpClient, HttpClientModule } from "@angular/common/http";
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { PipesModule } from "./pipes/pipes.module";
@@ -11,11 +12,13 @@ import { PipesModule } from "./pipes/pipes.module";
         ReactiveFormsModule,
         PipesModule,
         CommonModule,
+        HttpClientModule
     ],
     exports: [
         ReactiveFormsModule,
         PipesModule,
         CommonModule,
+        HttpClientModule
     ]
 })
 

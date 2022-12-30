@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
-import { ValueToStringPipe } from 'src/app/shared/pipes/value-to-string.pipe';
-import { PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
+import { ValueToStringPipe } from '@app/shared/pipes/value-to-string.pipe';
+import { PROPERTIES } from '../../enums/properties.enum';
+// import { PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
 import { PropertyModel } from '../../models/property.model';
 
 @Component({
@@ -53,11 +54,11 @@ export class JSONPreviewComponent implements OnInit {
 
   private changeTypeForParser(type: string): any {
     switch (type) {
-      case PROPERTIES_LOWERCASE.BOOLEAN:
+      case PROPERTIES.BOOLEAN:
         return 'bool'
-      case PROPERTIES_LOWERCASE.ENUM:
+      case PROPERTIES.ENUM:
         return 'map'
-      case PROPERTIES_LOWERCASE.INTEGER:
+      case PROPERTIES.INTEGER:
         return 'int'
       default:
         return type

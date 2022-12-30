@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
-import { PROPERTIES_LOWERCASE } from '../enums/properties.enum';
+import { PROPERTIES } from '../enums/properties.enum';
+// import { PROPERTIES } from '../enums/properties.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -9,7 +10,7 @@ export class DataService {
     boolean: {
       description: "",
       id: "",
-      type: PROPERTIES_LOWERCASE.BOOLEAN,
+      type: PROPERTIES.BOOLEAN,
       gene: 0,
       offset: 0,
       length: 0,
@@ -19,7 +20,7 @@ export class DataService {
     integer: {
       description: "",
       id: "",
-      type: PROPERTIES_LOWERCASE.INTEGER,
+      type: PROPERTIES.INTEGER,
       gene: 0,
       offset: 0,
       length: 0,
@@ -28,7 +29,7 @@ export class DataService {
     Color: {
       description: "",
       id: "",
-      type: PROPERTIES_LOWERCASE.COLOR,
+      type: PROPERTIES.COLOR,
       gene: 0,
       offset: 0,
       length: 0,
@@ -37,7 +38,7 @@ export class DataService {
     range: {
       description: "",
       id: "",
-      type: PROPERTIES_LOWERCASE.RANGE,
+      type: PROPERTIES.RANGE,
       gene: 0,
       offset: 0,
       length: 0,
@@ -47,7 +48,7 @@ export class DataService {
     enum: {
       description: "",
       id: "",
-      type: PROPERTIES_LOWERCASE.ENUM,
+      type: PROPERTIES.ENUM,
       gene: 0,
       offset: 0,
       length: 0,

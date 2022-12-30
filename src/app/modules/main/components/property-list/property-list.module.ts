@@ -1,5 +1,5 @@
 import { NgModule } from "@angular/core";
-import { SharedModule } from "src/app/shared/shared.module";
+import { SharedModule } from "@app/shared/shared.module";
 import { PropertyListComponent } from "./property-list.component";
 
 @NgModule({
@@ -15,5 +15,5 @@ import { PropertyListComponent } from "./property-list.component";
 })
 
 export class PropertyListModule {
-    
+
 }
