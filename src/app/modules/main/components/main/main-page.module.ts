@@ -6,7 +6,7 @@ import { GenesPreviewModule } from "../genes-preview/genes-preview.module";
 import { JSONPreviewModule } from "../json-preview/json-preview.module";
 import { PropertiesFormModule } from "../properties-form/properties-form.module";
 import { PropertyListModule } from "../property-list/property-list.module";
-import { SelectTypeAssetModule } from "../select-type-asset/select-type-asset.module";
+import { SelectTypeAssetModule } from "../asset-types/asset-types.module";
 import { MainPageComponent } from "./main-page.component";
 
 

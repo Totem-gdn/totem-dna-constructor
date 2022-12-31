@@ -1,13 +1,21 @@
-<div class="row dna_container">
+
+<div class="wrapper">
+    <div class="title">
+        <p>Add new property</p>
+    </div>
+    <div class="buttons">
+        <button 
+            class="totem-button" 
+            *ngFor="let prop of properties"
+            (click)="addProperty(prop)">{{prop | mapProperty}}</button>
+    </div>
+</div>
+<!-- <div class="row dna_container">
     <div class="row">
         <div class="label">Add new property</div>
     </div>
     <div class="row">
-        <div class="col-md-1 button" 
-             *ngFor="let prop of properties" 
-             (click)="onSelectProperty(prop)">
-             {{prop}}
-        </div>
+        <div class="col-md-1 button" *ngFor="let item of properties" (click)="onSelectProperty(item)">{{item}}</div>
     </div>
 
-</div>
+</div> -->

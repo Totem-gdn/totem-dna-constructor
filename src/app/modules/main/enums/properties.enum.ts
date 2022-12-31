@@ -1,9 +1,20 @@
+// export enum PROPERTIES {
+//     BOOLEAN = 'boolean',
+//     INTEGER = 'integer',
+//     ENUM = 'enum',
+//     RANGE = 'Range',
+//     COLOR = 'Color',
+// }
 export enum PROPERTIES {
-    BOOLEAN = 'boolean',
-    INTEGER = 'integer',
-    ENUM = 'enum',
+    BOOLEAN = 'bool',
+    INTEGER = 'int',
+    ENUM = 'map',
     RANGE = 'range',
     COLOR = 'Color',
+}
+
+export enum MAP_PROPERTIES {
+    boolean = PROPERTIES.BOOLEAN
 }
 
 // export enum PROPERTIES_LOWERCASE {

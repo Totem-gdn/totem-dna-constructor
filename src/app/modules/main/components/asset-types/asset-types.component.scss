@@ -1,12 +1,18 @@
 @import 'styles/scss/variables.scss';
-.row{
+.wrapper{
     background-color: $light_grey;
+    width: 100%;
+    display: flex;
     .title{
         font-family: 'Totem';
         text-transform: uppercase;
         text-align: center;
-        padding: 20px;
+        padding: 20px 40px;
         cursor: pointer;
+
+        transition: background-color .3s ease-in-out;
+        background-color: transparent;
+        
         &:hover{
             background-color: $grey;
         }

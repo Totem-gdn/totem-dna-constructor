@@ -62,13 +62,18 @@ export class GenesPreviewComponent implements OnInit {
 
     // Paint bits
     if(this.interval) this.clear('row', this.gene);
+    
     clearInterval(this.interval);
-
     this.interval = setInterval(() => {
+      if(this.length == undefined || this.offset == undefined) return;
+      if(i >= this.length + this.offset) {
+        clearInterval(this.interval);
+        return;
+      }
+      console.log('paint')
       cells[i].style.backgroundColor = this.yellow;
       i++;
-      if(this.length == undefined || this.offset == undefined) return;
-      if(i >= this.length + this.offset) clearInterval(this.interval);
+
 
     }, 30)
 

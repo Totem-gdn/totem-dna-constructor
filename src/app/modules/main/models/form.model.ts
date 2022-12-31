@@ -1,8 +1,8 @@
 
-export interface IForm {
-    description: string;
-    id: string;
-    gene: string;
-    offset: string;
-    length: string;
+export interface FormModel {
+    description?: string;
+    id?: string;
+    gene?: string;
+    offset?: string;
+    length?: string;
 }

@@ -1,23 +1,54 @@
 @import 'styles/scss/variables.scss';
 
-.dna_container{
-    border: 2px dashed $blue;
-    margin-top: 25px;
+$wrapper-padding: 15px;
+
+.wrapper {
+    padding: $wrapper-padding;
+    display: flex;
+    flex-direction: column;
+    border: 1px dashed $blue;
+    width: 100%;
     position: relative;
-    font-family: 'Roboto-small';
-    .label{
-        font-weight: 500;
-        font-size: 16px;
+    margin-bottom: 30px;
+
+    .title {
         position: absolute;
-        margin-top: -13px;
-        width: auto;
-        background-color: #fff;
+        padding: 0 5px;
+        left: calc($wrapper-padding - 5px);
+        top: 0;
+        transform: translateY(-60%);
+        background-color: $white;
     }
-    .button{
-        background-color: $yellow;
-        padding: 10px;
-        margin: 16px 0px 16px 16px;
-        text-align: center;
-        cursor: pointer;
+    .buttons {
+        display: flex;
+        gap: 15px;
+        .totem-button {
+            background-color: $yellow;
+            padding: 10px 30px;
+            border: none;
+            outline: none;
+            text-transform: capitalize;
+        }
     }
 }
+// .dna_container{
+//     border: 2px dashed $blue;
+//     margin-top: 25px;
+//     position: relative;
+//     font-family: 'Roboto-small';
+//     .label{
+//         font-weight: 500;
+//         font-size: 16px;
+//         position: absolute;
+//         margin-top: -13px;
+//         width: auto;
+//         background-color: #fff;
+//     }
+//     .button{
+//         background-color: $yellow;
+//         padding: 10px;
+//         margin: 16px 0px 16px 16px;
+//         text-align: center;
+//         cursor: pointer;
+//     }
+// }

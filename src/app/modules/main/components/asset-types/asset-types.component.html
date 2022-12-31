@@ -1,0 +1,6 @@
+<div class="wrapper">
+    <div class="title" [ngClass]="{'active': item.active}" *ngFor="let item of menu"
+        (click)="onSelectType(item)">
+        {{item.title}}
+    </div>
+</div>

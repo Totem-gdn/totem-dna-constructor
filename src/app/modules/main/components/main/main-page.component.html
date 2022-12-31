@@ -1,33 +1,33 @@
 <div class="container">
-    <div class="row mt-2">
+    <div class="assets">
         <div class="col-md-8">
-            <select-type-asset (selectTypeEvent)="selectTypeAssetEvent($event)"></select-type-asset>
+            <asset-types (selectTypeEvent)="selectTypeAssetEvent($event)"></asset-types>
         </div>
         <div class="col-md-4">
             <app-choose-template></app-choose-template>
         </div>
     </div>
+
     <div class="row mt-2">
-        <property-types (addProperty)="addProperty($event)"></property-types>
+        <property-types></property-types>
     </div>
-    <div class="row mt-4 column_wraper">
-        <div class="col-md-3">
-            <app-property-list
-            [propertyList]="propertyList"
-            (onDeleteProperty)="onDeleteProperty($event)"
-            (onSelectProperty)="onSelectProperty($event)"
-            ></app-property-list>
+    <div class="main-content">
+
+        <div class="list">
+            <property-list></property-list>
         </div>
-        <div class="col-md-5">
+        <div class="form">
             <properties-form 
             ></properties-form>
         </div>
-        <div class="col-md-4">
+        <div class="genes">
             <genes-preview></genes-preview>
         </div>
+
     </div>
+
     <div class="row">
-        <json-preview [propertyList]="propertyList"></json-preview>
+        <json-preview></json-preview>
     </div>
 
 </div>

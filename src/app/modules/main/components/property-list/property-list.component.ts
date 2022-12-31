@@ -1,26 +1,61 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { PropertiesService } from '@app/core/services/properties.service';
+import { Subject } from 'rxjs';
+import { MAP_PROPERTIES, PROPERTIES } from '../../enums/properties.enum';
 import { PropertyModel } from '../../models/property.model';
 
 @Component({
-  selector: 'app-property-list',
+  selector: 'property-list',
   templateUrl: './property-list.component.html',
   styleUrls: ['./property-list.component.scss']
 })
-export class PropertyListComponent implements OnInit {
-  @Input() propertyList?: PropertyModel[];
-  @Output() onDeleteProperty: EventEmitter<{ item: PropertyModel, index: number }> = new EventEmitter()
-  @Output() onSelectProperty: EventEmitter<number> = new EventEmitter();
+export class PropertyListComponent implements OnInit, OnDestroy {
 
-  constructor() { }
+
+
+  properties?: PropertyModel[];
+  selectedProperty?: PropertyModel;
+  subs = new Subject<void>();
+
+  constructor(private propertiesService: PropertiesService) { }
 
   ngOnInit(): void {
+    console.log(MAP_PROPERTIES.boolean)
+    this.selectedProperty$();
+    this.properties$();
   }
 
-  ondelete(item: PropertyModel, index: number): void {
-    this.onDeleteProperty.emit({ item, index });
+  selectedProperty$() {
+    this.propertiesService.selectedProperty$
+      .subscribe(selectedProperty => {
+        this.selectedProperty = selectedProperty;
+      })
   }
-  onSelect(index: number): void {
-    this.onSelectProperty.emit(index);
+
+  properties$() {
+    this.propertiesService.properties$
+      .subscribe(properties => {
+        this.properties = properties;
+      })
   }
+
+  selectProperty(property: PropertyModel) {
+    this.propertiesService.selectedProperty = property;
+  }
+
+  deleteProperty(property: PropertyModel) {
+
+  }
+
+  ngOnDestroy(): void {
+    this.subs.next();
+    this.subs.complete();
+  }
+  // ondelete(item: PropertyModel, index: number): void {
+  //   this.onDeleteProperty.emit({ item, index });
+  // }
+  // onSelect(index: number): void {
+  //   this.onSelectProperty.emit(index);
+  // }
 
 }

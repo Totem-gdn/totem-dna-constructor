@@ -1,5 +1,23 @@
 @import 'styles/scss/variables.scss';
 
-.column_wraper{
+
+.assets {
+    display: flex;
+    margin-bottom: 40px;
+}
+
+.main-content {
     min-height: $main_column_height;
+    display: flex;
+    gap: 15px;
+
+    .list {
+        width: 25%;
+    }
+    .form {
+        width: 37.5%;
+    }
+    .genes {
+        width: 37.5%;
+    }
 }

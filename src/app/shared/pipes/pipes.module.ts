@@ -1,18 +1,21 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { MapPropertyPipe } from './map-property.pipe';
 import { ValueToStringPipe } from './value-to-string.pipe';
 
 
 
 @NgModule({
   declarations: [
-    ValueToStringPipe
+    ValueToStringPipe,
+    MapPropertyPipe
   ],
   imports: [
     CommonModule
   ],
   exports: [
-    ValueToStringPipe
+    ValueToStringPipe,
+    MapPropertyPipe
   ],
   providers: [
     ValueToStringPipe

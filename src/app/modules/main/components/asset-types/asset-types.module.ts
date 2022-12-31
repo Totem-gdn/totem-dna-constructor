@@ -1,17 +1,17 @@
 import { NgModule } from "@angular/core";
 import { SharedModule } from "@app/shared/shared.module";
-import { SelectTypeAssetComponent } from "./select-type-asset.component";
+import { AssetTypesComponent } from "./asset-types.component";
 
 
 @NgModule({
     declarations: [
-        SelectTypeAssetComponent
+        AssetTypesComponent
     ],
     imports: [
         SharedModule
     ],
     exports: [
-        SelectTypeAssetComponent
+        AssetTypesComponent
     ]
 })
 

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { PropertiesService } from '@app/core/services/properties.service';
 import { PROPERTIES } from '../../enums/properties.enum';
 
 @Component({
@@ -7,6 +8,8 @@ import { PROPERTIES } from '../../enums/properties.enum';
   styleUrls: ['./property-types.component.scss']
 })
 export class PropertyTypesComponent implements OnInit {
+
+  constructor(private propertiesService: PropertiesService) {}
   // properties: PropertiesModel[] = [
   //   { title: PROPERTIES.BOOLEAN, value: PROPERTIES_LOWERCASE.BOOLEAN },
   //   { title: PROPERTIES.INTEGER, value: PROPERTIES_LOWERCASE.INTEGER },
@@ -22,14 +25,12 @@ export class PropertyTypesComponent implements OnInit {
     PROPERTIES.COLOR
   ]
 
-  @Output() addProperty = new EventEmitter<PROPERTIES>();
-  constructor() { }
-
   ngOnInit(): void {
   }
 
-  onSelectProperty(asset: PROPERTIES): void {
-    this.addProperty.emit(asset);
+  addProperty(type: PROPERTIES): void {
+    this.propertiesService.addProperty(type);
+    // this.addProperty.emit(asset);
   }
 
 }

@@ -3,11 +3,11 @@ import { MENUTITLE } from '../../enums/menu.enum';
 import { MenuModel } from '../../models/menu.model';
 
 @Component({
-  selector: 'select-type-asset',
-  templateUrl: './select-type-asset.component.html',
-  styleUrls: ['./select-type-asset.component.scss']
+  selector: 'asset-types',
+  templateUrl: './asset-types.component.html',
+  styleUrls: ['./asset-types.component.scss']
 })
-export class SelectTypeAssetComponent implements OnInit {
+export class AssetTypesComponent implements OnInit {
   @Output() selectTypeEvent: EventEmitter<string> = new EventEmitter();
   menu: MenuModel[] = [
     { title: MENUTITLE.AVATAR, active: true },

@@ -42,9 +42,9 @@ export class MainPageComponent implements OnInit {
 
   onDeleteProperty(event: { item: PropertyModel, index: number }): void {
     this.propertyList.splice(event.index, 1);
-    if (event.item.active) {
-      this.selectedProperty = undefined;
-    }
+    // if (event.item.active) {
+    //   this.selectedProperty = undefined;
+    // }
   }
 
   onSelectProperty(indexSelectedItem: number): void {
@@ -52,25 +52,28 @@ export class MainPageComponent implements OnInit {
       if (index === indexSelectedItem) {
         this.selectedProperty = item;
         this.indexSelectedProperty = indexSelectedItem;
-        item.active = true;
+        // item.active = true;
       } else {
-        item.active = false;
+        // item.active = false;
       }
     })
   }
 
-  addProperty(type: PROPERTIES): void {
-    this.propertyList.forEach((elem: PropertyModel) => {
-      elem.active = false;
-    })
-    const newProperty: PropertyModel = {
-      ...this.dataService.defaultTypesObject[type],
-      active: true,
-      description: `Untitled ${this.propertyList.length + 1}`,
-    };
-    this.propertyList.push(newProperty);
-    this.indexSelectedProperty = this.propertyList.length - 1
-    this.selectedProperty = newProperty;
-  }
+  // addProperty(type: PROPERTIES): void {
+  //   // this.propertyList.forEach((elem: PropertyModel) => {
+  //   //   elem.active = false;
+  //   // })
+  //   // this.propertyList.forEach((elem: PropertyModel) => {
+  //   //   elem.active = false;
+  //   // })
+  //   const newProperty: PropertyModel = {
+  //     ...this.defau.defaultTypesObject[type],
+  //     active: true,
+  //     description: `Untitled ${this.propertyList.length + 1}`,
+  //   };
+  //   this.propertyList.push(newProperty);
+  //   this.indexSelectedProperty = this.propertyList.length - 1
+  //   this.selectedProperty = newProperty;
+  // }
 
 }

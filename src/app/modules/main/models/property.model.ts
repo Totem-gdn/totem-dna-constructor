@@ -1,7 +1,9 @@
+import { PROPERTIES } from "../enums/properties.enum";
+
 export interface PropertyModel {
     description?: string,
     id?: string,
-    type?: string,
+    type?: PROPERTIES,
     gene?: number,
     start?: number,
     length?: number,

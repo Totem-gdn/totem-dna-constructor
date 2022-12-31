@@ -10,7 +10,6 @@ import { JSONPreviewModule } from './components/json-preview/json-preview.module
 import { MainPageComponent } from './components/main/main-page.component';
 import { PropertyListComponent } from './components/property-list/property-list.component';
 import { GenesPreviewModule } from './components/genes-preview/genes-preview.module';
-import { SelectTypeAssetComponent } from './components/select-type-asset/select-type-asset.component';
 import { MainRoutingModule } from './main-routing.module';
 import { DNAPropertiesModule } from './components/property-types/property-types.module';
 import { MainPageModule } from './components/main/main-page.module';
