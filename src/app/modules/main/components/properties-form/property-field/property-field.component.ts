@@ -23,7 +23,8 @@ export class PropertyFieldComponent implements OnDestroy {
     control = new FormControl('')
 
     ngOnInit() {
-        const control = {name: this.placeholder.toLowerCase(), control: this.control};
+        const name = this.placeholder == 'Offset' ? 'start' : this.placeholder;
+        const control = {name: name.toLowerCase(), control: this.control};
         this.addForm.emit(control);
 
         this.control$();
@@ -31,7 +32,8 @@ export class PropertyFieldComponent implements OnDestroy {
 
     control$() {
         this.sub = this.control.valueChanges.subscribe(val => {
-            const control = { name: this.placeholder.toLowerCase(), value: val}
+            const name = this.placeholder == 'Offset' ? 'start' : this.placeholder;
+            const control = { name: name.toLowerCase(), value: val}
             this.valueChanges.emit(control);
         })
     }

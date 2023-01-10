@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { PropertiesService } from '@app/core/services/properties.service';
 import { Subject } from 'rxjs';
-import { MAP_PROPERTIES, PROPERTIES } from '../../enums/properties.enum';
-import { PropertyModel } from '../../models/property.model';
+import { MAP_PROPERTIES, PROPERTIES } from '../../../../core/enums/properties.enum';
+import { PropertyModel } from '../../../../core/models/property.model';
 
 @Component({
   selector: 'property-list',
@@ -20,7 +20,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   constructor(private propertiesService: PropertiesService) { }
 
   ngOnInit(): void {
-    console.log(MAP_PROPERTIES.boolean)
     this.selectedProperty$();
     this.properties$();
   }
@@ -44,7 +43,7 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   }
 
   deleteProperty(property: PropertyModel) {
-
+    this.propertiesService.removeProperty(property);
   }
 
   ngOnDestroy(): void {

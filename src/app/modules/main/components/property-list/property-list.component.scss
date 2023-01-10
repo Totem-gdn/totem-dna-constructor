@@ -3,15 +3,32 @@
     min-height: $main_column_height;
     overflow-y: auto;
     overflow-x: hidden;
-    border: 1px dashed $grey;
-    .propertyItem{
-        padding: 14px;
-        background-color: $light_grey;
-        font-weight: bold;
+    // border: 1px dashed $grey;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    
+    .item {
+        white-space: nowrap;
         cursor: pointer;
+        display: flex;
+        // justify-content:space-between;
+        padding: 15px;
+        background-color: $light-grey;
+        transition: background-color .3s;
+
+        &:hover {
+            background-color: $blue;
+        }
+
+        mat-icon {
+            margin-left: auto;
+            transform: translateY(-2px);
+        }
     }
-    .active{
-        background-color: $grey;
-    }
+    // .active{
+    //     background-color: $blue;
+
+    // }
 }
 

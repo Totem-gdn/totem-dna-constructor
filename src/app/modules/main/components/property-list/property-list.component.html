@@ -1,13 +1,13 @@
 <div class="wraper" >
-    <div class="row mb-2 propertyItem" 
+    <div class="item" 
         *ngFor="let property of properties"
         (click)="selectProperty(property)"
         >
-        <div class="col-md-10">
-            {{property.description}}
-        </div>
-        <div class="col-md-2 deleteBtn" (click)="deleteProperty(property)">
-            <img src="assets/images/svg/delete.svg" alt="">
+        <p>{{property.description}}</p>
+        <mat-icon (click)="deleteProperty(property)" [svgIcon]="'delete'"></mat-icon>
+        <div class="" >
+            <!-- <img src="assets/images/svg/delete.svg" alt=""> -->
+            
         </div>
     </div>
 </div>

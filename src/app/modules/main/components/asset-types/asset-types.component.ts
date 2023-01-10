@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
-import { MENUTITLE } from '../../enums/menu.enum';
-import { MenuModel } from '../../models/menu.model';
+import { MENUTITLE } from '../../../../core/enums/menu.enum';
+import { MenuModel } from '../../../../core/models/menu.model';
 
 @Component({
   selector: 'asset-types',

@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PropertiesService } from '@app/core/services/properties.service';
 import { ValueToStringPipe } from '@app/shared/pipes/value-to-string.pipe';
-import { PROPERTIES } from '../../enums/properties.enum';
+import { PROPERTIES } from '../../../../core/enums/properties.enum';
 // import { PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
-import { PropertyModel } from '../../models/property.model';
+import { PropertyModel } from '../../../../core/models/property.model';
 
 @Component({
   selector: 'json-preview',
@@ -52,14 +52,16 @@ export class JSONPreviewComponent implements OnInit {
   }
 
   preparePropertyList(list: PropertyModel[]): PropertyModel[] {
-    return list.map((property: PropertyModel) => {
-      const modifyProperty = {
-        ...property,
-        type: this.changeTypeForParser(property.type as string)
-      }
-      // delete modifyProperty.active;
-      return modifyProperty;
-    })
+    // console.log('list', list)
+    return list;
+    // return list.map((property: PropertyModel) => {
+    //   const modifyProperty = {
+    //     ...property,
+    //     type: this.changeTypeForParser(property.type as string)
+    //   }
+    //   // delete modifyProperty.active;
+    //   return modifyProperty;
+    // })
   }
 
   private changeTypeForParser(type: string): any {

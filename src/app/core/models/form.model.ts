@@ -3,6 +3,6 @@ export interface FormModel {
     description?: string;
     id?: string;
     gene?: string;
-    offset?: string;
+    start?: string;
     length?: string;
 }

@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { PROPERTIES } from '../enums/properties.enum';
+import { PROPERTIES } from '../../../core/enums/properties.enum';
 
 @Injectable({
   providedIn: 'root'

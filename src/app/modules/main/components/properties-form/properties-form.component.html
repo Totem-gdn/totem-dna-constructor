@@ -1,7 +1,7 @@
 <form [formGroup]="propertiesForm" class="wrapper">
     <div class="title">
         <h2>{{title}}</h2>
-        <p>Type: <span>{{type}}</span></p>
+        <p>Type: <span>{{type | mapProperty}}</span></p>
     </div>
  
     <property-field 

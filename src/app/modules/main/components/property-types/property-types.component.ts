@@ -1,6 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { PropertiesService } from '@app/core/services/properties.service';
-import { PROPERTIES } from '../../enums/properties.enum';
+import { PROPERTIES } from '../../../../core/enums/properties.enum';
 
 @Component({
   selector: 'property-types',

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
-import { PROPERTIES } from '../../enums/properties.enum';
-import { PropertyModel } from '../../models/property.model';
+import { PROPERTIES } from '../../../../core/enums/properties.enum';
+import { PropertyModel } from '../../../../core/models/property.model';
 import { DataService } from '../../services/data.service';
 
 @Component({
@@ -26,13 +26,12 @@ export class MainPageComponent implements OnInit {
   }
 
   selectTypeAssetEvent(event: string): void {
-    console.log('Select type asset', event);
 
   }
 
   updatePropertyInJson(property: PropertyModel): void {
     const index: number = this.indexSelectedProperty >= 0 ? this.indexSelectedProperty : this.propertyList.length - 1;
-    // console.log('index property updated', index);
+
     let key: keyof PropertyModel;
     for (key in property) {
       (this.propertyList[index][key] as any) = property[key];

@@ -1,6 +1,8 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { GENE_EVENT } from '@app/core/enums/gene.enum';
+import { TableItem } from '@app/core/models/gene.model';
 import { GenesService } from '@app/core/services/genes.service';
-import { EGene } from '../../enums/gene.enum';
+// import { EGene }
 
 @Component({
   selector: 'genes-preview',
@@ -9,14 +11,17 @@ import { EGene } from '../../enums/gene.enum';
 })
 export class GenesPreviewComponent implements OnInit {
   get yellow() { return 'rgb(255, 208, 17)' }
-  get blue() { return 'rgb(222, 236, 255)'}
+  get blue() { return 'rgb(222, 236, 255)' }
   constructor(private genesService: GenesService) { }
 
   @ViewChild('matrix') matrix!: ElementRef;
 
-  gene: number | undefined;
-  offset: number | undefined;
-  length: number | undefined;
+  // gene: number | undefined;
+  // start: number | undefined;
+  // length: number | undefined;
+
+  tableItems: TableItem[] = [];
+  // genes
   interval!: any;
 
   ngOnInit(): void {
@@ -25,74 +30,79 @@ export class GenesPreviewComponent implements OnInit {
 
   genesData$() {
     this.genesService.geneDataChanges$.subscribe(e => {
-      console.log(e);
+      console.log('genes changes')
+      const index = this.tableItems.findIndex(item => item.id == e.id);
 
-      if(e.event == EGene.GENE) {
-         if(e.value == '') this.gene = undefined;
-         else this.gene = +e.value;
+      if (e.event != GENE_EVENT.RESET && e.value && e.value != '') {
+        if (index == -1) {
+          const item: TableItem = { id: e.id };
+          item[e.event] = e.value;
+          this.tableItems.push(item);
+          this.changeColor(this.tableItems[this.tableItems.length - 1]);
+        } else {
+
+          this.tableItems[index][e.event] = e.value;
+          this.changeColor(this.tableItems[index]);
+        }
       }
-      if(e.event == EGene.OFFSET) {
-        if(e.value == '') this.offset = undefined;
-        else this.offset = +e.value;
+
+      if(e.event == GENE_EVENT.RESET) {
+        if(index) this.tableItems.splice(index, 1);
+        this.changeColor(this.tableItems[index]);
       }
-      if(e.event == EGene.LENGTH) {
-        if(e.value == '') this.length = undefined;
-        else this.length = +e.value;
-      }
-      this.changeColor();
+
+      // if(index) this.changeColor()
     })
   }
 
-  changeColor() {
-    console.log(this.offset, this.length, this.gene)
-    if(this.offset == undefined || this.length == undefined) {
-      if(this.gene != undefined) this.clear('row', this.gene);
+  processTableContent() {
+
+  }
+
+  changeColor(item: TableItem) {
+
+    console.log('table item', item.gene, item.length, item.start)
+    console.log(this.tableItems)
+    if (item.start == undefined || item.length == undefined) {
+      if (item.gene != undefined) this.clear('row', +item.gene);
       return;
     }
-    if(this.gene == undefined) return;
+    if (item.gene == undefined) return;
+    const gene = +item.gene;
+    const start = +item.start;
+    const length = +item.length;
 
     const genes = this.matrix.nativeElement.getElementsByClassName('gene');
-    const cells = genes[this.gene].getElementsByClassName('cell');
+    const cells = genes[gene].getElementsByClassName('cell');
 
-    let i = this.offset;
+    let i = start;
 
     // Clear unused bits
-    for(let j = i; j < this.offset; j++) cells[j].style.backgroundColor = this.blue;
-    for(let j = this.offset + this.length; j < cells.length; j++) cells[j].style.backgroundColor = this.blue;
+    for (let j = i; j < start; j++) cells[j].style.backgroundColor = this.blue;
+    for (let j = start + length; j < cells.length; j++) cells[j].style.backgroundColor = this.blue;
 
     // Paint bits
-    if(this.interval) this.clear('row', this.gene);
-    
+    if (this.interval) this.clear('row', gene);
+
     clearInterval(this.interval);
     this.interval = setInterval(() => {
-      if(this.length == undefined || this.offset == undefined) return;
-      if(i >= this.length + this.offset) {
+      if (length == undefined || start == undefined) return;
+      if (i >= length + start) {
         clearInterval(this.interval);
         return;
       }
-      console.log('paint')
       cells[i].style.backgroundColor = this.yellow;
       i++;
 
 
     }, 30)
-
-    // const interval = () => {
-    //   cells[i].style.backgroundColor = this.yellow;
-    //   i++;
-    //   if(this.length == undefined || this.offset == undefined) return;
-    //   if(i > this.length + this.offset) clearInterval(this.interval);
-    // }
-    // for( ; i++) {
-      
-    // }
   }
 
   clear(clear: 'row' | 'all', gene: number | undefined = undefined) {
-    if(clear == 'row') {
-      if(gene == undefined) return;
+    if (clear == 'row') {
+      if (gene == undefined) return;
       const genes = this.matrix.nativeElement.getElementsByClassName('gene');
-      for(let cell of genes[gene].getElementsByClassName('cell')) {
+      for (let cell of genes[gene].getElementsByClassName('cell')) {
         cell.style.backgroundColor = this.blue;
       }
     }

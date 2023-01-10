@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from "@angular/core";
-import { PROPERTIES } from "@app/modules/main/enums/properties.enum";
+import { PROPERTIES } from "@app/core/enums/properties.enum";
 
 @Pipe({
     name: 'mapProperty'
@@ -7,7 +7,7 @@ import { PROPERTIES } from "@app/modules/main/enums/properties.enum";
 
 export class MapPropertyPipe implements PipeTransform {
 
-    transform(value: PROPERTIES) {
+    transform(value: PROPERTIES | undefined) {
         if(value == PROPERTIES.BOOLEAN) return 'boolean';
         if(value == PROPERTIES.COLOR) return 'color';
         if(value == PROPERTIES.ENUM) return 'enum';
