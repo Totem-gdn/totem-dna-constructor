@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastrService } from 'ngx-toastr';
-import { PROPERTIES } from '../../../../core/enums/properties.enum';
-import { PropertyModel } from '../../../../core/models/property.model';
-import { DataService } from '../../services/data.service';
+import { PROPERTIES } from '../../../core/enums/properties.enum';
+import { PropertyModel } from '../../../core/models/property.model';
+import { DataService } from '../services/data.service';
 
 @Component({
   selector: 'app-main-page',
@@ -19,7 +18,6 @@ export class MainPageComponent implements OnInit {
   indexSelectedProperty!: number;
   constructor(
     private dataService: DataService,
-    private toastr: ToastrService
   ) { }
 
   ngOnInit(): void {
@@ -36,7 +34,7 @@ export class MainPageComponent implements OnInit {
     for (key in property) {
       (this.propertyList[index][key] as any) = property[key];
     }
-    this.toastr.success('Property is updated')
+    // this.toastr.success('Property is updated')
   }
 
   onDeleteProperty(event: { item: PropertyModel, index: number }): void {

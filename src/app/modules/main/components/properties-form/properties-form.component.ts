@@ -74,19 +74,6 @@ export class PropertiesFormComponent implements OnInit, OnDestroy {
 
     const event: GeneChangeEvent = { event: eventName, value, id};
     this.genesService.geneChangeEvent(event);
-    
-    // if(id == EControls.GENE) {
-    //   const event: GeneChangeEvent = {event: GENE_EVENT.GENE, value, id};
-    //   this.genesService.geneChangeEvent(event);
-    // }
-    // if(id == EControls.START) {
-    //   const event: GeneChangeEvent = {event: GENE_EVENT.START, value, id};
-    //   this.genesService.geneChangeEvent(event);
-    // }
-    // if(id == EControls.LENGTH) {
-    //   const event: GeneChangeEvent = {event: GENE_EVENT.LENGTH, value, id};
-    //   this.genesService.geneChangeEvent(event);
-    // }
   }
 
   updateSelectedProperty(control: any) {

@@ -3,11 +3,7 @@
         *ngFor="let property of properties"
         (click)="selectProperty(property)"
         >
-        <p>{{property.description}}</p>
+        <p class="truncate title">{{property.description}}</p>
         <mat-icon (click)="deleteProperty(property)" [svgIcon]="'delete'"></mat-icon>
-        <div class="" >
-            <!-- <img src="assets/images/svg/delete.svg" alt=""> -->
-            
-        </div>
     </div>
 </div>

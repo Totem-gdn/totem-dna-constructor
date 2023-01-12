@@ -14,7 +14,7 @@ export interface GeneChangeEvent {
 
 export interface TableItem {
     id?: string;
-    gene?: string;
-    start?: string;
-    length?: string;
+    gene?: number;
+    start?: number;
+    length?: number;
 }

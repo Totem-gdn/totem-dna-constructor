@@ -1,8 +1,8 @@
 @import "scss/reset-default-styles.scss";
 @import "scss/fonts.scss";
 @import "scss/material.scss";
-@import 'ngx-toastr/toastr';
 @import 'scss/font-size.scss';
+@import './scss/common/common.scss';
 
 html,
 body {

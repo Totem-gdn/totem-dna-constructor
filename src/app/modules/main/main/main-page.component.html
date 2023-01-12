@@ -1,11 +1,10 @@
 <div class="container">
     <div class="assets">
-        <div class="col-md-8">
-            <asset-types (selectTypeEvent)="selectTypeAssetEvent($event)"></asset-types>
-        </div>
-        <div class="col-md-4">
-            <app-choose-template></app-choose-template>
-        </div>
+        <asset-types (selectTypeEvent)="selectTypeAssetEvent($event)"></asset-types>
+
+
+        <choose-template></choose-template>
+
     </div>
 
     <div class="row mt-2">
@@ -17,8 +16,7 @@
             <property-list></property-list>
         </div>
         <div class="form">
-            <properties-form 
-            ></properties-form>
+            <properties-form></properties-form>
         </div>
         <div class="genes">
             <genes-preview></genes-preview>

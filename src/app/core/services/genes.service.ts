@@ -13,15 +13,7 @@ export class GenesService {
     get geneDataChanges$() { return this._changeEvent.asObservable() }
 
     geneChangeEvent(e: GeneChangeEvent) {
-        // if(e.event == GENE_EVENT.GENE) {
-        //     this._changeEvent.next(e);
-        // }
-        // if(e.event == GENE_EVENT.LENGTH) {
-        //     this._changeEvent.next(e);
-        // }
-        // if(e.event == GENE_EVENT.START) {
-        //     this._changeEvent.next(e);
-        // }
+        // console.log('event', e)
         this._changeEvent.next(e);
     }
 

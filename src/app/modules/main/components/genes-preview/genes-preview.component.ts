@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { GENE_EVENT } from '@app/core/enums/gene.enum';
 import { TableItem } from '@app/core/models/gene.model';
 import { GenesService } from '@app/core/services/genes.service';
+import { lookup } from 'dns';
 // import { EGene }
 
 @Component({
@@ -12,6 +13,7 @@ import { GenesService } from '@app/core/services/genes.service';
 export class GenesPreviewComponent implements OnInit {
   get yellow() { return 'rgb(255, 208, 17)' }
   get blue() { return 'rgb(222, 236, 255)' }
+  get red() { return 'red' }
   constructor(private genesService: GenesService) { }
 
   @ViewChild('matrix') matrix!: ElementRef;
@@ -23,6 +25,7 @@ export class GenesPreviewComponent implements OnInit {
   tableItems: TableItem[] = [];
   // genes
   interval!: any;
+  timeout!: any;
 
   ngOnInit(): void {
     this.genesData$();
@@ -30,44 +33,41 @@ export class GenesPreviewComponent implements OnInit {
 
   genesData$() {
     this.genesService.geneDataChanges$.subscribe(e => {
-      console.log('genes changes')
+
       const index = this.tableItems.findIndex(item => item.id == e.id);
+
+      if (e.event == GENE_EVENT.RESET) {
+        if (index) this.tableItems.splice(index, 1);
+      }
+
+      if (e.event == GENE_EVENT.RESET_ALL) {
+        this.clear('all');
+        return;
+      }
 
       if (e.event != GENE_EVENT.RESET && e.value && e.value != '') {
         if (index == -1) {
           const item: TableItem = { id: e.id };
-          item[e.event] = e.value;
+          item[e.event] = +e.value;
           this.tableItems.push(item);
-          this.changeColor(this.tableItems[this.tableItems.length - 1]);
+          this.repaintItem('paint', this.tableItems[this.tableItems.length - 1])
+          // this.changeColor(this.tableItems[this.tableItems.length - 1]);
         } else {
-
-          this.tableItems[index][e.event] = e.value;
-          this.changeColor(this.tableItems[index]);
+          this.repaintItem('clear', this.tableItems[index]);
+          this.tableItems[index][e.event] = +e.value;
+          this.repaintItem('paint', this.tableItems[index])
         }
       }
 
-      if(e.event == GENE_EVENT.RESET) {
-        if(index) this.tableItems.splice(index, 1);
-        this.changeColor(this.tableItems[index]);
-      }
-
-      // if(index) this.changeColor()
+      // console.log(this.tableItems)
     })
   }
 
-  processTableContent() {
 
-  }
-
-  changeColor(item: TableItem) {
-
-    console.log('table item', item.gene, item.length, item.start)
+  repaintItem(action: 'paint' | 'clear', item: TableItem) {
+    if (item.gene == undefined || item.length == undefined || item.start == undefined) return;
+    console.log('item', action, item)
     console.log(this.tableItems)
-    if (item.start == undefined || item.length == undefined) {
-      if (item.gene != undefined) this.clear('row', +item.gene);
-      return;
-    }
-    if (item.gene == undefined) return;
     const gene = +item.gene;
     const start = +item.start;
     const length = +item.length;
@@ -75,27 +75,39 @@ export class GenesPreviewComponent implements OnInit {
     const genes = this.matrix.nativeElement.getElementsByClassName('gene');
     const cells = genes[gene].getElementsByClassName('cell');
 
+
+    // Get neighbor items on the same row
+    const neighborItems = this.tableItems.filter(neighborItem => {
+      return neighborItem.gene == gene && neighborItem != item
+    });
+
+    // Start index of selected item
     let i = start;
 
-    // Clear unused bits
-    for (let j = i; j < start; j++) cells[j].style.backgroundColor = this.blue;
-    for (let j = start + length; j < cells.length; j++) cells[j].style.backgroundColor = this.blue;
+    // Paint cells of selected item
+    loop:
+    for (; i < length + start; i++) {
 
-    // Paint bits
-    if (this.interval) this.clear('row', gene);
-
-    clearInterval(this.interval);
-    this.interval = setInterval(() => {
-      if (length == undefined || start == undefined) return;
-      if (i >= length + start) {
-        clearInterval(this.interval);
-        return;
+      // Check if cells is not overlaping
+      for (let neighborItem of neighborItems) {
+        if (neighborItem.gene == undefined || neighborItem.start == undefined || neighborItem.length == undefined) continue;
+        for (let j = neighborItem.start; j < neighborItem.start + neighborItem.length; j++) {
+          if (j == i) {
+            // If overlap occured paint cell depending on action
+            if (action == 'paint') cells[i].style.backgroundColor = this.red;
+            if (action == 'clear') cells[i].style.backgroundColor = this.yellow;
+            continue loop;
+          }
+        }
       }
-      cells[i].style.backgroundColor = this.yellow;
-      i++;
+      console.log('index', i)
+      // If overlap is not occured paint cell depending on action
+      if (action == 'paint') cells[i].style.backgroundColor = this.yellow;
+      if (action == 'clear') cells[i].style.backgroundColor = this.blue;
+    }
+  }
+  clearItem(item: TableItem) {
 
-
-    }, 30)
   }
 
   clear(clear: 'row' | 'all', gene: number | undefined = undefined) {

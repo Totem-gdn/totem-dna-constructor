@@ -2,12 +2,15 @@
 .wrapper{
     background-color: $light_grey;
     width: 100%;
+    height: 56px;
     display: flex;
     .title{
         font-family: 'Totem';
         text-transform: uppercase;
         text-align: center;
-        padding: 20px 40px;
+        padding: 0 40px;
+        display: flex;
+        align-items: center;
         cursor: pointer;
 
         transition: background-color .3s ease-in-out;
@@ -20,4 +23,7 @@
     .active{
         background-color: $grey;
     }
+}
+:host {
+    width: 100%;
 }

@@ -26,6 +26,7 @@ export class PropertyTypesComponent implements OnInit {
   ]
 
   ngOnInit(): void {
+    
   }
 
   addProperty(type: PROPERTIES): void {
