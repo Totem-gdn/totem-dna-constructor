@@ -39,6 +39,7 @@ export class AssetsService {
             }
             
         }
+        
 
         if (!jsonUrl) {
             if (type == ASSET_TYPE.AVATAR) {
