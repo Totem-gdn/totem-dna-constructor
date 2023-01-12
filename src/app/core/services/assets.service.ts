@@ -37,6 +37,7 @@ export class AssetsService {
             } else if (type == ASSET_TYPE.GEM) {
                 jsonUrl = game?.connections?.dnaFilters?.gemFilter;
             }
+            
         }
 
         if (!jsonUrl) {
