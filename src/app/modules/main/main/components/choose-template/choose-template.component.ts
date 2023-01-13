@@ -4,6 +4,7 @@ import { ASSET_TYPE } from '@app/core/enums/asset.enum';
 import { AssetInfo } from '@app/core/models/asset.model';
 import { GameInfo } from '@app/core/models/game.model';
 import { AssetsService } from '@app/core/services/assets.service';
+import { GenesService } from '@app/core/services/genes.service';
 import { PropertiesService } from '@app/core/services/properties.service';
 
 @Component({
@@ -17,7 +18,8 @@ import { PropertiesService } from '@app/core/services/properties.service';
 export class ChooseTemplateComponent implements OnInit {
 
   constructor(private assetsService: AssetsService,
-              private propertiesService: PropertiesService) { }
+              private propertiesService: PropertiesService,
+              private genesService: GenesService) { }
 
   showDropdown: boolean = false;
   games!: GameInfo[];
@@ -28,7 +30,10 @@ export class ChooseTemplateComponent implements OnInit {
 
   async onClickItem(game: GameInfo) {
     this.showDropdown = false;
-    const json = await this.assetsService.fetchJSONByGame(ASSET_TYPE.AVATAR, game);
+
+    this.genesService.reset();
+    const type = this.assetsService.assetType ? this.assetsService.assetType : ASSET_TYPE.AVATAR;
+    const json = await this.assetsService.fetchJSONByGame(type, game);
 
     this.propertiesService.propertiesByJSON(json);
   }

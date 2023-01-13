@@ -3,6 +3,7 @@ import { PROPERTIES } from "@app/core/enums/properties.enum";
 import { PropertyModel } from "@app/core/models/property.model";
 import { DataService } from "@app/modules/main/services/data.service";
 import { BehaviorSubject } from "rxjs";
+import { ASSET_TYPE } from "../enums/asset.enum";
 import { GENE_EVENT } from "../enums/gene.enum";
 import { DefaultProperties } from "../models/default-properties.model";
 import { GeneChangeEvent } from "../models/gene.model";
@@ -40,18 +41,6 @@ export class PropertiesService {
     this.selectedProperty = newProperty;
   }
 
-  updateSelectedPropertyById(control: any) {
-    const property = this.selectedProperty;
-    const key: keyof PropertyModel = control.name;
-    const value = control.value;
-
-    const update = this.properties.filter(prop => { return prop.id == property.id});
-    // console.log(update, 'update')
-    property[key] = value;
-
-
-  }
-
   removeProperty(property: PropertyModel) {
     const properties = this.properties;
 
@@ -65,20 +54,20 @@ export class PropertiesService {
     this.properties = [...properties];
     this.selectedProperty = this.properties[0];
 
-    this.genesService.geneChangeEvent({event: GENE_EVENT.RESET_ALL})
-    const events: GeneChangeEvent[] = [];
+    // this.genesService.geneChangeEvent({event: GENE_EVENT.RESET_ALL})
+    // const events: GeneChangeEvent[] = [];
 
-    for(let prop of properties) {
-      const id = prop.description;
-      const start = prop.start;
-      const length = prop.length;
-      const gene = prop.gene;
-      events.push({id, value: gene, event: GENE_EVENT.GENE});
-      events.push({id, value: start, event: GENE_EVENT.START});
-      events.push({id, value: length, event: GENE_EVENT.LENGTH});
-    }
-    console.log(events)
-    for(let event of events) this.genesService.geneChangeEvent(event);
+    // for(let prop of properties) {
+    //   const id = prop.description;
+    //   const start = prop.start;
+    //   const length = prop.length;
+    //   const gene = prop.gene;
+    //   events.push({id, value: gene, event: GENE_EVENT.GENE});
+    //   events.push({id, value: start, event: GENE_EVENT.START});
+    //   events.push({id, value: length, event: GENE_EVENT.LENGTH});
+    // }
+    // console.log(events)
+    // for(let event of events) this.genesService.geneChangeEvent(event);
   }
 
   resetAll() {

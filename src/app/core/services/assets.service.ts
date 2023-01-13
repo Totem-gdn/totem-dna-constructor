@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { firstValueFrom, map } from "rxjs";
+import { BehaviorSubject, firstValueFrom, map } from "rxjs";
 import { ASSET_TYPE } from "../enums/asset.enum";
 import { AssetInfo } from "../models/asset.model";
 import { ApiResponse, GameInfo } from "../models/game.model";
@@ -14,6 +14,12 @@ export class AssetsService {
     apiUrl = 'https://api.totem-explorer.com';
 
     constructor(private http: HttpClient) {}
+
+
+    _assetType = new BehaviorSubject<ASSET_TYPE | undefined>(undefined);
+    get assetType() { return this._assetType.getValue(); }
+    get assetType$() { return this._assetType.asObservable() }
+    set assetType(type: ASSET_TYPE | undefined) { this._assetType.next(type); }
 
     fetchGamesByFilter(filter: string) {
         return this.http.get<GameInfo[]>(`${this.apiUrl}/games/search?name=${filter}`)

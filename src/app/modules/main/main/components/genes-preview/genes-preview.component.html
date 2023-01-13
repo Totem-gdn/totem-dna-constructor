@@ -4,13 +4,14 @@
             <span>Gene</span>
             <span class="text-end">8</span>
             <span class="text-end">16</span>
-            <span class="text-end">24</span>
-            <span class="text-end">32</span>
+            <span *ngIf="type == assetType.AVATAR || type == assetType.ITEM" class="text-end">24</span>
+            <span *ngIf="type == assetType.AVATAR" class="text-end">32</span>
         </div>
 
-        <div class="gene" *ngFor="let _ of [].constructor(24); let i = index">
+        <div class="gene" 
+            *ngFor="let _ of [].constructor(24); let i = index">
             <span>{{i}}</span>
-            <div class="cell-group" *ngFor="let _ of [].constructor(4); let j = index">
+            <div class="cell-group" *ngFor="let _ of [].constructor(type == assetType.AVATAR ? 4 : type == assetType.ITEM ? 3 : type == assetType.GEM ? 2 : 0); let j = index">
                     <div class="cell"  
                     *ngFor="let _ of [].constructor(8); let k = index"
                     [attr.background-color] = "blue">

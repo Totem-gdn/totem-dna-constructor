@@ -1,8 +1,8 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { PropertiesService } from '@app/core/services/properties.service';
 import { Subject } from 'rxjs';
-import { MAP_PROPERTIES, PROPERTIES } from '../../../../core/enums/properties.enum';
-import { PropertyModel } from '../../../../core/models/property.model';
+import { MAP_PROPERTIES, PROPERTIES } from '../../../../../core/enums/properties.enum';
+import { PropertyModel } from '../../../../../core/models/property.model';
 
 @Component({
   selector: 'property-list',

@@ -10,6 +10,7 @@
         font-weight: 500;
     }
     .json_wraper {
+        overflow: auto;
         border: 2px solid $border_color;
         padding: 15px;
         background-color: $bacground_json_color;

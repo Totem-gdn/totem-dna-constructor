@@ -22,4 +22,8 @@ export class GenesService {
 
         this._changeEvent.next(e);
     }
+
+    reset(action: 'all' = 'all') {
+        this.geneChangeEvent({event: GENE_EVENT.RESET_ALL})
+    }
 }

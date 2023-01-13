@@ -2,9 +2,9 @@ import { Component, Input, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { PropertiesService } from '@app/core/services/properties.service';
 import { ValueToStringPipe } from '@app/shared/pipes/value-to-string.pipe';
-import { PROPERTIES } from '../../../../core/enums/properties.enum';
+import { PROPERTIES } from '../../../../../core/enums/properties.enum';
 // import { PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
-import { PropertyModel } from '../../../../core/models/property.model';
+import { PropertyModel } from '../../../../../core/models/property.model';
 
 @Component({
   selector: 'json-preview',

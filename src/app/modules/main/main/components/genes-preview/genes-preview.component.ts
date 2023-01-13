@@ -1,8 +1,12 @@
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { ASSET_TYPE } from '@app/core/enums/asset.enum';
 import { GENE_EVENT } from '@app/core/enums/gene.enum';
 import { TableItem } from '@app/core/models/gene.model';
+import { AssetsService } from '@app/core/services/assets.service';
 import { GenesService } from '@app/core/services/genes.service';
+import { PropertiesService } from '@app/core/services/properties.service';
 import { lookup } from 'dns';
+import { Subject, takeUntil } from 'rxjs';
 // import { EGene }
 
 @Component({
@@ -10,11 +14,15 @@ import { lookup } from 'dns';
   templateUrl: './genes-preview.component.html',
   styleUrls: ['./genes-preview.component.scss']
 })
-export class GenesPreviewComponent implements OnInit {
+export class GenesPreviewComponent implements OnInit, OnDestroy {
+  get assetType() { return ASSET_TYPE };
   get yellow() { return 'rgb(255, 208, 17)' }
   get blue() { return 'rgb(222, 236, 255)' }
   get red() { return 'red' }
-  constructor(private genesService: GenesService) { }
+
+  constructor(private genesService: GenesService,
+              private assetsService: AssetsService,
+              private propertiesService: PropertiesService) { }
 
   @ViewChild('matrix') matrix!: ElementRef;
 
@@ -26,13 +34,18 @@ export class GenesPreviewComponent implements OnInit {
   // genes
   interval!: any;
   timeout!: any;
+  subs = new Subject<void>();
+  type?: ASSET_TYPE;
 
   ngOnInit(): void {
     this.genesData$();
+    this.type$();
   }
 
   genesData$() {
-    this.genesService.geneDataChanges$.subscribe(e => {
+    this.genesService.geneDataChanges$
+      .pipe(takeUntil(this.subs))
+      .subscribe(e => {
 
       const index = this.tableItems.findIndex(item => item.id == e.id);
 
@@ -44,8 +57,9 @@ export class GenesPreviewComponent implements OnInit {
         this.clear('all');
         return;
       }
-
-      if (e.event != GENE_EVENT.RESET && e.value && e.value != '') {
+      // console.log(e.value)
+      if (e.event != GENE_EVENT.RESET && e.value != undefined) {
+        
         if (index == -1) {
           const item: TableItem = { id: e.id };
           item[e.event] = +e.value;
@@ -63,10 +77,21 @@ export class GenesPreviewComponent implements OnInit {
     })
   }
 
+  type$() {
+    this.assetsService.assetType$
+      .pipe(takeUntil(this.subs))
+      .subscribe(type => {
+        this.type = type;
+        this.redrawGridCols();
+      })
+  }
+
 
   repaintItem(action: 'paint' | 'clear', item: TableItem) {
     if (item.gene == undefined || item.length == undefined || item.start == undefined) return;
-    console.log('item', action, item)
+    // console.log('item', action, item)
+    // console.log(this.tableItems)
+    // console.log('paint')
     console.log(this.tableItems)
     const gene = +item.gene;
     const start = +item.start;
@@ -100,7 +125,6 @@ export class GenesPreviewComponent implements OnInit {
           }
         }
       }
-      console.log('index', i)
       // If overlap is not occured paint cell depending on action
       if (action == 'paint') cells[i].style.backgroundColor = this.yellow;
       if (action == 'clear') cells[i].style.backgroundColor = this.blue;
@@ -119,8 +143,34 @@ export class GenesPreviewComponent implements OnInit {
       }
     }
 
+    if (clear == 'all') {
+      this.tableItems = [];
+      const genes = this.matrix.nativeElement.getElementsByClassName('gene');
+      // console.log('reset all')
+      for(let gene of genes) {
+        for (let cell of gene.getElementsByClassName('cell')) {
+          cell.style.backgroundColor = this.blue;
+        }
+      }
+    }
   }
 
+  redrawGridCols() {
+    if(!this.matrix) return;
+    const matrix = this.matrix.nativeElement;
+    const cols = this.type == ASSET_TYPE.AVATAR ? 5 : ASSET_TYPE.ITEM ? 4 : 3;
+    const title = matrix.getElementsByClassName('title')[0]
+    title.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 
+    const genes = matrix. getElementsByClassName('gene');
+    for(let gene of genes) {
+      gene.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    }
+  }
+
+  ngOnDestroy(): void {
+    this.subs.next();
+    this.subs.complete();
+  }
 
 }
