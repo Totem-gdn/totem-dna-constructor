@@ -1,7 +1,9 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
+import { JSONPreviewService } from '@app/core/services/json-preview.service';
 import { PropertiesService } from '@app/core/services/properties.service';
 import { ValueToStringPipe } from '@app/shared/pipes/value-to-string.pipe';
+import { Subject, takeUntil } from 'rxjs';
 import { PROPERTIES } from '../../../../../core/enums/properties.enum';
 // import { PROPERTIES_LOWERCASE } from '../../enums/properties.enum';
 import { PropertyModel } from '../../../../../core/models/property.model';
@@ -11,26 +13,33 @@ import { PropertyModel } from '../../../../../core/models/property.model';
   templateUrl: './json-preview.component.html',
   styleUrls: ['./json-preview.component.scss']
 })
-export class JSONPreviewComponent implements OnInit {
+export class JSONPreviewComponent implements OnInit, OnDestroy {
+
   @Input() properties!: PropertyModel[];
 
   propertyListForDisplay: (string | null)[] = [];
   jsonForClipboard: string = '';
-  jsonUrl: any;;
+  jsonUrl: any;
+  subs = new Subject<void>();
+
   constructor(
     private sanitizer: DomSanitizer,
     private valueToStringPipe: ValueToStringPipe,
-    private propertiesService: PropertiesService
+    private propertiesService: PropertiesService,
+    private jsonService: JSONPreviewService
   ) { }
 
   ngOnInit(): void {
-    this.properties$();
+    this.json$();
   }
 
-  properties$() {
-    this.propertiesService.properties$
-      .subscribe(properties => {
-        this.properties = properties;
+  json$() {
+    this.jsonService.json$
+      .pipe(takeUntil(this.subs))
+      .subscribe(json => {
+        // if(!json) return;
+        console.log(json)
+        this.properties = json;
       })
 
   }
@@ -75,6 +84,11 @@ export class JSONPreviewComponent implements OnInit {
       default:
         return type
     }
+  }
+
+  ngOnDestroy() {
+    this.subs.next();
+    this.subs.complete();
   }
 
 }

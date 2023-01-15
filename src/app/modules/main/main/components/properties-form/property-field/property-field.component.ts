@@ -28,10 +28,12 @@ import { Subscription } from "rxjs";
 export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
 
     // @Output() addForm = new EventEmitter<any>();
-    @Output() valueChanges = new EventEmitter<any>();
+    @Output() valueChanges = new EventEmitter<GeneChangeEvent>();
 
+    @Input() id?: string;
     @Input() label: string = '';
-    @Input() title = '';
+    @Input() title: any = '';
+    @Input() displayContent = true;
     sub?: Subscription;
 
     control: FormControl = new FormControl({});
@@ -41,11 +43,14 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
 
     writeValue(val: any): void {
         val != undefined && this.control.setValue(val, { emitEvent: false });
+        const event = this.title as GENE_EVENT;
+        this.valueChanges.emit({id: this.id, value: val, event});
     }
     registerOnChange(fn: (_: any) => void): void {
         // console.log("on change", fn);
         fn = (val: any) => {
-            this.valueChanges.emit({id: this.title, val});
+            const event = this.title as GENE_EVENT;
+            this.valueChanges.emit({id: this.id, value: val, event});
         }
         this.control.valueChanges.subscribe(fn);
     }

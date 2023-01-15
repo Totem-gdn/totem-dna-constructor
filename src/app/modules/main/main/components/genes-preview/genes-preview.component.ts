@@ -58,8 +58,8 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
         return;
       }
       // console.log(e.value)
-      if (e.event != GENE_EVENT.RESET && e.value != undefined) {
-        
+      if (e.event == GENE_EVENT.LENGTH || e.event == GENE_EVENT.GENE || e.event == GENE_EVENT.START) {
+        if(e.value == undefined) return;
         if (index == -1) {
           const item: TableItem = { id: e.id };
           item[e.event] = +e.value;

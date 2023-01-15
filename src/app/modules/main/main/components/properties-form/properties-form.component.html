@@ -1,4 +1,4 @@
-<form *ngIf="selectedForm" [formGroup]="selectedForm" class="wrapper">
+<!-- <form *ngIf="selectedForm" [formGroup]="selectedForm" class="wrapper">
     <div *ngIf="selectedForm.get('description')?.value" class="title">
         <h2>{{selectedForm.get('description')?.value}}</h2>
         <p>Type: <span>{{type | mapProperty}}</span></p>
@@ -13,31 +13,25 @@
 
         </property-field>
     </ng-container>
+</form> -->
 
+<form [formGroup]="propertiesForms">
+    <form 
+        *ngFor="let form of propertiesForms.controls | keyvalue" 
+        [formGroup]="form.value" 
+        class="wrapper"
+        [ngClass]="form.key == selectedFormName ? 'flex': 'hidden'">
 
-    <!-- <property-field 
-        (control)="selectedForm.get('description')"
-        (valueChanges)="controlValueChanges($event)"
-        [title]="'Description'">
-    </property-field>
+        <div class="title">
+            <h2>{{form.key}}</h2>
+            <p>Type: <span>{{type | mapProperty}}</span></p>
+        </div>
 
-    <property-field 
-        (valueChanges)="controlValueChanges($event)"
-        [title]="'ID'">
-    </property-field>
-
-    <property-field 
-        (valueChanges)="controlValueChanges($event)"
-        [title]="'Gene'">
-    </property-field>
-
-    <property-field 
-        (valueChanges)="controlValueChanges($event)"
-        [title]="'Offset'">
-    </property-field>
-
-    <property-field 
-        (valueChanges)="controlValueChanges($event)"
-        [title]="'Length'">
-    </property-field> -->
+        <property-field 
+            *ngFor="let control of getFormControls(form.value) | keyvalue" 
+            [id]="form.key"
+            [formControl]="getFormControl(control.value)" [title]="control.key"
+            (valueChanges)="controlValueChanges($event)">
+        </property-field>
+    </form>
 </form>
