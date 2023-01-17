@@ -37,8 +37,6 @@ export class JSONPreviewComponent implements OnInit, OnDestroy {
     this.jsonService.json$
       .pipe(takeUntil(this.subs))
       .subscribe(json => {
-        // if(!json) return;
-        console.log(json)
         this.properties = json;
       })
 

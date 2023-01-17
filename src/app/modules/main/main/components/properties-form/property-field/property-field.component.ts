@@ -28,9 +28,9 @@ import { Subscription } from "rxjs";
 export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
 
     // @Output() addForm = new EventEmitter<any>();
-    @Output() valueChanges = new EventEmitter<GeneChangeEvent>();
+    @Output() valueChanges = new EventEmitter<string>();
 
-    @Input() id?: string;
+    @Input() parentName?: string;
     @Input() label: string = '';
     @Input() title: any = '';
     @Input() displayContent = true;
@@ -39,25 +39,30 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
     control: FormControl = new FormControl({});
 
 
-    public onTouched: () => void = () => { };
+    public onTouched: any = () => { };
+    public onChange: any = () => {}
 
     writeValue(val: any): void {
+        // console.log('valie', val)
+        // this.control.setValue(val, {emitEvent: true})
+        // this.onChange(val)
         val != undefined && this.control.setValue(val, { emitEvent: false });
-        const event = this.title as GENE_EVENT;
-        this.valueChanges.emit({id: this.id, value: val, event});
+        console.log('write value', val)
+        this.valueChanges.emit(this.parentName);
     }
-    registerOnChange(fn: (_: any) => void): void {
-        // console.log("on change", fn);
+    registerOnChange(fn: any): void {
+        this.onChange = fn;
         fn = (val: any) => {
-            const event = this.title as GENE_EVENT;
-            this.valueChanges.emit({id: this.id, value: val, event});
+            console.log('value', val)
+            this.onChange(val)
+            this.valueChanges.emit(this.parentName);
         }
         this.control.valueChanges.subscribe(fn);
     }
     registerOnTouched(fn: any): void {
         // console.log("on blur");
         
-        // this.onTouched = fn;
+        this.onTouched = fn;
     }
     setDisabledState?(isDisabled: boolean): void {
         isDisabled ? this.control.disable() : this.control.enable();

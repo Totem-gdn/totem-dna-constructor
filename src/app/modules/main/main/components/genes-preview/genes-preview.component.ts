@@ -1,4 +1,5 @@
 import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ASSET_TYPE } from '@app/core/enums/asset.enum';
 import { GENE_EVENT } from '@app/core/enums/gene.enum';
 import { TableItem } from '@app/core/models/gene.model';
@@ -46,11 +47,16 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
     this.genesService.geneDataChanges$
       .pipe(takeUntil(this.subs))
       .subscribe(e => {
+      console.log(this.tableItems)
 
       const index = this.tableItems.findIndex(item => item.id == e.id);
+      const length = e.values?.length;
+      const start = e.values?.start;
+      const gene = e.values?.gene;
 
       if (e.event == GENE_EVENT.RESET) {
         if (index) this.tableItems.splice(index, 1);
+        return;
       }
 
       if (e.event == GENE_EVENT.RESET_ALL) {
@@ -58,17 +64,23 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
         return;
       }
       // console.log(e.value)
-      if (e.event == GENE_EVENT.LENGTH || e.event == GENE_EVENT.GENE || e.event == GENE_EVENT.START) {
-        if(e.value == undefined) return;
+      if (e.event == GENE_EVENT.PAINT) {
+        if(start == undefined || length == undefined || gene == undefined) {
+          this.repaintItem('clear', this.tableItems[index]);
+          return;
+        }
+
+        const item: TableItem = { id: e.id };
+        item.length = +length;
+        item.start = +start;
+        item.gene = +gene;
+
         if (index == -1) {
-          const item: TableItem = { id: e.id };
-          item[e.event] = +e.value;
           this.tableItems.push(item);
           this.repaintItem('paint', this.tableItems[this.tableItems.length - 1])
-          // this.changeColor(this.tableItems[this.tableItems.length - 1]);
         } else {
           this.repaintItem('clear', this.tableItems[index]);
-          this.tableItems[index][e.event] = +e.value;
+          this.tableItems[index] = item;
           this.repaintItem('paint', this.tableItems[index])
         }
       }
@@ -88,11 +100,10 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
 
 
   repaintItem(action: 'paint' | 'clear', item: TableItem) {
-    if (item.gene == undefined || item.length == undefined || item.start == undefined) return;
-    // console.log('item', action, item)
-    // console.log(this.tableItems)
-    // console.log('paint')
-    console.log(this.tableItems)
+    if (item?.gene == undefined || item?.length == undefined || item?.start == undefined) return;
+    console.log('gene', item.gene)
+    if(!this.matrix || !item) return;
+
     const gene = +item.gene;
     const start = +item.start;
     const length = +item.length;
@@ -158,7 +169,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
   redrawGridCols() {
     if(!this.matrix) return;
     const matrix = this.matrix.nativeElement;
-    const cols = this.type == ASSET_TYPE.AVATAR ? 5 : ASSET_TYPE.ITEM ? 4 : 3;
+    const cols = this.type == ASSET_TYPE.AVATAR ? 4 : ASSET_TYPE.ITEM ? 5 : 3;
     const title = matrix.getElementsByClassName('title')[0]
     title.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
 

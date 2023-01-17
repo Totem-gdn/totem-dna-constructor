@@ -1,12 +1,17 @@
-import { PROPERTIES } from "../enums/properties.enum";
+import { PROPERTIES, PROPERTIES_EVENTS } from "../enums/properties.enum";
 
 export interface PropertyModel {
     description?: string;
     id?: string;
-    type?: PROPERTIES;
     gene?: string;
     start?: string;
     length?: string;
+    type?: PROPERTIES;
+}
+
+export interface PropertiesEvent {
+    event: PROPERTIES_EVENTS;
+    data?: PropertyModel[];
 }
 
 export interface PropertyUpdateModel {

@@ -1,3 +1,4 @@
+import { PROPERTIES } from "../enums/properties.enum";
 
 export interface FormModel {
     description?: string;
@@ -5,6 +6,7 @@ export interface FormModel {
     gene?: string;
     start?: string;
     length?: string;
+    type?: PROPERTIES;
 }
 
 export class DefaultFormModel {
@@ -13,4 +15,9 @@ export class DefaultFormModel {
     gene?: string = '';
     start?: string = '';
     length?: string = '';
+    type?: PROPERTIES = PROPERTIES.BOOLEAN;
+
+    // constructor(type: PROPERTIES) {
+    //     this.type = type;
+    // }
 }

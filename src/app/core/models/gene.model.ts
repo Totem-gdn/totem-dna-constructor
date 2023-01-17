@@ -1,4 +1,5 @@
 import { GENE_EVENT } from "../enums/gene.enum";
+import { FormModel } from "./form.model";
 
 export interface IGene {
     gene?: string;
@@ -8,7 +9,7 @@ export interface IGene {
 
 export interface GeneChangeEvent {
     event: GENE_EVENT;
-    value?: string;
+    values?: FormModel;
     id?: string;
 }
 

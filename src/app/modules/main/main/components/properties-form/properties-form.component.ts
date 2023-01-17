@@ -1,7 +1,8 @@
 import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Form, FormArray, FormBuilder, FormControl, FormGroup, FormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Form, FormArray, FormBuilder, FormControl, FormControlName, FormGroup, FormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { GENE_EVENT } from '@app/core/enums/gene.enum';
 import { PROPERTIES } from '@app/core/enums/properties.enum';
+import { AssetsService } from '@app/core/services/assets.service';
 import { DefaultPropertiesObj } from '@app/core/services/default-properties.service';
 import { GenesService } from '@app/core/services/genes.service';
 import { JSONPreviewService } from '@app/core/services/json-preview.service';
@@ -21,7 +22,6 @@ import { PropertyModel } from '../../../../../core/models/property.model';
 })
 export class PropertiesFormComponent implements AfterViewChecked {
   getFormControls(form: FormGroup) { 
-    // console.log('controls', form.value)
     return form.controls;
   }
   getFormControl(control: any) {
@@ -35,7 +35,8 @@ export class PropertiesFormComponent implements AfterViewChecked {
   constructor(private genesService: GenesService,
     private propertiesService: PropertiesService,
     private changeDetector: ChangeDetectorRef,
-    private jsonService: JSONPreviewService) { }
+    private jsonService: JSONPreviewService,
+    private assetsService: AssetsService) { }
 
   propertiesForms = new FormGroup({});
   selectedFormName?: string;
@@ -48,7 +49,6 @@ export class PropertiesFormComponent implements AfterViewChecked {
 
   patchProperty(property: PropertyModel) {
     const props = JSON.parse(JSON.stringify(property))
-    // this.propertiesForm.reset();
     this.propertiesForms.patchValue({
       ...props
     })
@@ -60,27 +60,6 @@ export class PropertiesFormComponent implements AfterViewChecked {
     this.properties$();
   }
 
-  // addProperty$() {
-  //   this.propertiesService.addProperty$
-  //     .pipe(takeUntil(this.subs))
-  //     .subscribe(prop => {
-  //       console.log('prop', prop)
-  //       if(!prop.description) return;
-
-  //       this.propertiesForms.setControl(prop.description, new FormGroup({}))
-  //       const formGroup = this.propertiesForms.get(prop.description) as FormGroup;
-
-  //       let form = new DefaultFormModel;
-  //       let key: keyof FormModel;
-
-  //       for (key in form) {
-  //         form[key] = prop[key];
-  //         if(!formGroup) return;
-  //         formGroup.setControl(key, new FormControl(prop[key]))
-  //       }
-  //     })
-  // }
-
   selectedProperty$() {
     this.propertiesService.selectedProperty$
       .pipe(takeUntil(this.subs))
@@ -88,7 +67,6 @@ export class PropertiesFormComponent implements AfterViewChecked {
         if(!property || !property.description) return;
         this.type = property.type;
         this.selectedFormName = property.description;
-        console.log(this.selectedFormName)
       })
   }
 
@@ -96,24 +74,18 @@ export class PropertiesFormComponent implements AfterViewChecked {
     this.propertiesService.properties$
       .pipe(takeUntil(this.subs))
       .subscribe(properties => {
-        console.log('patch property')
         this.propertiesForms = new FormGroup({});
         for (let prop of properties) {
           if(!prop.description) return;
 
-          this.propertiesForms.setControl(prop.description, new FormGroup({}))
+          this.propertiesForms.addControl(prop.description, new FormGroup({}))
           const formGroup = this.propertiesForms.get(prop.description) as FormGroup;
 
-          let form = new DefaultFormModel;
-          let key: keyof FormModel;
-
-          for (key in form) {
-            form[key] = prop[key];
+          for(const [key, value] of Object.entries(prop)) {
+            
             if(!formGroup) return;
-            formGroup.setControl(key, new FormControl(prop[key]))
+            formGroup.addControl(key, new FormControl(value));
           }
-          
-
         }
         this.selectedFormName = properties[0]?.description;
       })
@@ -123,11 +95,13 @@ export class PropertiesFormComponent implements AfterViewChecked {
     this.changeDetector.detectChanges();
   }
 
-  controlValueChanges(event: GeneChangeEvent) {
-    if(!event.id) return;
-    this.jsonService.json = Object.values(this.propertiesForms.value) ;
-
-    if(event.event != GENE_EVENT.LENGTH && event.event != GENE_EVENT.START && event.event != GENE_EVENT.GENE) return;
-    this.genesService.geneChangeEvent(event);
+  controlValueChanges(formName: string) {
+    if(!formName) return;
+    const form = Object.values(this.propertiesForms.value);
+    const values: FormModel = this.propertiesForms.get(formName)?.value;
+    this.jsonService.json = form;
+    this.assetsService.stashForm(form);
+    
+    this.genesService.geneChangeEvent({values, id: formName, event: GENE_EVENT.PAINT});
   }
 }

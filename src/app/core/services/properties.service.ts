@@ -1,6 +1,6 @@
 import { Injectable } from "@angular/core";
 import { PROPERTIES } from "@app/core/enums/properties.enum";
-import { PropertyModel } from "@app/core/models/property.model";
+import { PropertiesEvent, PropertyModel } from "@app/core/models/property.model";
 import { DataService } from "@app/modules/main/services/data.service";
 import { BehaviorSubject, Subject } from "rxjs";
 import { ASSET_TYPE } from "../enums/asset.enum";
@@ -19,22 +19,17 @@ export class PropertiesService {
 
   private _properties = new BehaviorSubject<PropertyModel[]>([])
   private _selectedProperty = new BehaviorSubject<PropertyModel>({})
-  
 
-
-    // get properties$() { return this._properties.asObservable() }
-    // get properties() { return this._properties.getValue() }
-    // set properties(properties: PropertyModel[]) { this._properties.next(properties) }
 
   get properties$() { return this._properties.asObservable() }
   get properties() { return this._properties.getValue() }
   set properties(properties: PropertyModel[]) { this._properties.next(properties) }
 
+  
+
   get selectedProperty$() { return this._selectedProperty.asObservable() }
   get selectedProperty() { return this._selectedProperty.getValue() }
   set selectedProperty(property: PropertyModel) { this._selectedProperty.next(property) }
-
-  // addProperty$ = new Subject<PropertyModel>();
 
 
   addProperty(type: PROPERTIES): void {

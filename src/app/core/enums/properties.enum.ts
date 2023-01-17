@@ -13,17 +13,15 @@ export enum PROPERTIES {
     COLOR = 'Color',
 }
 
+export enum PROPERTIES_EVENTS {
+    RESET = 'reset', 
+    SET = 'set', 
+    STASH = 'stash'
+}
+
 export enum MAP_PROPERTIES {
     boolean = PROPERTIES.BOOLEAN
 }
-
-// export enum PROPERTIES_LOWERCASE {
-//     BOOLEAN = 'boolean',
-//     INTEGER = 'integer',
-//     ENUM = 'enum',
-//     RANGE = 'range',
-//     COLOR = 'Color',
-// }
 
 export enum BOOLEAN_VALUES {
     NEGATIVE_VALUE = 'Negative-Value',

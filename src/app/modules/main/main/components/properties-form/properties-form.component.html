@@ -16,10 +16,7 @@
 </form> -->
 
 <form [formGroup]="propertiesForms">
-    <form 
-        *ngFor="let form of propertiesForms.controls | keyvalue" 
-        [formGroup]="form.value" 
-        class="wrapper"
+    <form *ngFor="let form of propertiesForms.controls | keyvalue" [formGroup]="form.value" class="wrapper"
         [ngClass]="form.key == selectedFormName ? 'flex': 'hidden'">
 
         <div class="title">
@@ -27,11 +24,12 @@
             <p>Type: <span>{{type | mapProperty}}</span></p>
         </div>
 
-        <property-field 
-            *ngFor="let control of getFormControls(form.value) | keyvalue" 
-            [id]="form.key"
-            [formControl]="getFormControl(control.value)" [title]="control.key"
-            (valueChanges)="controlValueChanges($event)">
-        </property-field>
+        <ng-container *ngFor="let control of getFormControls(form.value) | keyvalue">
+            <property-field 
+                *ngIf="control.key != 'values' && control.key != 'type'"
+                [parentName]="form.key" [formControl]="getFormControl(control.value)" [title]="control.key"
+                (valueChanges)="controlValueChanges($event)">
+            </property-field>
+        </ng-container>
     </form>
 </form>

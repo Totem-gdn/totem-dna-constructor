@@ -24,7 +24,7 @@ export class AssetTypesComponent implements OnInit {
               private genesService: GenesService) { }
 
   ngOnInit(): void {
-    this.assetsService.assetType = ASSET_TYPE.AVATAR;
+    // this.assetsService.assetType = ASSET_TYPE.AVATAR;
   }
 
   onSelectType(asset: MenuModel): void {
@@ -35,6 +35,7 @@ export class AssetTypesComponent implements OnInit {
         item.active = false;
       }
     })
+    console.log('title', asset.title)
     this.genesService.reset();
     this.assetsService.assetType = asset.title;
     // this.selectTypeEvent.emit(asset.title);
