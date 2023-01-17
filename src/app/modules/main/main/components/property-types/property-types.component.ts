@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { PopupsService } from '@app/core/services/popups.service';
 import { PropertiesService } from '@app/core/services/properties.service';
 import { PROPERTIES } from '../../../../../core/enums/properties.enum';
 
@@ -9,7 +10,8 @@ import { PROPERTIES } from '../../../../../core/enums/properties.enum';
 })
 export class PropertyTypesComponent implements OnInit {
 
-  constructor(private propertiesService: PropertiesService) {}
+  constructor(private popupService: PopupsService,
+              private propertiesService: PropertiesService) {}
   // properties: PropertiesModel[] = [
   //   { title: PROPERTIES.BOOLEAN, value: PROPERTIES_LOWERCASE.BOOLEAN },
   //   { title: PROPERTIES.INTEGER, value: PROPERTIES_LOWERCASE.INTEGER },
@@ -30,7 +32,7 @@ export class PropertyTypesComponent implements OnInit {
   }
 
   addProperty(type: PROPERTIES): void {
-    this.propertiesService.addProperty(type);
+    this.propertiesService.addProperty(type)
     // this.addProperty.emit(asset);
   }
 

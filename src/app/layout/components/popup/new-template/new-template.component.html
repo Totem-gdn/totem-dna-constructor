@@ -1,0 +1,13 @@
+
+<div @fade-in-out class="overlay" *ngIf="popup == 'accepted' || popup == 'pending'">
+    <div class="popup">
+        <img src="/assets/images/template-popup.png" alt="">
+
+        <h3>Are you sure you want to add template?</h3>
+        <span>If you do this, all your settings will be reset</span>
+        <div class="buttons">
+            <button (click)="onCancel()" class="totem-button">Cancel</button>
+            <button (click)="onAdd()" class="totem-button">Add</button>
+        </div>
+    </div>
+</div>

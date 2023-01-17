@@ -11,17 +11,22 @@
     min-height: $main_column_height;
     display: flex;
     gap: 15px;
+    min-height: 600px;
 
     .list {
         width: 32%;
-        // min-width: 25%;
+        // height: 100%;
     }
     .form {
-        width: 34%;
+        width: 40%;
         min-width: 37.5%;
+        // height: 100%;
+
     }
     .genes {
-        width: 34%;
+        // height: 100%;
+
+        width: 28%;
         min-width: 37.5%;
     }
 }

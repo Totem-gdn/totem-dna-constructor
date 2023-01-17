@@ -6,7 +6,7 @@ $wrapper-padding: 15px;
     padding: $wrapper-padding;
     display: flex;
     flex-direction: column;
-    border: 1px dashed $blue;
+    border: 2px dashed $blue;
     width: 100%;
     position: relative;
     margin-bottom: 30px;
@@ -22,13 +22,6 @@ $wrapper-padding: 15px;
     .buttons {
         display: flex;
         gap: 15px;
-        .totem-button {
-            background-color: $yellow;
-            padding: 10px 30px;
-            border: none;
-            outline: none;
-            text-transform: capitalize;
-        }
     }
 }
 // .dna_container{

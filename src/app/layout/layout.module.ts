@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MainModule } from '../modules/main/main.module';
 import { DnaHeaderComponent } from './components/dna-header/dna-header.component';
+import { TemplatePopupModule } from './components/popup/new-template/new-template.module';
 import { LayoutComponent } from './layout.component';
 
 
@@ -16,6 +17,7 @@ import { LayoutComponent } from './layout.component';
     CommonModule,
     RouterModule,
     MainModule,
+    TemplatePopupModule
   ],
   exports:[
     DnaHeaderComponent,

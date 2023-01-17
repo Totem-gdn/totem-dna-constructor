@@ -4,3 +4,11 @@
     white-space: nowrap;
     text-overflow: ellipsis;
 }
+
+.totem-button {
+    background-color: $yellow;
+    padding: 10px 30px;
+    border: none;
+    outline: none;
+    text-transform: capitalize;
+}
