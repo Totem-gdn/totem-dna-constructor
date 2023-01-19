@@ -47,13 +47,12 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
         // this.control.setValue(val, {emitEvent: true})
         // this.onChange(val)
         val != undefined && this.control.setValue(val, { emitEvent: false });
-        console.log('write value', val)
+        // console.log('write value', val)
         this.valueChanges.emit(this.parentName);
     }
     registerOnChange(fn: any): void {
         this.onChange = fn;
         fn = (val: any) => {
-            console.log('value', val)
             this.onChange(val)
             this.valueChanges.emit(this.parentName);
         }

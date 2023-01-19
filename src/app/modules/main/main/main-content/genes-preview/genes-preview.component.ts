@@ -47,7 +47,6 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
     this.genesService.geneDataChanges$
       .pipe(takeUntil(this.subs))
       .subscribe(e => {
-      console.log(this.tableItems)
 
       const index = this.tableItems.findIndex(item => item.id == e.id);
       const length = e.values?.length;
@@ -90,7 +89,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
   }
 
   type$() {
-    this.assetsService.assetType$
+    this.propertiesService.assetType$
       .pipe(takeUntil(this.subs))
       .subscribe(type => {
         this.type = type;
@@ -101,7 +100,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
 
   repaintItem(action: 'paint' | 'clear', item: TableItem) {
     if (item?.gene == undefined || item?.length == undefined || item?.start == undefined) return;
-    console.log('gene', item.gene)
+
     if(!this.matrix || !item) return;
 
     const gene = +item.gene;
@@ -169,13 +168,13 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
   redrawGridCols() {
     if(!this.matrix) return;
     const matrix = this.matrix.nativeElement;
-    const cols = this.type == ASSET_TYPE.AVATAR ? 4 : ASSET_TYPE.ITEM ? 5 : 3;
+    const cols = this.type == ASSET_TYPE.AVATAR ? 3 : this.type == ASSET_TYPE.ITEM ? 4 : 2;
     const title = matrix.getElementsByClassName('title')[0]
-    title.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+    title.style.gridTemplateColumns = `50px repeat(${cols}, 1fr)`;
 
     const genes = matrix. getElementsByClassName('gene');
     for(let gene of genes) {
-      gene.style.gridTemplateColumns = `repeat(${cols}, 1fr)`;
+      gene.style.gridTemplateColumns = `50px repeat(${cols}, 1fr)`;
     }
   }
 

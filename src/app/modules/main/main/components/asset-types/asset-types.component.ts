@@ -35,9 +35,9 @@ export class AssetTypesComponent implements OnInit {
         item.active = false;
       }
     })
-    console.log('title', asset.title)
-    this.genesService.reset();
-    this.assetsService.assetType = asset.title;
+    // console.log('title', asset.title)
+    // this.genesService.reset();
+    this.propertiesService.assetType = asset.title;
     // this.selectTypeEvent.emit(asset.title);
   }
 

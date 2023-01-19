@@ -8,7 +8,8 @@
 }
 
 .main-content {
-    min-height: $main_column_height;
+    min-height: 675px;
+    max-height: 675px;
     display: flex;
     gap: 15px;
     min-height: 600px;

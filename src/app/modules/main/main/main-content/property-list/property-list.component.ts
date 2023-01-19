@@ -1,4 +1,6 @@
-import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { CdkDrag } from '@angular/cdk/drag-drop';
+import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
+import { AssetsService } from '@app/core/services/assets.service';
 import { PropertiesService } from '@app/core/services/properties.service';
 import { Subject } from 'rxjs';
 import { MAP_PROPERTIES, PROPERTIES } from '../../../../../core/enums/properties.enum';
@@ -9,7 +11,7 @@ import { PropertyModel } from '../../../../../core/models/property.model';
   templateUrl: './property-list.component.html',
   styleUrls: ['./property-list.component.scss']
 })
-export class PropertyListComponent implements OnInit, OnDestroy {
+export class PropertyListComponent implements OnInit, OnDestroy, OnChanges {
 
 
 
@@ -17,11 +19,17 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   selectedProperty?: PropertyModel;
   subs = new Subject<void>();
 
-  constructor(private propertiesService: PropertiesService) { }
+  constructor(private propertiesService: PropertiesService,
+              private assetsService: AssetsService,
+              private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.selectedProperty$();
     this.properties$();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    this.changeDetector.detectChanges();
   }
 
   selectedProperty$() {
@@ -32,7 +40,7 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   }
 
   properties$() {
-    this.propertiesService.properties$
+    this.propertiesService.form$
       .subscribe(properties => {
         this.properties = properties;
       })
@@ -46,15 +54,20 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     this.propertiesService.removeProperty(property);
   }
 
+  drop(e: any) {
+    if(e.item.data == 'self') {
+      this.propertiesService.swapProperties(e.previousIndex, e.currentIndex)
+    } else {
+      const type = (e.item.data as PROPERTIES)
+      const index: number = e.currentIndex;
+      this.propertiesService.addProperty(type, index);
+      console.log('drop' , e)
+    }
+  }
+
+
   ngOnDestroy(): void {
     this.subs.next();
     this.subs.complete();
   }
-  // ondelete(item: PropertyModel, index: number): void {
-  //   this.onDeleteProperty.emit({ item, index });
-  // }
-  // onSelect(index: number): void {
-  //   this.onSelectProperty.emit(index);
-  // }
-
 }

@@ -32,16 +32,19 @@ export class ChooseTemplateComponent implements OnInit {
 
   async onClickItem(game: GameInfo) {
     this.showDropdown = false;
-    this.genesService.reset();
-
-    const type = this.assetsService.assetType ? this.assetsService.assetType : ASSET_TYPE.AVATAR;
     
-    const props = this.propertiesService.properties;
+    const type = this.propertiesService.assetType ? this.propertiesService.assetType : ASSET_TYPE.AVATAR;
+    
+    const props = this.propertiesService.form;
     
     const popupRes = !props?.length ? true : await this.popupService.templatePopupAsync()
     
     const json = await this.assetsService.fetchJSONByGame(type, game);
-    if(popupRes) this.propertiesService.propertiesByJSON(json);
+    
+    if(popupRes) {
+      this.genesService.reset();
+      this.propertiesService.setForm = json;
+    }
   }
 
   loadGames() {

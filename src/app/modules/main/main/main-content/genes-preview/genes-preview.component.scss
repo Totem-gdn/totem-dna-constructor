@@ -15,12 +15,12 @@
 
     .title {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: 50px repeat(3, 1fr);
     }
 
     .gene {
         display: grid;
-        grid-template-columns: repeat(5, 1fr);
+        grid-template-columns: 50px repeat(3, 1fr);
         gap: 5px;
         .cell-group {
             display: flex;

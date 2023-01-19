@@ -16,8 +16,8 @@
 </form> -->
 
 <form class="wrapper" [formGroup]="propertiesForms">
-    <ng-container *ngIf="!propertiesForms.controls">
-        <span class="placeholder">Add one property for select</span>
+    <ng-container *ngIf="formValid(propertiesForms)">
+        <span class="empty">Add one property <br> for select</span>
     </ng-container>
     
     <ng-container *ngIf="propertiesForms.controls">

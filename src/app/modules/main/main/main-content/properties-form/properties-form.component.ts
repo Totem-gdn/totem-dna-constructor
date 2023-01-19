@@ -21,6 +21,9 @@ import { PropertyModel } from '../../../../../core/models/property.model';
   styleUrls: ['./properties-form.component.scss'],
 })
 export class PropertiesFormComponent implements AfterViewChecked {
+  formValid(form: FormGroup) {
+   return !Object.keys(form.controls)?.length;
+  }
   getFormControls(form: FormGroup) { 
     return form.controls;
   }
@@ -55,7 +58,7 @@ export class PropertiesFormComponent implements AfterViewChecked {
   }
 
   ngOnInit(): void {
-    this.propertiesService.addProperty(PROPERTIES.BOOLEAN);
+    // this.propertiesService.addProperty(PROPERTIES.BOOLEAN);
     this.selectedProperty$();
     this.properties$();
   }
@@ -71,10 +74,12 @@ export class PropertiesFormComponent implements AfterViewChecked {
   }
 
   properties$() {
-    this.propertiesService.properties$
+    // this.propertiesService.setProperties$
+    this.propertiesService.setForm$
       .pipe(takeUntil(this.subs))
       .subscribe(properties => {
         this.propertiesForms = new FormGroup({});
+
         for (let prop of properties) {
           if(!prop.description) return;
 
@@ -84,9 +89,13 @@ export class PropertiesFormComponent implements AfterViewChecked {
           for(const [key, value] of Object.entries(prop)) {
             
             if(!formGroup) return;
+            // this.controlValueChanges(key);
             formGroup.addControl(key, new FormControl(value));
           }
+
         }
+        this.exportJson();
+        
         this.selectedFormName = properties[0]?.description;
       })
   }
@@ -95,13 +104,18 @@ export class PropertiesFormComponent implements AfterViewChecked {
     this.changeDetector.detectChanges();
   }
 
-  controlValueChanges(formName: string) {
+  controlValueChanges(formName: string, empty = false) {
     if(!formName) return;
-    const form = Object.values(this.propertiesForms.value);
-    const values: FormModel = this.propertiesForms.get(formName)?.value;
-    this.jsonService.json = form;
-    this.assetsService.stashForm(form);
     
+    const values: FormModel = this.propertiesForms.get(formName)?.value;
+    this.exportJson();
+    // console.log('props', this.propertiesService.properties)
     this.genesService.geneChangeEvent({values, id: formName, event: GENE_EVENT.PAINT});
+  }
+
+  exportJson() {
+    const form: PropertyModel[] = Object.values(this.propertiesForms.value);
+    this.jsonService.json = form;
+    this.propertiesService.form = form;
   }
 }
