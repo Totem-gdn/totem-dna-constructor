@@ -1,8 +1,8 @@
 @import "scss/reset-default-styles.scss";
 @import "scss/fonts.scss";
 @import "scss/material.scss";
-@import 'scss/font-size.scss';
-@import './scss/common/common.scss';
+@import "scss/font-size.scss";
+@import "./scss/common/common.scss";
 
 html,
 body {
@@ -10,12 +10,41 @@ body {
 }
 body {
     margin: 0;
-    font-family: 'Roboto';
+    font-family: "Roboto";
     font-size: 16px;
 }
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+}
+
+::-webkit-scrollbar {
+    width: 6px;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 9999px;
+}
+
+input:focus::placeholder {
+    color: transparent;
+  }

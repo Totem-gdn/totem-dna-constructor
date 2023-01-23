@@ -22,6 +22,7 @@
         display: grid;
         grid-template-columns: 50px repeat(3, 1fr);
         gap: 5px;
+        position: relative;
         .cell-group {
             display: flex;
             gap: 1px;
@@ -31,6 +32,19 @@
                 height: 18px;
                 background-color: $light_blue;
             }
+
         }
+    }
+}
+
+.overflowed-cell {
+    &::after {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 18px;
+        right: 0;
+        background-color: red;
+        transform: translateX(calc(100% + 1px));
     }
 }

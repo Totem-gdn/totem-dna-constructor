@@ -34,13 +34,14 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
     @Input() label: string = '';
     @Input() title: any = '';
     @Input() displayContent = true;
+    @Input() disabledForm: boolean = false;
     sub?: Subscription;
 
     control: FormControl = new FormControl({});
 
 
-    public onTouched: any = () => { };
-    public onChange: any = () => {}
+    public onTouched: any = () => {};
+    public onChange: any = () => {};
 
     writeValue(val: any): void {
         // console.log('valie', val)

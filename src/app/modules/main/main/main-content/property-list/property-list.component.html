@@ -1,27 +1,28 @@
-<div class="wraper">
-    <div class="list" cdkDropList id="property-list"
-        [cdkDropListConnectedTo]="['property-types']" 
-        (cdkDropListDropped)="drop($event)"
-        [ngClass]="{'col-reverse': !properties?.length}">
-        <!-- <div class="" cdkDrag></div> -->
-        <div cdkDrag 
-             class="item" 
-             *ngFor="let property of properties" 
-             (click)="selectProperty(property)"
-             [cdkDragData]="'self'">
-             
+<div class="wraper" cdkDropList id="property-list" [cdkDropListConnectedTo]="['property-types']"
+    (cdkDropListDropped)="drop($event)" [ngClass]="{'col-reverse': !properties?.length}">
+
+    <!-- <div class="" cdkDrag></div> -->
+    <div class="list" *ngIf="properties?.length">
+        <div cdkDrag class="item" *ngFor="let property of properties" (click)="selectProperty(property)"
+            [cdkDragData]="'self'">
+
             <p class="truncate title">{{property.description}}</p>
             <mat-icon (click)="deleteProperty(property)" [svgIcon]="'delete'"></mat-icon>
             <!-- <properties-form [property]="property"></properties-form> -->
         </div>
-
-        <div 
-            cdkDropList
-            id="drop-zone" 
-            class="drop-zone"
-            >
-            <span>Drag&Drop</span>
-        </div>
     </div>
+
+    <div 
+        ngx-dropzone 
+        (change)="onSelect($event)"
+        cdkDropList 
+        id="drop-zone" 
+        class="drop-zone">
+        <span>Drag&Drop</span>
+    </div>
+    <!-- <ngx-dropzone (change)="onSelect($event)" class="drop-zone">
+
+    </ngx-dropzone> -->
+
 
 </div>

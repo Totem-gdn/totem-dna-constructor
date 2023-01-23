@@ -1,3 +1,4 @@
+import { KeyValue } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { Form, FormArray, FormBuilder, FormControl, FormControlName, FormGroup, FormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
 import { GENE_EVENT } from '@app/core/enums/gene.enum';
@@ -21,15 +22,34 @@ import { PropertyModel } from '../../../../../core/models/property.model';
   styleUrls: ['./properties-form.component.scss'],
 })
 export class PropertiesFormComponent implements AfterViewChecked {
-  formValid(form: FormGroup) {
-   return !Object.keys(form.controls)?.length;
+
+  getType(type: string | undefined) {
+    console.log(type);
+    return type;
   }
-  getFormControls(form: FormGroup) { 
+  zero() { return 0 }
+  sortingOrder = ['id', 'description']
+  customSort = (a: KeyValue<string, any>, b: KeyValue<string, any>): any => {
+    return this.sortingOrder.slice().indexOf(b.key) - this.sortingOrder.slice().indexOf(a.key);
+  }
+
+  formValid(form: FormGroup) {
+    return !Object.keys(form.controls)?.length;
+  }
+  getFormType(form: FormGroup) {
+    // console.log('form', form.value.description)
+    return form.value.type;
+  }
+  getFormArray(formArray: any) {
+    // console.log('form array', formArray.controls)
+    return formArray;
+  }
+  getFormControls(form: FormGroup) {
     return form.controls;
   }
-  getFormControl(control: any) {
+  getFormControl(control: any, hint = '') {
     return control as FormControl;
-    
+
   }
   getFormValue(form: any) {
     return form.value as FormGroup
@@ -67,10 +87,51 @@ export class PropertiesFormComponent implements AfterViewChecked {
     this.propertiesService.selectedProperty$
       .pipe(takeUntil(this.subs))
       .subscribe(property => {
-        if(!property || !property.description) return;
-        this.type = property.type;
-        this.selectedFormName = property.description;
+        if (!property || !property.description) return;
+        setTimeout(() => {
+          this.type = property.type;
+          this.selectedFormName = property.description;
+        }, 10)
       })
+  }
+
+  addProperty(formName: string, type: string) {
+
+    const formGroup = this.propertiesForms.get(formName) as FormGroup;
+
+    let formArray = formGroup.get('values') as FormArray;
+    if(!formArray) {
+      formGroup.addControl('values', new FormArray([]))
+      formArray = formGroup.get('values') as FormArray;
+    }
+    console.log('array', formArray)
+
+    // Values Form Group
+    const valuesFormGroup = new FormGroup({});
+
+    // valuesFormGroup.addControl(key, new FormControl(value));
+
+    if (type != 'range') {
+      valuesFormGroup.addControl('key', new FormControl(''));
+      valuesFormGroup.addControl('value', new FormControl(''));
+    } else {
+
+      valuesFormGroup.addControl('key', new FormControl('')); // shoup exists
+      
+      let rangeFormArray = valuesFormGroup.get('value' as string) as FormArray;
+      if(!rangeFormArray) {
+        valuesFormGroup.addControl('value', new FormArray([]));
+        rangeFormArray = valuesFormGroup.get('value' as string) as FormArray;
+      }
+      rangeFormArray.push(new FormControl(''));
+      rangeFormArray.push(new FormControl(''));
+
+
+      console.log(rangeFormArray)
+
+      // console.log('range value', value)
+    }
+    formArray.push(valuesFormGroup);
   }
 
   properties$() {
@@ -81,23 +142,74 @@ export class PropertiesFormComponent implements AfterViewChecked {
         this.propertiesForms = new FormGroup({});
 
         for (let prop of properties) {
-          if(!prop.description) return;
+          if (!prop.description) return;
 
-          this.propertiesForms.addControl(prop.description, new FormGroup({}))
+
+          this.propertiesForms.setControl(prop.description, new FormGroup({}))
           const formGroup = this.propertiesForms.get(prop.description) as FormGroup;
 
-          for(const [key, value] of Object.entries(prop)) {
-            
-            if(!formGroup) return;
-            // this.controlValueChanges(key);
-            formGroup.addControl(key, new FormControl(value));
+          for (const [formGroupKey, formGroupValue] of Object.entries(prop)) {
+            if (!formGroup) return;
+            const type = prop.type;
+
+            if (formGroupKey != 'values') {
+
+              formGroup.addControl(formGroupKey, new FormControl(formGroupValue));
+
+            } else if (type == 'bool') {
+              // Boolean
+              formGroup.addControl(formGroupKey, new FormArray([]));
+              const valuesFormArray = formGroup.get('values') as FormArray;
+
+              for (let value of formGroupValue) {
+                valuesFormArray.push(new FormControl(value));
+              }
+
+            } else {
+              console.log('formGroupKey', formGroupKey)
+              formGroup.addControl(formGroupKey, new FormArray([]));
+              const valuesFormArray = formGroup.get('values') as FormArray;
+
+              for (let values of formGroupValue) {
+                // Values Form Group
+                const valuesFormGroup = new FormGroup({});
+
+                for (const [key, value] of Object.entries(values)) {
+                  // valuesFormGroup.addControl(key, new FormControl(value));
+
+                  if (type != 'range' || key != 'value') {
+                    valuesFormGroup.addControl(key, new FormControl(value));
+                  } else {
+                    const rangeValues = value as string[];
+                    // console.log('key-value',key, value)
+                    valuesFormGroup.addControl(key, new FormArray([]));
+
+                    const rangeFormArray = valuesFormGroup.get((key as string)) as FormArray;
+                    console.log(rangeFormArray)
+                    for (let rangeValue of rangeValues) {
+                      // console.log(rangeValue)
+                      rangeFormArray.push(new FormControl(rangeValue));
+                    }
+
+                    // console.log('range value', value)
+                  }
+                }
+                valuesFormArray.push(valuesFormGroup);
+              }
+            }
+            // console.log('form', this.propertiesForms.value)
           }
 
         }
         this.exportJson();
-        
+
         this.selectedFormName = properties[0]?.description;
       })
+  }
+
+  addValuesForm(form: FormGroup) {
+    form.addControl('key', new FormControl(''));
+    form.addControl('value', new FormControl(''));
   }
 
   ngAfterViewChecked(): void {
@@ -105,12 +217,49 @@ export class PropertiesFormComponent implements AfterViewChecked {
   }
 
   controlValueChanges(formName: string, empty = false) {
-    if(!formName) return;
-    
+    if (!formName) return;
+
     const values: FormModel = this.propertiesForms.get(formName)?.value;
     this.exportJson();
-    // console.log('props', this.propertiesService.properties)
-    this.genesService.geneChangeEvent({values, id: formName, event: GENE_EVENT.PAINT});
+    this.genesService.geneChangeEvent({ values, id: formName, event: GENE_EVENT.PAINT });
+  }
+
+  rangeValueChanges(parentName: string, formArray: FormArray, type: 'range' | 'map') {
+    let minValue: number | undefined = undefined;
+    // return;
+    if (type == 'map') {
+      minValue = 0;
+      for (let formGroup of formArray.controls) {
+        const controlValue = formGroup.get('value')?.value;
+        if (minValue == undefined) return;
+        if (controlValue > minValue) minValue = controlValue;
+      }
+    }
+    if (type == 'range') {
+      minValue = 0;
+
+      for (let formGroup of formArray.controls) {
+        const array = formGroup.get('value') as FormArray;
+        for (let valueControl of array.controls) {
+          const value = valueControl.value;
+          if (minValue == undefined) return;
+
+          if (value > minValue) minValue = value;
+        }
+      }
+    }
+
+    if (minValue != undefined && minValue != 0) {
+      const length = Math.ceil(Math.log2(minValue));
+
+      const parentFormGroup = this.propertiesForms.get(parentName) as FormGroup;
+      const lengthControl = parentFormGroup?.get('length') as FormControl;
+      lengthControl.patchValue(length);
+    }
+
+    const values: FormModel = this.propertiesForms.get(parentName)?.value;
+    this.exportJson();
+    this.genesService.geneChangeEvent({ values, id: parentName, event: GENE_EVENT.PAINT });
   }
 
   exportJson() {

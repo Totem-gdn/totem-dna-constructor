@@ -62,8 +62,9 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
         this.clear('all');
         return;
       }
-      // console.log(e.value)
+      console.log(start, length, gene)
       if (e.event == GENE_EVENT.PAINT) {
+
         if(start == undefined || length == undefined || gene == undefined) {
           this.repaintItem('clear', this.tableItems[index]);
           return;
@@ -100,6 +101,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
 
   repaintItem(action: 'paint' | 'clear', item: TableItem) {
     if (item?.gene == undefined || item?.length == undefined || item?.start == undefined) return;
+    let allRed: boolean = false;
 
     if(!this.matrix || !item) return;
 
@@ -110,6 +112,9 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
     const genes = this.matrix.nativeElement.getElementsByClassName('gene');
     const cells = genes[gene].getElementsByClassName('cell');
 
+    const maxCells = this.type == ASSET_TYPE.AVATAR ? 24 : this.type == ASSET_TYPE.ITEM ? 32 : 16;
+
+    if(start + length > maxCells) allRed = true;
 
     // Get neighbor items on the same row
     const neighborItems = this.tableItems.filter(neighborItem => {
@@ -136,7 +141,14 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
         }
       }
       // If overlap is not occured paint cell depending on action
-      if (action == 'paint') cells[i].style.backgroundColor = this.yellow;
+      if(!cells[i]) continue;
+      if (action == 'paint') {
+        if(allRed) {
+          cells[i].style.backgroundColor = this.red;
+          continue;
+        }
+        cells[i].style.backgroundColor = this.yellow;
+      }
       if (action == 'clear') cells[i].style.backgroundColor = this.blue;
     }
   }

@@ -14,7 +14,8 @@
         display: flex;
         flex-direction: column;
         gap: 8px;
-        height: 100%;
+        overflow: auto;
+        // height: 100%;
 
     }
     .col-reverse {
@@ -25,9 +26,10 @@
         margin-top: auto;
         transition: backgroun-color .3s;
         width:100%;
-        min-height: 200px;
+        flex-grow: 1;
+        min-height: 240px;
         border: 2px dashed $grey;
-        height: 100%;
+        // height: 100%;
         display: flex;
         cursor: pointer;
         span {

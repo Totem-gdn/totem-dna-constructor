@@ -7,6 +7,7 @@ export interface PropertyModel {
     start?: string;
     length?: string;
     type?: PROPERTIES;
+    values?: any[];
 }
 
 export interface PropertiesEvent {

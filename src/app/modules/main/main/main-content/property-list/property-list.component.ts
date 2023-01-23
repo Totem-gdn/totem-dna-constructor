@@ -20,8 +20,8 @@ export class PropertyListComponent implements OnInit, OnDestroy, OnChanges {
   subs = new Subject<void>();
 
   constructor(private propertiesService: PropertiesService,
-              private assetsService: AssetsService,
-              private changeDetector: ChangeDetectorRef) { }
+    private assetsService: AssetsService,
+    private changeDetector: ChangeDetectorRef) { }
 
   ngOnInit(): void {
     this.selectedProperty$();
@@ -55,14 +55,36 @@ export class PropertyListComponent implements OnInit, OnDestroy, OnChanges {
   }
 
   drop(e: any) {
-    if(e.item.data == 'self') {
+    if (e.item.data == 'self') {
       this.propertiesService.swapProperties(e.previousIndex, e.currentIndex)
     } else {
       const type = (e.item.data as PROPERTIES)
       const index: number = e.currentIndex;
       this.propertiesService.addProperty(type, index);
-      console.log('drop' , e)
+      console.log('drop', e)
     }
+  }
+
+  onSelect(e: any) {
+    const file = e.addedFiles[0];
+
+    if (!file) return;
+    
+    const reader = new FileReader();
+    reader.readAsText(file);
+
+    reader.onload = () => {
+      var text = reader.result;
+      if(!text) return;
+      const json = JSON.parse(text as string);
+      const properties = [...this.propertiesService.form];
+      for(const field of json) {
+        properties.push(field);
+      }
+      // const properties = [...this.propertiesService.]
+      // const this.propertiesService
+      this.propertiesService.setForm = properties;
+    };
   }
 
 

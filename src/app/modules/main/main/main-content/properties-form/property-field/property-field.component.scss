@@ -9,13 +9,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    input {
-        outline: none;
-        border: none;
-        height: 100%;
-        font-size: 16px;
-        font-weight: 500;
-    }
+
     mat-icon {
         display: flex;
     }
@@ -27,5 +21,34 @@
         left: 9px;
         transform: translateY(-60%);
         background-color: $white;
+    }
+}
+
+input {
+    outline: none;
+    border: none;
+    height: 100%;
+    font-size: 16px;
+    font-weight: 500;
+    width: 100%;
+}
+
+.disabled-wrapper {
+    height: 48px;
+    border-bottom: 1px solid $blue;
+    width: 100%;
+    // padding-top: 12px;
+    padding-bottom: 12px;
+
+    position: relative;
+    display: flex;
+    // justify-content: space-between;
+    align-items: center;
+
+    input {
+        pointer-events: none;
+        width: 100%;
+        font-weight: 400;
+        font-size: 14px;
     }
 }

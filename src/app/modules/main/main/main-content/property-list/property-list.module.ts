@@ -4,6 +4,7 @@ import { SharedModule } from "@app/shared/shared.module";
 import { PropertiesFormModule } from "../properties-form/properties-form.module";
 import { PropertyListComponent } from "./property-list.component";
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { NgxDropzoneModule } from "ngx-dropzone";
 
 @NgModule({
     declarations: [
@@ -14,7 +15,8 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
         MatIconModule,
 
         PropertiesFormModule,
-        DragDropModule
+        DragDropModule,
+        NgxDropzoneModule
     ],
     exports: [
         PropertyListComponent

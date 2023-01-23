@@ -70,19 +70,27 @@ export class PropertiesService {
       }
     }
 
-    const defaultProps = new DefaultProperties(type);
-    const defaultProperty: PropertyModel = {
-      ...defaultProps,
+    const defaultPropsObj = new DefaultProperties(type);
+    const defaultProp: PropertyModel = {
+      ...defaultPropsObj,
       description: `Untitled ${untitledMaxIndex}`,
     };
+    if(type == 'bool') {
+      defaultProp.length = '1';
+      defaultProp.values =['','']
+    }
 
-    if (index == undefined) properties.push(defaultProperty);
-    else properties.splice(index, 0, defaultProperty);
+
+    console.log('default', defaultProp)
+
+    if (index == undefined) properties.push(defaultProp);
+    else properties.splice(index, 0, defaultProp);
 
 
     if (index == undefined) this.selectedProperty = properties[properties.length - 1];
     else this.selectedProperty = properties[index];
-    console.log('propers', properties)
+    console.log('index', properties.length, 'selected prop', this.selectedProperty)
+    // console.log('propers', properties)
     this.setForm = properties;
     // this.addProperty$.next(defaultProperty);
   }

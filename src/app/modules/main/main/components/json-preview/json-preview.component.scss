@@ -10,6 +10,7 @@
         font-weight: 500;
     }
     .json_wraper {
+        width: 100%;
         overflow: auto;
         border: 2px solid $border_color;
         padding: 15px;
@@ -18,5 +19,10 @@
     }
     .copy_btn{
         cursor: pointer;
+    }
+
+    img {
+        width: 24px;
+        height: 24px;
     }
 }
