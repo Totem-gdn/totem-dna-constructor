@@ -2,6 +2,7 @@
 
 .wraper {
     min-height: $main_column_height;
+    height: 100%;
     box-shadow: 1px 2px 11px rgba(20, 38, 48, 0.15);
     text-align: center;
     // padding-top: 50px;
@@ -15,12 +16,12 @@
 
     .title {
         display: grid;
-        grid-template-columns: 50px repeat(3, 1fr);
+        grid-template-columns: 50px repeat(4, 1fr);
     }
 
     .gene {
         display: grid;
-        grid-template-columns: 50px repeat(3, 1fr);
+        grid-template-columns: 50px repeat(4, 1fr);
         gap: 5px;
         position: relative;
         .cell-group {

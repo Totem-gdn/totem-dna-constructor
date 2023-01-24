@@ -6,6 +6,7 @@
     position: relative;
     border: 1px solid $black;
     display: flex;
+    transition: border .3s;
 }
 
 input {
@@ -26,4 +27,8 @@ input {
     left: 50%;
     transform: translateY(-60%) translateX(-50%);
     background-color: $white;
+}
+
+:host.ng-invalid .wrapper {
+    border: 1px solid red !important;
 }

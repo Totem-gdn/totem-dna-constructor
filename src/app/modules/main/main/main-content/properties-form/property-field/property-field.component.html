@@ -1,7 +1,11 @@
 
 <div class="wrapper" *ngIf="displayContent == true && !disabledForm">
     <span class="label">{{title}}</span>
-    <input [formControl]="control" type="text" [placeholder]="title">
+    <input 
+        [formControl]="control" 
+        type="text" 
+        [placeholder]="type == 'bool' ? 'value' : title"
+        [ngClass]="{'ng-invalid':control.invalid,'ng-valid':control.valid}">
 
     <mat-icon [svgIcon]="'cancel'"></mat-icon>
 </div>

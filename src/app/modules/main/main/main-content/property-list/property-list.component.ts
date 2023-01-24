@@ -14,7 +14,6 @@ import { PropertyModel } from '../../../../../core/models/property.model';
 export class PropertyListComponent implements OnInit, OnDestroy, OnChanges {
 
 
-
   properties?: PropertyModel[];
   selectedProperty?: PropertyModel;
   subs = new Subject<void>();

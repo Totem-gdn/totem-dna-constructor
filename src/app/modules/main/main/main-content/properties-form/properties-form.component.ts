@@ -1,6 +1,7 @@
 import { KeyValue } from '@angular/common';
 import { AfterViewChecked, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
-import { Form, FormArray, FormBuilder, FormControl, FormControlName, FormGroup, FormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { AbstractControl, Form, FormArray, FormBuilder, FormControl, FormControlName, FormGroup, FormsModule, UntypedFormBuilder, UntypedFormGroup, Validators } from '@angular/forms';
+import { Animations } from '@app/core/animations/animations';
 import { GENE_EVENT } from '@app/core/enums/gene.enum';
 import { PROPERTIES } from '@app/core/enums/properties.enum';
 import { AssetsService } from '@app/core/services/assets.service';
@@ -20,12 +21,18 @@ import { PropertyModel } from '../../../../../core/models/property.model';
   selector: 'properties-form',
   templateUrl: './properties-form.component.html',
   styleUrls: ['./properties-form.component.scss'],
+  animations: [
+    Animations.animations
+  ]
 })
 export class PropertiesFormComponent implements AfterViewChecked {
 
   getType(type: string | undefined) {
     console.log(type);
     return type;
+  }
+  getAny(any: any) {
+    return any;
   }
   zero() { return 0 }
   sortingOrder = ['id', 'description']
@@ -117,6 +124,7 @@ export class PropertiesFormComponent implements AfterViewChecked {
     } else {
 
       valuesFormGroup.addControl('key', new FormControl('')); // shoup exists
+      valuesFormGroup.get('key')?.addValidators([Validators.required])
       
       let rangeFormArray = valuesFormGroup.get('value' as string) as FormArray;
       if(!rangeFormArray) {
@@ -127,12 +135,19 @@ export class PropertiesFormComponent implements AfterViewChecked {
       rangeFormArray.push(new FormControl(''));
 
 
+
+
+
       console.log(rangeFormArray)
 
       // console.log('range value', value)
     }
     formArray.push(valuesFormGroup);
   }
+
+
+
+
 
   properties$() {
     // this.propertiesService.setProperties$
@@ -185,10 +200,12 @@ export class PropertiesFormComponent implements AfterViewChecked {
                     valuesFormGroup.addControl(key, new FormArray([]));
 
                     const rangeFormArray = valuesFormGroup.get((key as string)) as FormArray;
-                    console.log(rangeFormArray)
-                    for (let rangeValue of rangeValues) {
-                      // console.log(rangeValue)
+                    // console.log(rangeFormArray)
+                    for (let [index, rangeValue] of rangeValues.entries()) {
+                      
                       rangeFormArray.push(new FormControl(rangeValue));
+                     
+                      // console.log()
                     }
 
                     // console.log('range value', value)

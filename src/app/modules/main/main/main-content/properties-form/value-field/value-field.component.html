@@ -1,5 +1,6 @@
 
 <div class="wrapper">
     <span class="label">{{title}}</span>
-    <input [formControl]="control" type="text" [placeholder]="'value'">
+    <input OnlyNumber="true" [formControl]="control" type="text" [placeholder]="'value'">
+    <span class="error"></span>
 </div>

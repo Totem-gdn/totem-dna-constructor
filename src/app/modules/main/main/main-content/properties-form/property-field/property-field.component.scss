@@ -9,6 +9,8 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    transition: border .3s;
+
 
     mat-icon {
         display: flex;
@@ -22,6 +24,10 @@
         transform: translateY(-60%);
         background-color: $white;
     }
+}
+
+:host.ng-invalid.ng-dirty .wrapper {
+    border: 1px solid red !important;
 }
 
 input {

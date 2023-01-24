@@ -62,9 +62,9 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
         this.clear('all');
         return;
       }
-      console.log(start, length, gene)
+      // console.log(start, length, gene)
       if (e.event == GENE_EVENT.PAINT) {
-
+        console.log('start',start, 'length', length, 'gene', gene)
         if(start == undefined || length == undefined || gene == undefined) {
           this.repaintItem('clear', this.tableItems[index]);
           return;
@@ -94,7 +94,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
       .pipe(takeUntil(this.subs))
       .subscribe(type => {
         this.type = type;
-        this.redrawGridCols();
+        // this.redrawGridCols();
       })
   }
 
@@ -110,6 +110,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
     const length = +item.length;
 
     const genes = this.matrix.nativeElement.getElementsByClassName('gene');
+    if(!genes?.length) return;
     const cells = genes[gene].getElementsByClassName('cell');
 
     const maxCells = this.type == ASSET_TYPE.AVATAR ? 24 : this.type == ASSET_TYPE.ITEM ? 32 : 16;
@@ -177,18 +178,18 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
     }
   }
 
-  redrawGridCols() {
-    if(!this.matrix) return;
-    const matrix = this.matrix.nativeElement;
-    const cols = this.type == ASSET_TYPE.AVATAR ? 3 : this.type == ASSET_TYPE.ITEM ? 4 : 2;
-    const title = matrix.getElementsByClassName('title')[0]
-    title.style.gridTemplateColumns = `50px repeat(${cols}, 1fr)`;
+  // redrawGridCols() {
+  //   if(!this.matrix) return;
+  //   const matrix = this.matrix.nativeElement;
+  //   const cols = this.type == ASSET_TYPE.AVATAR ? 3 : this.type == ASSET_TYPE.ITEM ? 4 : 2;
+  //   const title = matrix.getElementsByClassName('title')[0]
+  //   title.style.gridTemplateColumns = `50px repeat(${cols}, 1fr)`;
 
-    const genes = matrix. getElementsByClassName('gene');
-    for(let gene of genes) {
-      gene.style.gridTemplateColumns = `50px repeat(${cols}, 1fr)`;
-    }
-  }
+  //   const genes = matrix. getElementsByClassName('gene');
+  //   for(let gene of genes) {
+  //     gene.style.gridTemplateColumns = `50px repeat(${cols}, 1fr)`;
+  //   }
+  // }
 
   ngOnDestroy(): void {
     this.subs.next();

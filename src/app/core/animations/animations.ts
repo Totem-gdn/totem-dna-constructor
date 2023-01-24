@@ -1,4 +1,4 @@
-import { trigger, transition, style, animate } from "@angular/animations";
+import { trigger, transition, style, animate, group } from "@angular/animations";
 
 
 export const Animations = {
@@ -21,6 +21,35 @@ export const Animations = {
                   animate("{{duration}} {{delay}} ease-in-out",
                   style({ opacity: 0, position: "{{position}}" }))
                 ], { params: { in: 1, out: 0, position: '', duration: '0.3s', delay: '0s' } }
+              )
+            ]
+          ),
+          trigger(
+            'showError',
+            [
+              transition(
+                ':enter',
+                [
+                  style({ height: 0, opacity: 0 }),
+                  group([
+                    animate('0.4s ease-in-out',
+                      style({ height: 21 })),
+                    animate('0.3s 0.1s ease-in-out',
+                      style({ opacity: 1 }))
+                  ])
+                ]
+              ),
+              transition(
+                ':leave',
+                [
+                  style({ height: 21, opacity: 1 }),
+                  group([
+                    animate('0.3s 0.1s ease-in-out',
+                      style({ height: 0 })),
+                    animate('0.3s ease-in-out',
+                      style({ opacity: 0 }))
+                  ])
+                ]
               )
             ]
           ),
