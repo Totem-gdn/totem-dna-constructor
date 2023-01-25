@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { FormArray, FormControl, FormGroup } from '@angular/forms';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import { JSONPreviewService } from '@app/core/services/json-preview.service';
 import { PropertiesService } from '@app/core/services/properties.service';
@@ -18,7 +19,7 @@ export class JSONPreviewComponent implements OnInit, OnDestroy {
   @Input() properties!: PropertyModel[];
 
   propertyListForDisplay: (string | null)[] = [];
-  jsonForClipboard: string = '';
+  // jsonForClipboard: string = '';
   jsonUrl: any;
   subs = new Subject<void>();
 
@@ -44,45 +45,62 @@ export class JSONPreviewComponent implements OnInit, OnDestroy {
 
   ngDoCheck(): void {
     this.createJsonForDownload();
-    this.propertyListForDisplay = this.preparePropertyList(this.properties)
+    this.propertyListForDisplay = this.properties
       .map((property: PropertyModel) => {
         return this.valueToStringPipe.transform(property);
       })
   }
 
+  jsonForClipboard() {
+    return JSON.stringify(this.properties);
+  }
   private createJsonForDownload(): void {
-    this.jsonForClipboard = JSON.stringify(this.preparePropertyList(this.properties));
-    const blob = new Blob([this.jsonForClipboard], { type: 'text/json' });
-    const url = window.URL.createObjectURL(blob);
-    const uri: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(url);
-    this.jsonUrl = uri;
+    // this.jsonForClipboard = JSON.stringify(this.properties);
+    // const blob = new Blob([this.jsonForClipboard], { type: 'text/json' });
+    // const url = window.URL.createObjectURL(blob);
+    // // const uri: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+    // // this.jsonUrl = uri;
+    // window.open(url);
   }
 
-  preparePropertyList(list: PropertyModel[]): PropertyModel[] {
-    // console.log('list', list)
-    return list;
-    // return list.map((property: PropertyModel) => {
-    //   const modifyProperty = {
-    //     ...property,
-    //     type: this.changeTypeForParser(property.type as string)
-    //   }
-    //   // delete modifyProperty.active;
-    //   return modifyProperty;
-    // })
-  }
+  // preparePropertyList(list: PropertyModel[]): PropertyModel[] {
+  //   // console.log('list', list)
+  //   return list;
+  //   // return list.map((property: PropertyModel) => {
+  //   //   const modifyProperty = {
+  //   //     ...property,
+  //   //     type: this.changeTypeForParser(property.type as string)
+  //   //   }
+  //   //   // delete modifyProperty.active;
+  //   //   return modifyProperty;
+  //   // })
+  // }
 
-  private changeTypeForParser(type: string): any {
-    switch (type) {
-      case PROPERTIES.BOOLEAN:
-        return 'bool'
-      case PROPERTIES.ENUM:
-        return 'map'
-      case PROPERTIES.INTEGER:
-        return 'int'
-      default:
-        return type
+
+  onClickDownload() {
+    console.log('download')
+
+    // if(this.checkFormValidity() == false) return;
+    const isValid = this.propertiesService.formValid;
+    
+    if (!isValid || !this.properties?.length) {
+
+      this.propertiesService.formEvents.next(true);
+      return;
     }
+    // this.jsonForClipboard = JSON.stringify(this.properties);
+    const blob = new Blob([JSON.stringify(this.properties)], { type: 'text/json' });
+    // const url = window.URL.createObjectURL(blob);
+    // const uri: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(url);
+    // this.jsonUrl = uri;
+    const a = document.createElement('a')
+    const objectUrl = URL.createObjectURL(blob)
+    a.href = objectUrl
+    a.download = 'dna.json';
+    a.click();
   }
+
+
 
   ngOnDestroy() {
     this.subs.next();

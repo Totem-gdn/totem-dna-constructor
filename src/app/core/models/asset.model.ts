@@ -1,3 +1,4 @@
+import { PropertyModel } from "./property.model";
 
 export interface AssetInfo {
     createdAt: string;
@@ -16,3 +17,8 @@ export interface AssetInfo {
     rendererUrl?: string | undefined;
     price?: string;
 }
+
+export interface ListItem {
+    valid?: boolean;
+    formName?: string;
+  }

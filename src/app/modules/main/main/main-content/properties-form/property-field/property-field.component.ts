@@ -1,7 +1,9 @@
 import { Component, EventEmitter, forwardRef, Input, OnDestroy, OnInit, Output, Self } from "@angular/core";
-import { AbstractControl, ControlValueAccessor, FormBuilder, FormControl, FormGroup, NgControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from "@angular/forms";
+import { AbstractControl, ControlValueAccessor, FormArray, FormBuilder, FormControl, FormGroup, NgControl, NG_VALIDATORS, NG_VALUE_ACCESSOR, ValidationErrors, Validators } from "@angular/forms";
+import { ASSET_TYPE } from "@app/core/enums/asset.enum";
 import { GENE_EVENT } from "@app/core/enums/gene.enum";
 import { GeneChangeEvent } from "@app/core/models/gene.model";
+import { PropertiesService } from "@app/core/services/properties.service";
 // import { GENE_CHANGE_EVENT } from '@app/core/models/gene.model'
 import { Subscription } from "rxjs";
 
@@ -27,7 +29,7 @@ import { Subscription } from "rxjs";
 
 export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
 
-    constructor() { }
+    constructor(private propertiesService: PropertiesService) { }
     @Output() valueChanges = new EventEmitter<string>();
 
     @Input() parentName?: string;
@@ -36,6 +38,7 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
     @Input() displayContent = true;
     @Input() disabledForm: boolean = false;
     @Input() type?: string;
+    @Input() range?: boolean = false;
     sub?: Subscription;
 
     control: FormControl = new FormControl({});
@@ -82,9 +85,12 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
         if (this.type == 'range') {
             const control = c as FormControl;
             isValid = this.rangeValidators(control);
+        } else if (this.type == 'map') {
+            const control = c as FormControl;
+            isValid = this.mapValidators(control);
         } else if (this.type == 'bool') {
             const control = c as FormControl;
-            this.boolValidators(control);
+            isValid = this.boolValidators(control);
         } else {
             const control = c as FormControl;
             isValid = this.validators(control);
@@ -97,20 +103,80 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
         return isValid;
     }
 
-    validators(control: FormControl) {
+    sharedValidator(c: FormControl) {
+        let validate: any = null;
+        // return ;
+        const length = c.parent?.get('length')?.value;
+        const start = c.parent?.get('start')?.value;
+        const gene = c.parent?.get('gene')?.value;
+        // console.log('parent', c.parent)
+        // console.log(length, start, gene)
+        // return;
+
+
+        if((length != '' && start != '')) {
+            if(+length + +start > 32) {
+                console.log('length', length, 'start', start, length + start > 32)
+                validate = { error: 'Length + start should not be greater then 32' };
+            }
+
+
+
+        }
+        if(gene != '') {
+            const assetType = this.propertiesService.assetType;
+            const maxGene = assetType == ASSET_TYPE.AVATAR ? 23 : ASSET_TYPE.ITEM ? 15 : 7;
+            if(gene > maxGene) {
+
+                validate = { error: `Gene should not be greater then ${maxGene}` };
+            }
+        }
+
+        // if (validate) {
+        //     setTimeout(() => {
+        //         console.log('control parent', c.parent)
+        //         c.setErrors(validate)
+        //         if(this.range) c.setErrors(validate)
+        //     }, 10)
+        // }
+        return validate;
+    }
+
+    mapValidators(control: FormControl) {
         let validate: any = null;
         const value = control.value;
-        console.log('value', value)
+        // console.log('map value', value)
+        validate = this.sharedValidator(control.parent as any);
         if ((value == '' && value != '0') || value == null) {
-            console.log('required field')
+            console.log('required map', value)
             validate = { error: 'Required field' };
         }
 
         if (validate) {
+            setTimeout(() => {
+                console.log('control parent', control.parent)
+                control.setErrors(validate)
+                if(this.range) control?.parent?.setErrors(validate)
+            }, 10)
+        }
 
+        return validate;
+    }
+
+    validators(control: FormControl) {
+        let validate: any = null;
+        const value = control.value;
+        validate = this.sharedValidator(control.parent as any);
+
+        if ((value == '' && value != '0') || value == null) {
+            validate = { error: 'Required field' };
+        }
+
+        if (validate) {
+            // control.setErrors(validate)
+            //     console.log(validate)
             setTimeout(() => {
                 control.setErrors(validate)
-                console.log(validate)
             }, 10)
         }
 
@@ -137,9 +203,10 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
 
             setTimeout(() => {
                 control.setErrors(validate)
-                console.log(validate)
             }, 10)
         }
+        validate = this.sharedValidator(control);
+
         return validate;
     }
 
@@ -147,6 +214,7 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
     boolValidators(control: FormControl) {
         let validate: any = null;
         const value = control.value;
+        validate = this.sharedValidator(control.parent as any);
 
         if ((value == '' && value != '0') || value == null) {
             validate = { error: 'Required field' };
@@ -159,6 +227,7 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
                 // console.log(validate)
             }, 10)
         }
+        // validate = this.sharedValidator(control);
 
 
         return validate;
@@ -167,18 +236,20 @@ export class PropertyFieldComponent implements ControlValueAccessor, OnDestroy {
     rangeValidators(control: FormControl) {
         let validate: any = null;
         const value = control.value;
+        validate = this.sharedValidator(control.parent as any);
 
         if ((value == '' && value != '0') || value == null) {
             validate = { error: 'Required field' };
         }
 
         if (validate) {
-
             setTimeout(() => {
-                control.parent?.setErrors(validate)
-                // console.log(validate)
+                console.log('control parent', control.parent)
+                control.setErrors(validate)
+                if(this.range) control?.parent?.setErrors(validate)
             }, 10)
         }
+        // validate = this.sharedValidator(control);
 
 
         return validate;

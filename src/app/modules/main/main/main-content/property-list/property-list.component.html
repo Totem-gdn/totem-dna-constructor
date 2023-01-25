@@ -3,8 +3,10 @@
 
     <!-- <div class="" cdkDrag></div> -->
     <div class="list" *ngIf="properties?.length">
-        <div cdkDrag class="item" *ngFor="let property of properties" (click)="selectProperty(property)"
-            [cdkDragData]="'self'">
+        <div cdkDrag class="item" *ngFor="let property of properties; let i = index;" 
+            (click)="selectProperty(property)"
+            [cdkDragData]="'self'"
+            [ngClass]="{'red-border': ((property.description == propertiesValidity![i].formName) && propertiesValidity![i].valid == false)}">
 
             <p class="truncate title">{{property.description}}</p>
             <mat-icon (click)="deleteProperty(property)" [svgIcon]="'delete'"></mat-icon>

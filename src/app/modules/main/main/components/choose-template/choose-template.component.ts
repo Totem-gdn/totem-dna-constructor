@@ -29,6 +29,10 @@ export class ChooseTemplateComponent implements OnInit {
   ngOnInit(): void {
     this.loadGames();
   }
+  onBlur() {
+    this.showDropdown = false;
+    // console.log('blur')
+  }
 
   async onClickItem(game: GameInfo) {
     this.showDropdown = false;

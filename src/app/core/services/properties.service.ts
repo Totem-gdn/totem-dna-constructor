@@ -1,4 +1,5 @@
 import { Injectable } from "@angular/core";
+import { FormGroup } from "@angular/forms";
 import { PROPERTIES } from "@app/core/enums/properties.enum";
 import { PropertiesEvent, PropertyModel } from "@app/core/models/property.model";
 import { DataService } from "@app/modules/main/services/data.service";
@@ -14,7 +15,8 @@ import { GenesService } from "./genes.service";
 @Injectable({ providedIn: 'root' })
 
 export class PropertiesService {
-
+  formEvents = new Subject<boolean>();
+  formValid!: boolean;
 
   constructor(private dataService: DataService,
     private assetsService: AssetsService,
@@ -37,7 +39,6 @@ export class PropertiesService {
   set assetType(type: ASSET_TYPE) {
     this.assetsService.storeForm(this.assetType, this.form);
     this._assetType.next(type);
-    console.log(this.assetsService.getFormByType(type))
     this.setForm = this.assetsService.getFormByType(type);
     this.genesService.reset();
 
@@ -81,7 +82,6 @@ export class PropertiesService {
     }
 
 
-    console.log('default', defaultProp)
 
     if (index == undefined) properties.push(defaultProp);
     else properties.splice(index, 0, defaultProp);
@@ -89,7 +89,7 @@ export class PropertiesService {
 
     if (index == undefined) this.selectedProperty = properties[properties.length - 1];
     else this.selectedProperty = properties[index];
-    console.log('index', properties.length, 'selected prop', this.selectedProperty)
+    // console.log('index', properties.length, 'selected prop', this.selectedProperty)
     // console.log('propers', properties)
     this.setForm = properties;
     // this.addProperty$.next(defaultProperty);

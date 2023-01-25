@@ -1,20 +1,22 @@
-<div class="title" (click)="showDropdown = !showDropdown">
-    <p>Choose template</p>
-    <mat-icon [svgIcon]="'arrow_down'"></mat-icon>
-</div>
-
-<div @fade-in-out class="dropdown" *ngIf="showDropdown">
-    <search></search>
-
-    <div class="menu-items">
-        <div class="menu-item" *ngFor="let game of games" (click)="onClickItem(game)">
-            <div class="square">
-                <img [src]="game.images?.smallThumbnail" alt="">
-            </div>
-
-            <div class="desc">
-                <span>{{game.general?.name}}</span>
-                <span class="subtitle">{{game?.general?.genre![0]}}</span>
+<div  tabindex="0" (blur)="onBlur()" class="wrapper">
+    <div class="title" (click)="showDropdown = !showDropdown">
+        <p>Choose template</p>
+        <mat-icon [svgIcon]="'arrow_down'"></mat-icon>
+    </div>
+    
+    <div @fade-in-out class="dropdown" *ngIf="showDropdown">
+        <search></search>
+    
+        <div class="menu-items">
+            <div class="menu-item" *ngFor="let game of games" (click)="onClickItem(game)">
+                <div class="square">
+                    <img [src]="game.images?.smallThumbnail" alt="">
+                </div>
+    
+                <div class="desc">
+                    <span>{{game.general?.name}}</span>
+                    <span class="subtitle">{{game?.general?.genre![0]}}</span>
+                </div>
             </div>
         </div>
     </div>

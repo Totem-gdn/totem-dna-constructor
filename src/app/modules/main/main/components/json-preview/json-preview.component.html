@@ -9,7 +9,7 @@
                     matTooltip="Copy JSON to Clipboard"
                     [matTooltipPosition]="'above'"
                 >
-                    <span class="copy_btn" [cdkCopyToClipboard]="jsonForClipboard">
+                    <span class="copy_btn" [cdkCopyToClipboard]="jsonForClipboard()">
                         <img src="assets/images/svg/content_copy.svg" alt="">
                     </span>
                 </div>
@@ -17,11 +17,12 @@
                     matTooltip="Download Json File"
                     [matTooltipPosition]="'above'"
                 >
-                    <a [href]="jsonUrl" download="file.json">
+                    <div class="download"
+                        (click)="onClickDownload()">
                         <span>
                             <img src="assets/images/svg/download.svg" alt="">
                         </span>
-                    </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -56,10 +56,13 @@ export class ValueFieldComponent {
 
     validate(c: AbstractControl): ValidationErrors | null {
         let isValid = null;
-        console.log('c', c)
         if (this.type == 'range') {
             const control = c as FormControl;
             isValid = this.minMaxValidators(control);
+        }
+        if(this.type == 'map') {
+            const control = c as FormControl;
+            isValid = this.mapValidators(control);
         }
         return isValid;
     }
@@ -104,22 +107,21 @@ export class ValueFieldComponent {
         return validate;
     }
 
-    validateMin = (control: AbstractControl): { [key: string]: any } | null => {
-        // const password = this.propertiesForms.get('password')?.value as string;
-        const length = control.parent?.parent?.parent?.parent?.get('length')?.value;
-        const min = (control.parent as FormArray).controls[0].value;
-        const max = (control.parent as FormArray).controls[1].value;
-        console.log('length', length, 'min', min, 'max', max)
-        console.log(+min > +max)
-        let validate = null;
+    mapValidators(control: FormControl) {
+        let validate: any = null;
+        const formGroup = control.parent;
+        const value = control.value;
 
-        if (+min > +max) {
-            validate = { minGreaterMax: true };
-        }
-        if (+min == +max) {
-            validate = { minEqualMax: true };
-        }
 
-        return validate;
-    };
+        if((value == '' && value != '0') || value == null) {
+            console.log('required map', value)
+
+            validate = { error: 'Required field' };
+        }
+        if(validate) {
+            setTimeout(() => {
+                formGroup?.setErrors(validate )
+            }, 10)
+        }
+    }
 }

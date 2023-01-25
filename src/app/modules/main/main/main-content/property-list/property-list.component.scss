@@ -24,7 +24,7 @@
 
     .drop-zone {
         margin-top: auto;
-        transition: backgroun-color .3s;
+        transition: background-color .3s;
         width:100%;
         flex-grow: 1;
         min-height: 240px;
@@ -44,8 +44,9 @@
         display: flex;
         justify-content: space-between;
         padding: 15px;
+        border: 1px solid transparent;
         background-color: $light-grey;
-        transition: background-color 0.3s;
+        transition: background-color .3s, border 0.3s;
 
         &:hover {
             background-color: $blue;
@@ -57,5 +58,9 @@
             // padding-left: 10px;
             transform: translateY(-2px);
         }
+    }
+
+    .red-border {
+        border: 1px solid red;
     }
 }

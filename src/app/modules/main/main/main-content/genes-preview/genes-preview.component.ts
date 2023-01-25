@@ -85,7 +85,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
         }
       }
 
-      // console.log(this.tableItems)
+
     })
   }
 
