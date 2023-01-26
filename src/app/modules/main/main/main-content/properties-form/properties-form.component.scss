@@ -1,41 +1,18 @@
 @import "styles/scss/variables.scss";
 
-.h-full {
-    height: 100%;
-}
-.error {
-    color: red;
-    padding-left: 8px;
-}
-.prop {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-.bool-values {
-    display: flex;
-    flex-direction: column;
-    gap: 25px;
-}
 .wrapper {
     display: flex;
     box-shadow: 1px 2px 11px rgba(20, 38, 48, 0.15);
     width: 100%;
     height: 100%;
 }
-.values {
+.bool-values {
     display: flex;
-    gap: 10px;
-    flex-direction: row-reverse;
-
-}
-.min-max-wrapper {
-    display: flex;
-    flex-direction: row;
-    gap: 10px;
+    flex-direction: column;
+    gap: 25px;
 }
 .content {
-    overflow: auto;
+    overflow: scroll;
     padding: 20px 40px;
 
     display: flex;
@@ -54,6 +31,31 @@
         }
     }
 }
+.values-form {
+    display: flex;
+    gap: 10px;
+}
+.property-wrapper {
+    display: flex;
+    flex-direction: column;
+    // gap: 10px;
+}
+.values-wrapper {
+    display: flex;
+    gap: 10px;
+    // flex-direction: column;
+    // display: flex;
+    // width: 100%;
+    // gap: 10px;
+}
+.error {
+    display: flex;
+    flex-direction: column;
+    justify-content: end;
+    height: 31px;
+    color: red;
+    padding-left: 8px;
+}
 .add-value {
     min-height: 48px;
     height: 48px;
@@ -63,26 +65,8 @@
     align-items: center;
     cursor: pointer;
 }
-.key-value-form {
-    flex-direction: column;
-    display: flex;
-    width: 100%;
-    gap: 10px;
-}
 .w-full {
     width: 100%;
-}
-.empty {
-    text-align: center;
-    margin: auto;
-    color: $blue;
-}
-
-.flex {
-    display: flex;
-}
-.hidden {
-    display: none;
 }
 
 

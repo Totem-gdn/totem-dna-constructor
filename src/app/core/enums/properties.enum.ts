@@ -13,6 +13,10 @@ export enum PROPERTIES {
     COLOR = 'Color',
 }
 
+export enum PROPERTY_EVENTS {
+    ADD_PROPERTY = 'add-property'
+}
+
 export enum PROPERTIES_EVENTS {
     RESET = 'reset', 
     SET = 'set', 

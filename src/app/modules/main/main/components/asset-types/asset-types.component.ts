@@ -1,4 +1,5 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { ASSET_TYPE } from '@app/core/enums/asset.enum';
 import { AssetsService } from '@app/core/services/assets.service';
 import { GenesService } from '@app/core/services/genes.service';
@@ -35,9 +36,27 @@ export class AssetTypesComponent implements OnInit {
         item.active = false;
       }
     })
+       
+        //   this.formProperties.clear();
+        // this._assetType.next(type);
+        //   this.setForm = this.assetsService.getFormByType(type);
+          this.genesService.reset();
     // console.log('title', asset.title)
     // this.genesService.reset();
-    this.propertiesService.assetType = asset.title;
+    this.assetsService.storeForm(this.assetsService.assetType, this.propertiesService.formProperties.value);
+    this.propertiesService.formProperties.clear();
+    this.assetsService.assetType = asset.title;
+    const props = this.assetsService.getFormByType(asset.title)
+    for(let prop of props) {
+      this.propertiesService.addProperty(prop)
+    }
+    const selected = this.propertiesService.formProperties.controls[0] as FormGroup;
+    if(!selected) {
+      this.propertiesService.selectedFormGroup = null;
+    } else {
+      this.propertiesService.selectedFormGroup = selected;
+    }
+    
     // this.selectTypeEvent.emit(asset.title);
   }
 

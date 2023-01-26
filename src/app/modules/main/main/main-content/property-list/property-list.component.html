@@ -2,13 +2,16 @@
     (cdkDropListDropped)="drop($event)" [ngClass]="{'col-reverse': !properties?.length}">
 
     <!-- <div class="" cdkDrag></div> -->
-    <div class="list" *ngIf="properties?.length">
-        <div cdkDrag class="item" *ngFor="let property of properties; let i = index;" 
-            (click)="selectProperty(property)"
+    <div class="list" *ngIf="formProperties.controls?.length">
+        <div cdkDrag class="item" 
+            *ngFor="let property of formProperties.controls; 
+            let i = index;" 
             [cdkDragData]="'self'"
-            [ngClass]="{'red-border': ((property.description == propertiesValidity![i].formName) && propertiesValidity![i].valid == false)}">
+            (click)="onSelectProperty(getFormGroup(property))"
+            [ngClass]="{'red-border': (property.dirty && selectedPropertyName != formGroupName(property))}"
+            >
 
-            <p class="truncate title">{{property.description}}</p>
+            <p class="truncate title">{{formGroupName(property)}}</p>
             <mat-icon (click)="deleteProperty(property)" [svgIcon]="'delete'"></mat-icon>
             <!-- <properties-form [property]="property"></properties-form> -->
         </div>

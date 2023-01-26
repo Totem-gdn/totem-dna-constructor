@@ -37,9 +37,9 @@ export class ChooseTemplateComponent implements OnInit {
   async onClickItem(game: GameInfo) {
     this.showDropdown = false;
     
-    const type = this.propertiesService.assetType ? this.propertiesService.assetType : ASSET_TYPE.AVATAR;
+    const type = this.assetsService.assetType ? this.assetsService.assetType : ASSET_TYPE.AVATAR;
     
-    const props = this.propertiesService.form;
+    const props = this.propertiesService.formProperties.value;
     
     const popupRes = !props?.length ? true : await this.popupService.templatePopupAsync()
     

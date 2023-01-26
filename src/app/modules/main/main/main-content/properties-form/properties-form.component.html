@@ -1,97 +1,108 @@
-<form id="property-form" class="wrapper" [formGroup]="propertiesForms">
-    <ng-container *ngIf="formValid(propertiesForms)">
+<div class="wrapper">
+    <ng-container *ngIf="!formGroup.controls">
         <span class="empty">Add one property <br> for select</span>
     </ng-container>
+    <form class="content" [formGroup]="formGroup">
 
-    <ng-container *ngIf="propertiesForms.controls">
-        <form class="content" *ngFor="let form of propertiesForms.controls | keyvalue" [formGroup]="form.value"
-            [ngClass]="form.key == selectedFormName ? 'flex': 'hidden'">
+        <div class="title" *ngIf="description">
+            <h2>{{description}}</h2>
+            <p>Type: <span>{{type | mapProperty}}</span></p>
+        </div>
+        <ng-container *ngFor="let property of formGroup.controls | keyvalue">
+            <!-- Default -->
+            <div class="property-wrapper" *ngIf="property.key != 'type' && property.key != 'values'">
+                <property-field 
+                    [formControl]="property.value" 
+                    [title]="property.key"
+                    [type]="type"
+                    [parentName]="property.key"
+                    [disabledForm]="property.key == 'length' && (type == 'map' || type == 'bool' || type == 'range')"
+                    (valueChanges)="controlValueChanges($event)">
 
-            <div class="title">
-                <h2>{{form.key}}</h2>
-                <p>Type: <span>{{type | mapProperty}}</span></p>
+                </property-field>
+
+                <span @showError class="error"
+                    *ngIf="formControl(property.value).errors && formControl(property.value).dirty">{{getErrors(property.value)}}</span>
             </div>
 
-            <ng-container *ngFor="let control of getFormControls(form.value) | keyvalue: customSort">
+            <div class="bool-values"  *ngIf="type == 'bool' && property.key == 'values'">
+                <div class="prop" *ngFor="let formValue of formArray(property.value).controls; let i = index;">
+                    <ng-container>
+                        <property-field class="w-full"
+                        [title]="i == 0 ? 'negative' : 'positive'" [type]="type" [parentName]="property.key"
+                        [formControl]="formValue" (valueChanges)="controlValueChanges($event)">
 
-                <div class="prop" *ngIf="control.key != 'values' && control.key != 'type'">
-                    <property-field [parentName]="form.key"
-                        [formControl]="getFormControl(control.value)" [title]="control.key"
-                        [type]="getFormType(form.value)"
-                        [disabledForm]="control.key == 'length' && (getFormType(form.value) == 'bool' || getFormType(form.value) == 'map' || getFormType(form.value) == 'range')"
-                        (valueChanges)="controlValueChanges($event)">
                     </property-field>
-
-                    <span @showError class="error"
-                        *ngIf="getFormControl(control.value).errors && getFormControl(control.value).dirty">{{getAny(control.value).errors.error}}</span>
-                </div>
-
-                <!-- Boolean -->
-                <div class="bool-values"  *ngIf="getFormType(form.value) == 'bool' && control.key == 'values'">
-                    <div class="prop" *ngFor="let formValue of getFormArray(control.value).controls; let i = index;">
-                        <ng-container>
-                            <property-field class="w-full"
-                            [title]="i == 0 ? 'negative' : 'positive'" [type]="getFormType(form.value)" [parentName]="form.key"
-                            [formControl]="formValue" (valueChanges)="controlValueChanges($event)">
-    
-                        </property-field>
-                        <span @showError class="error"
-                        *ngIf="formValue.errors && formValue.dirty">{{formValue.errors.error}}</span>
-                        </ng-container>
-                    </div>
-                </div>
-
-                <!-- Values form  -->
-                <ng-container *ngIf="control.key == 'values'">
-                    <ng-container *ngIf="getFormType(form.value) != 'bool'">
-                        <form class="key-value-form"
-                            *ngFor="let formGroupValues of getFormArray(control.value).controls">
-
-                            <div class="values">
-                                <ng-container [formGroup]="formGroupValues"
-                                    *ngFor="let formControl of getFormControls(formGroupValues) | keyvalue">
-
-                                    <!-- Map -->
-                                    <value-field *ngIf="formControl.key != 'key' && getFormType(form.value) == 'map'"
-                                        [parentName]="form.key" [type]="getFormType(form.value)"
-                                        [formControl]="getFormControl(formControl.value)"
-                                        (valueChanges)="rangeValueChanges($event, getFormArray(control.value), 'map')">
-                                    </value-field>
-
-                                    <!-- Range -->
-                                    <div class="min-max-wrapper"
-                                        *ngIf="formControl.key != 'key' && getFormType(form.value) == 'range'">
-                                        <ng-container
-                                            *ngFor="let formValues of getFormArray(formControl.value).controls; let i = index;">
-                                            <value-field [parentName]="form.key" [title]="i == 0 ? 'Min': 'Max'"
-                                                [formControl]="getFormControl(formValues)"
-                                                [type]="getFormType(form.value)"
-                                                (valueChanges)="rangeValueChanges($event, getFormArray(control.value), 'range')">
-                                            </value-field>
-                                        </ng-container>
-                                    </div>
-
-                                    <property-field class="w-full" [title]="'Key Name'"
-                                        *ngIf="formControl.key == 'key' && getFormType(form.value) != 'bool'"
-                                        [range]="true"
-                                        [type]="getFormType(form.value)" [parentName]="form.key"
-                                        [formControl]="getFormControl(formControl.value ,'hint')"
-                                        (valueChanges)="controlValueChanges($event)">
-                                    </property-field>
-
-                                </ng-container>
-                            </div>
-
-                            <span @showError class="error" *ngIf="formGroupValues.errors && formGroupValues.dirty">{{formGroupValues.errors.error}}</span>
-                        </form>
+                    <span @showError class="error" *ngIf="formValue.errors && formValue.dirty">{{getErrors(formValue)}}</span>
                     </ng-container>
+                </div>
+            </div>
+
+
+            <!-- Map -->
+            <ng-container *ngIf="property.key == 'values' && type == 'map'">
+                <ng-container *ngFor="let formGroup of formArray(property.value).controls">
+
+                    <div class="property-wrapper">
+                        <div class="values-form">
+                            <value-field [type]="type" [formControl]="formControlValues(formGroup, 'value')"></value-field>
+
+                            <property-field 
+                                [formControl]="formControlValues(formGroup, 'key')" 
+                                [title]="'Key Name'"
+                                [type]="type"
+                                [parentName]="property.key"
+                                class="w-full"
+                                (valueChanges)="controlValueChanges($event)">
+                            </property-field>
+                        </div>
+                        <span @showError class="error"
+                        *ngIf="childrenErrors(formGroup)">{{childrenErrors(formGroup)}}</span>
+                    </div>
+
                 </ng-container>
             </ng-container>
 
-            <div class="add-value" *ngIf="getFormType(form.value) == 'range' || getFormType(form.value) == 'map'"
-                (click)="addProperty(form.key, getFormType(form.value))">
-                <span>+Add value</span>
-            </div>
-        </form>
-    </ng-container>
-</form>
+            <!-- Range -->
+            <ng-container *ngIf="property.key == 'values' && type == 'range'">
+                <ng-container *ngFor="let formGroup of formArray(property.value).controls">
+
+                    <div class="property-wrapper">
+                        <div class="values-form">
+                            <div class="values-wrapper">
+                                <ng-container *ngFor="let control of formControlValues(formGroup, 'value').controls; let i = index;">
+                                    <value-field
+                                        *ngIf="i == 0"
+                                        [formControl]="control"
+                                        (valueChanges)="controlValueChanges($event)"
+                                        >
+                                    </value-field>
+                                    <value-field
+                                        *ngIf="i == 1"
+                                        [formControl]="control"
+                                        (valueChanges)="controlValueChanges($event)"
+                                        >
+                                    </value-field>
+                                </ng-container>
+                            </div>
+
+                            <property-field [formControl]="formControlValues(formGroup, 'key')" [title]="'Key Name'"
+                                class="w-full"
+                                (valueChanges)="controlValueChanges($event)"
+                                [type]="type">
+                            </property-field>
+                        </div>
+                        <span @showError class="error"
+                        *ngIf="childrenErrors(formGroup)">{{childrenErrors(formGroup)}}</span>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </ng-container>
+
+        <div class="add-value" *ngIf="type == 'range' || type == 'map'" (click)="addValues(type)">
+            <span>+Add value</span>
+        </div>
+
+
+    </form>
+</div>

@@ -49,12 +49,14 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
       .subscribe(e => {
 
       const index = this.tableItems.findIndex(item => item.id == e.id);
+      console.log('index', index)
       const length = e.values?.length;
       const start = e.values?.start;
       const gene = e.values?.gene;
 
       if (e.event == GENE_EVENT.RESET) {
-        if (index) this.tableItems.splice(index, 1);
+        this.repaintItem('clear', this.tableItems[index]);
+        if (index != -1) this.tableItems.splice(index, 1);
         return;
       }
 
@@ -90,7 +92,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
   }
 
   type$() {
-    this.propertiesService.assetType$
+    this.assetsService.assetType$
       .pipe(takeUntil(this.subs))
       .subscribe(type => {
         this.type = type;
@@ -113,7 +115,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
     if(!genes?.length) return;
     const cells = genes[gene].getElementsByClassName('cell');
 
-    const maxCells = this.type == ASSET_TYPE.AVATAR ? 24 : this.type == ASSET_TYPE.ITEM ? 32 : 16;
+    const maxCells = this.type == ASSET_TYPE.AVATAR ? 32 : this.type == ASSET_TYPE.ITEM ? 24 : 16;
 
     if(start + length > maxCells) allRed = true;
 

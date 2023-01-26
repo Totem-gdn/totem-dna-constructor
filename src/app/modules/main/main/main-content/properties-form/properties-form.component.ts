@@ -11,6 +11,7 @@ import { GenesService } from '@app/core/services/genes.service';
 import { JSONPreviewService } from '@app/core/services/json-preview.service';
 import { ListService } from '@app/core/services/list.service';
 import { PropertiesService } from '@app/core/services/properties.service';
+import { ValidatorsService } from '@app/core/services/validators.service';
 import * as _ from 'lodash';
 import { Subject, Subscription, takeUntil } from 'rxjs';
 import { EControls } from '../../../../../core/enums/controls.enum';
@@ -27,329 +28,144 @@ import { PropertyModel } from '../../../../../core/models/property.model';
     Animations.animations
   ]
 })
-export class PropertiesFormComponent implements AfterViewChecked {
+export class PropertiesFormComponent {
+  get type() { return this.formGroup.get('type')?.value }
+  get description() { return this.formGroup.get('description')?.value }
+  formArray(form: any) { return form as any }
+  // form(form: any) { return form as any }
+  formControl(form: any) { 
+    return form as any
+   }
 
-  getType(type: string | undefined) {
-    console.log(type);
-    return type;
-  }
-  getAny(any: any) {
-    return any;
-  }
-  zero() { return 0 }
-  sortingOrder = ['id', 'description']
-  customSort = (a: KeyValue<string, any>, b: KeyValue<string, any>): any => {
-    return this.sortingOrder.slice().indexOf(b.key) - this.sortingOrder.slice().indexOf(a.key);
+  formControlValues(form: any, key: string) { return form.get(key) }
+
+  childrenErrors(form: any)  {
+
+    for(let child of Object.values(form.controls)) {
+      const c = child as any
+
+      if(c.errors && c.dirty) {
+        if(c.errors.required) return 'Required field';
+        if(c.errors.error) return c.errors.error;
+      }
+
+      if(c instanceof FormArray) {
+        const child1 = c.controls[0] as any;
+        const child2 = c.controls[1] as any;
+        console.log('children', child1.dirty, child2)
+        child2.updateValueAndValidity();
+        child1.updateValueAndValidity();
+        if(child1.dirty) {
+          if(child1.errors?.required) return 'Required field';
+          if(child1.errors) {
+            return child1.errors.error;
+          }
+        } else if(child2.dirty) {
+          if(!child2.dirty) return null;
+          if(child2.errors?.required) return 'Required field';
+          if(child2.errors) {
+
+            return child2.errors.error;
+          }
+        }
+      }
+    }
+    return '';
+
   }
 
-  formValid(form: FormGroup) {
-    return !Object.keys(form.controls)?.length;
+  getErrors(control: any) {
+    // console.log('errors', control)
+    if(control.errors.required) return 'Required field';
+    if(control.errors.error) return control.errors.error;
+    return '';
   }
-  getFormType(form: FormGroup) {
-    // console.log('form', form.value.description)
-    return form.value.type;
-  }
-  getFormArray(formArray: any) {
-    // console.log('form array', formArray.controls)
-    return formArray;
-  }
-  getFormControls(form: FormGroup) {
-    return form.controls;
-  }
-  getFormControl(control: any, hint = '') {
-    return control as FormControl;
 
-  }
-  getFormValue(form: any) {
-    return form.value as FormGroup
-  }
+
+  formGroup = new FormGroup({});
 
   constructor(private genesService: GenesService,
     private propertiesService: PropertiesService,
     private changeDetector: ChangeDetectorRef,
     private jsonService: JSONPreviewService,
     private assetsService: AssetsService,
-    private listService: ListService) { }
-
-  propertiesForms = new FormGroup({});
-  selectedFormName?: string;
-
-  title: string = 'Untitled'
-  type?: PROPERTIES = PROPERTIES.BOOLEAN;
+    private listService: ListService,
+    private validatorsService: ValidatorsService) { }
 
 
-  subs = new Subject<void>();
-
-  patchProperty(property: PropertyModel) {
-    const props = JSON.parse(JSON.stringify(property))
-    this.propertiesForms.patchValue({
-      ...props
-    })
-  }
-
-  ngOnInit(): void {
-    this.propertiesService.formEvents
-      .subscribe(event => {
-        if(event) {
-
-          this.markGroupDirty(this.propertiesForms);
-          this.exportJson();
-        }
-      })
-    this.selectedProperty$();
-    this.properties$();
-  }
-
-  selectedProperty$() {
-    this.propertiesService.selectedProperty$
-      .pipe(takeUntil(this.subs))
-      .subscribe(property => {
-        if (!property || !property.description) return;
-        setTimeout(() => {
-          this.type = property.type;
-          this.selectedFormName = property.description;
-        }, 10)
+  ngOnInit() {
+    this.propertiesService.selectedFormGroup$
+      .subscribe(formGroup => {
+        if (!formGroup) return;
+        this.formGroup = formGroup;
       })
   }
 
-  addProperty(formName: string, type: string) {
-    const formGroup = this.propertiesForms.get(formName) as FormGroup;
+  addValues(type: string) {
+    let formArray = this.formGroup.get('values' as string) as FormArray;
 
-    let formArray = formGroup.get('values') as FormArray;
+
     if (!formArray) {
-      formGroup.addControl('values', new FormArray([]))
-      formArray = formGroup.get('values') as FormArray;
+      this.formGroup.addControl('values', new FormArray([]))
+      formArray = this.formGroup.get('values' as string) as FormArray;
     }
 
     // Values Form Group
     const valuesFormGroup = new FormGroup({});
-
-    // valuesFormGroup.addControl(key, new FormControl(value));
+    // const validators = 
 
     if (type != 'range') {
+
       valuesFormGroup.addControl('key', new FormControl(''));
+      const keyControl = valuesFormGroup.get('key' as string) as FormControl;
+      this.validatorsService.propertyValidators(keyControl, 'map_key', 'map');
+
       valuesFormGroup.addControl('value', new FormControl(''));
-    } else {
+      const valueControl = valuesFormGroup.get('value' as string) as FormControl;
+      this.validatorsService.propertyValidators(valueControl, 'map_value', 'map');
+
+    } else if (type == 'range') {
 
       valuesFormGroup.addControl('key', new FormControl('')); // shoup exists
-      valuesFormGroup.get('key')?.addValidators([Validators.required])
+      const keyControl = valuesFormGroup.get('key' as string) as FormControl;
+      this.validatorsService.propertyValidators(keyControl, 'map_key', 'map');
 
       let rangeFormArray = valuesFormGroup.get('value' as string) as FormArray;
       if (!rangeFormArray) {
         valuesFormGroup.addControl('value', new FormArray([]));
         rangeFormArray = valuesFormGroup.get('value' as string) as FormArray;
       }
-      rangeFormArray.push(new FormControl(''));
-      rangeFormArray.push(new FormControl(''));
-
-
-
-
-
-      // console.log('range value', value)
+      rangeFormArray.push(new FormControl('',[Validators.required, this.validatorsService.minMaxValidator()] ));
+      // const minControl = rangeFormArray.at(0) as FormControl;
+      // this.validatorsService.propertyValidators(minControl, 'range_min', 'range');
+      rangeFormArray.push(new FormControl('', [Validators.required, this.validatorsService.minMaxValidator()]));
     }
     formArray.push(valuesFormGroup);
-    formGroup.updateValueAndValidity();
-  }
-
-
-
-
-
-  properties$() {
-    // this.propertiesService.setProperties$
-    this.propertiesService.setForm$
-      .pipe(takeUntil(this.subs))
-      .subscribe(properties => {
-        this.propertiesForms = new FormGroup({});
-
-        for (let prop of properties) {
-          if (!prop.description) return;
-
-
-          this.propertiesForms.setControl(prop.description, new FormGroup({}))
-          const formGroup = this.propertiesForms.get(prop.description) as FormGroup;
-
-          for (const [formGroupKey, formGroupValue] of Object.entries(prop)) {
-            if (!formGroup) return;
-            const type = prop.type;
-
-            if (formGroupKey != 'values') {
-
-              formGroup.addControl(formGroupKey, new FormControl(formGroupValue));
-
-            } else if (type == 'bool') {
-              // Boolean
-              formGroup.addControl(formGroupKey, new FormArray([]));
-              const valuesFormArray = formGroup.get('values') as FormArray;
-
-              for (let value of formGroupValue) {
-                valuesFormArray.push(new FormControl(value));
-              }
-
-            } else {
-              formGroup.addControl(formGroupKey, new FormArray([]));
-              const valuesFormArray = formGroup.get('values') as FormArray;
-
-              for (let values of formGroupValue) {
-                // Values Form Group
-                const valuesFormGroup = new FormGroup({});
-
-                for (const [key, value] of Object.entries(values)) {
-                  // valuesFormGroup.addControl(key, new FormControl(value));
-
-                  if (type != 'range' || key != 'value') {
-                    valuesFormGroup.addControl(key, new FormControl(value));
-                  } else {
-                    const rangeValues = value as string[];
-                    // console.log('key-value',key, value)
-                    valuesFormGroup.addControl(key, new FormArray([]));
-
-                    const rangeFormArray = valuesFormGroup.get((key as string)) as FormArray;
-                    // console.log(rangeFormArray)
-                    for (let [index, rangeValue] of rangeValues.entries()) {
-
-                      rangeFormArray.push(new FormControl(rangeValue));
-
-                      // console.log()
-                    }
-
-                    // console.log('range value', value)
-                  }
-                }
-                valuesFormArray.push(valuesFormGroup);
-              }
-            }
-            // console.log('form', this.propertiesForms.value)
-          }
-          formGroup.updateValueAndValidity();
-
-        }
-        this.exportJson();
-
-        this.selectedFormName = properties[0]?.description;
-      })
-  }
-
-  addValuesForm(form: FormGroup) {
-    form.addControl('key', new FormControl(''));
-    form.addControl('value', new FormControl(''));
-  }
-
-  ngAfterViewChecked(): void {
-    this.changeDetector.detectChanges();
+    // formGroup.updateValueAndValidity();
   }
 
   controlValueChanges(formName: string, empty = false) {
-    if (!formName) return;
-    const parentFormGroup = this.propertiesForms.get(formName);
+    // if (!formName) return;
+    if(formName == 'start') this.formGroup.get('length')?.updateValueAndValidity();
+    if(formName == 'length') this.formGroup.get('start')?.updateValueAndValidity();
 
-    setTimeout(() => {
-      // console.log('is valid',parentFormGroup?.valid)
-      this.exportJson();
-      // console.log('formGroup', parentFormGroup)
-      if (!parentFormGroup?.valid) return;
-      const values: FormModel = parentFormGroup?.value;
-      // console.log(v
-      this.genesService.geneChangeEvent({ values, id: formName, event: GENE_EVENT.PAINT });
+    // const value = this.formGroup.value;
+    // this.jsonService.json = value;
+    // const parentFormGroup = this.propertiesForms.get(formName);
 
-    }, 20)
-  }
-
-  rangeValueChanges(parentName: string, formArray: FormArray, type: 'range' | 'map') {
-    let minValue: number | undefined = undefined;
-    const parentFormGroup = this.propertiesForms.get(parentName) as FormGroup;
-
-
-    setTimeout(() => {
-      if (type == 'map') {
-        minValue = 0;
-        for (let formGroup of formArray.controls) {
-          const controlValue = formGroup.get('value')?.value;
-          if (minValue == undefined) return;
-          if (controlValue > minValue) minValue = controlValue;
-        }
-      }
-      if (type == 'range') {
-        minValue = 0;
-
-        for (let formGroup of formArray.controls) {
-          const array = formGroup.get('value') as FormArray;
-          for (let valueControl of array.controls) {
-            const value = valueControl.value;
-            if (minValue == undefined) return;
-
-            if (value > minValue) minValue = value;
-          }
-        }
-      }
-
-      if (minValue != undefined && minValue != 0) {
-        const length = Math.ceil(Math.log2(minValue));
-
-        const lengthControl = parentFormGroup?.get('length') as FormControl;
-        lengthControl.patchValue(length);
-      }
-
-      if (parentFormGroup.valid) return;
-
-
-      this.exportJson();
-      if (!parentFormGroup?.valid) return;
-      const values: FormModel = this.propertiesForms.get(parentName)?.value;
-      this.genesService.geneChangeEvent({ values, id: parentName, event: GENE_EVENT.PAINT });
-    }, 20)
-  }
-
-  exportJson() {
-    const form: PropertyModel[] = Object.values(this.propertiesForms.value);
-
-    const formValidity: ListItem[] = [];
-    for (let [key, value] of Object.entries(this.propertiesForms.controls)) {
-      const d = (value as FormGroup)?.dirty;
-      const v = (value as FormGroup)?.valid
-      const valid = v ? true : d ? false : true;
-      // console.log('dirty',)
-      const item: ListItem = { formName: key, valid }
-      formValidity.push(item);
+  const values: FormModel = this.formGroup?.value;
+  const name = this.formGroup?.get('description')?.value;
+  const gene = this.formGroup?.get('gene')?.value;
+  const length = this.formGroup?.get('length')?.value;
+  const start = this.formGroup?.get('start')?.value;
+  console.log('set')
+    if(gene == '' || length == '' || start == '') {
+      this.genesService.geneChangeEvent({id: name, event: GENE_EVENT.RESET})
+      return;
     }
-    this.propertiesService.formValid = this.propertiesForms.valid;
-    this.listService.formValidity = formValidity;
-    this.jsonService.json = form;
-    this.propertiesService.form = form;
-  }
+  
 
-  markGroupDirty(formGroup: FormGroup) {
-    Object.keys(formGroup.controls).forEach(key => {
-      switch (formGroup.get(key)?.constructor.name) {
-        case "FormGroup":
-          this.markGroupDirty(formGroup.get(key) as FormGroup);
-          break;
-        case "FormArray":
-          this.markArrayDirty(formGroup.get(key) as FormArray);
-          break;
-        case "FormControl":
-          this.markControlDirty(formGroup.get(key) as FormControl);
-          break;
-      }
-    });
-  }
-  markArrayDirty(formArray: FormArray) {
-    formArray.controls.forEach(control => {
-      switch (control.constructor.name) {
-        case "FormGroup":
-          this.markGroupDirty(control as FormGroup);
-          break;
-        case "FormArray":
-          this.markArrayDirty(control as FormArray);
-          break;
-        case "FormControl":
-          this.markControlDirty(control as FormControl);
-          break;
-      }
-    });
-  }
-  markControlDirty(formControl: FormControl) {
-    formControl.markAsDirty();
+  this.genesService.geneChangeEvent({ values, id: name, event: GENE_EVENT.PAINT });
+
   }
 }

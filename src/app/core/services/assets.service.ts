@@ -6,7 +6,6 @@ import { AssetInfo } from "../models/asset.model";
 import { ApiResponse, GameInfo } from "../models/game.model";
 import { PropertyModel } from "../models/property.model";
 import { GenesService } from "./genes.service";
-import { PropertiesService } from "./properties.service";
 const DNAFilter = require('totem-common-files');
 
 
@@ -20,7 +19,16 @@ export class AssetsService {
         private genesService: GenesService) { }
 
 
-
+        _assetType = new BehaviorSubject<ASSET_TYPE>(ASSET_TYPE.AVATAR);
+        get assetType() { return this._assetType.getValue(); }
+        get assetType$() { return this._assetType.asObservable() }
+        set assetType(type: ASSET_TYPE) {
+        //   this.storeForm(this.assetType, this.formProperties.value);
+        //   this.formProperties.clear();
+          this._assetType.next(type);
+        //   this.setForm = this.assetsService.getFormByType(type);
+          this.genesService.reset();
+        }
 
 
     _avatars: PropertyModel[] = [];
@@ -50,6 +58,13 @@ export class AssetsService {
         return this.http.get<ApiResponse<AssetInfo[]>>(`${this.apiUrl}/assets/${type}s?search=${filter}&page=${page}`)
             .pipe(map(games => games.data))
     }
+
+    private _form = new BehaviorSubject<PropertyModel[]>([]);
+    get form$() { return this._form.asObservable() }
+    get form() { return this._form.getValue() }
+    set form(form: PropertyModel[]) { this._form.next(form) }
+
+
 
 
 

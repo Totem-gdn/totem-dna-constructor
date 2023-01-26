@@ -29,6 +29,6 @@ input {
     background-color: $white;
 }
 
-:host.ng-invalid .wrapper {
+:host.ng-invalid.ng-dirty .wrapper {
     border: 1px solid red !important;
 }

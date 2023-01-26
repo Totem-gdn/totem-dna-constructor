@@ -34,7 +34,7 @@ export class PropertyTypesComponent implements OnInit {
   }
 
   addProperty(type: PROPERTIES): void {
-    this.propertiesService.addProperty(type)
+    this.propertiesService.addDefaultProperty(type)
     // this.assetsService.assetForm(type)
     // this.addProperty.emit(asset);
   }

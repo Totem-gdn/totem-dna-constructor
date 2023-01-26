@@ -32,9 +32,9 @@ export const Animations = {
                 [
                   style({ height: 0, opacity: 0 }),
                   group([
-                    animate('0.4s ease-in-out',
-                      style({ height: 21 })),
-                    animate('0.3s 0.1s ease-in-out',
+                    animate('0.3s ease-in-out',
+                      style({ height: 31 })),
+                    animate('0.3s 0.2s ease-in-out',
                       style({ opacity: 1 }))
                   ])
                 ]
@@ -42,9 +42,9 @@ export const Animations = {
               transition(
                 ':leave',
                 [
-                  style({ height: 21, opacity: 1 }),
+                  style({ height: 31, opacity: 1 }),
                   group([
-                    animate('0.3s 0.1s ease-in-out',
+                    animate('0.3s 0.2s ease-in-out',
                       style({ height: 0 })),
                     animate('0.3s ease-in-out',
                       style({ opacity: 0 }))

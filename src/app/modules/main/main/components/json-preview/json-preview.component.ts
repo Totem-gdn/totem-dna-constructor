@@ -80,15 +80,10 @@ export class JSONPreviewComponent implements OnInit, OnDestroy {
   onClickDownload() {
     console.log('download')
 
-    // if(this.checkFormValidity() == false) return;
-    const isValid = this.propertiesService.formValid;
-    
-    if (!isValid || !this.properties?.length) {
-
-      this.propertiesService.formEvents.next(true);
+    if(!this.propertiesService.formProperties.valid) {
+      this.markArrayDirty(this.propertiesService.formProperties);
       return;
     }
-    // this.jsonForClipboard = JSON.stringify(this.properties);
     const blob = new Blob([JSON.stringify(this.properties)], { type: 'text/json' });
     // const url = window.URL.createObjectURL(blob);
     // const uri: SafeUrl = this.sanitizer.bypassSecurityTrustUrl(url);
@@ -98,6 +93,40 @@ export class JSONPreviewComponent implements OnInit, OnDestroy {
     a.href = objectUrl
     a.download = 'dna.json';
     a.click();
+  }
+
+  markGroupDirty(formGroup: FormGroup) {
+    Object.keys(formGroup.controls).forEach(key => {
+      switch (formGroup.get(key)?.constructor.name) {
+        case "FormGroup":
+          this.markGroupDirty(formGroup.get(key) as FormGroup);
+          break;
+        case "FormArray":
+          this.markArrayDirty(formGroup.get(key) as FormArray);
+          break;
+        case "FormControl":
+          this.markControlDirty(formGroup.get(key) as FormControl);
+          break;
+      }
+    });
+  }
+  markArrayDirty(formArray: FormArray) {
+    formArray.controls.forEach(control => {
+      switch (control.constructor.name) {
+        case "FormGroup":
+          this.markGroupDirty(control as FormGroup);
+          break;
+        case "FormArray":
+          this.markArrayDirty(control as FormArray);
+          break;
+        case "FormControl":
+          this.markControlDirty(control as FormControl);
+          break;
+      }
+    });
+  }
+  markControlDirty(formControl: FormControl) {
+    formControl.markAsDirty();
   }
 
 

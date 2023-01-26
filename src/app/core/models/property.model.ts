@@ -10,6 +10,8 @@ export interface PropertyModel {
     values?: any[];
 }
 
+
+
 export interface PropertiesEvent {
     event: PROPERTIES_EVENTS;
     data?: PropertyModel[];
