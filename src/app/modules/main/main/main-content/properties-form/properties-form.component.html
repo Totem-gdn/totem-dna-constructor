@@ -8,7 +8,7 @@
             <h2>{{description}}</h2>
             <p>Type: <span>{{type | mapProperty}}</span></p>
         </div>
-        <ng-container *ngFor="let property of formGroup.controls | keyvalue">
+        <ng-container *ngFor="let property of formGroup.controls | keyvalue: customSort">
             <!-- Default -->
             <div class="property-wrapper" *ngIf="property.key != 'type' && property.key != 'values'">
                 <property-field 

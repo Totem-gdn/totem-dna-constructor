@@ -31,6 +31,10 @@ import { PropertyModel } from '../../../../../core/models/property.model';
 export class PropertiesFormComponent {
   get type() { return this.formGroup.get('type')?.value }
   get description() { return this.formGroup.get('description')?.value }
+  sortingOrder = ['id', 'description']
+  customSort = (a: KeyValue<string, any>, b: KeyValue<string, any>): any => {
+    return this.sortingOrder.slice().indexOf(b.key) - this.sortingOrder.slice().indexOf(a.key);
+  }
   formArray(form: any) { return form as any }
   // form(form: any) { return form as any }
   formControl(form: any) { 
