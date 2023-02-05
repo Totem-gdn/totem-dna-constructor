@@ -53,5 +53,18 @@ export const Animations = {
               )
             ]
           ),
+          trigger(
+            'fade-in',
+            [
+              transition(
+                ':enter',
+                [
+                  style({ opacity: 0 }),
+                  animate('0.4s ease-in-out',
+                    style({ opacity: 1 }))
+                ]
+              ),
+            ]
+          ),
     ]
 }

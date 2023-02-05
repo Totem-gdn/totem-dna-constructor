@@ -1,11 +1,11 @@
-<div  tabindex="0" (blur)="onBlur()" class="wrapper">
+<div  tabindex="0" (blur)="onBlur($event)" class="wrapper">
     <div class="title" (click)="showDropdown = !showDropdown">
-        <p>Choose template</p>
+        <p>{{title}}</p>
         <mat-icon [svgIcon]="'arrow_down'"></mat-icon>
     </div>
     
     <div @fade-in-out class="dropdown" *ngIf="showDropdown">
-        <search></search>
+        <search (blur)="onBlur($event)" [reset]="reset" #search (search)="onSearch($event)"></search>
     
         <div class="menu-items">
             <div class="menu-item" *ngFor="let game of games" (click)="onClickItem(game)">

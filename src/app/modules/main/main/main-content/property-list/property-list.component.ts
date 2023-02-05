@@ -22,11 +22,9 @@ import { PropertyModel } from '../../../../../core/models/property.model';
 })
 export class PropertyListComponent implements OnInit, OnDestroy {
   formGroupName(control: any) {
-    // console.log(control)
     return control.get('description')?.value
   }
   get selectedPropertyName() { 
-    console.log(this.propertiesService.selectedFormGroup?.get('description')?.value)
     return this.propertiesService.selectedFormGroup?.get('description')?.value
   }
   getFormGroup(form: any) {
@@ -45,7 +43,7 @@ export class PropertyListComponent implements OnInit, OnDestroy {
     private changeDetector: ChangeDetectorRef,
     private genesService: GenesService,
     private listService: ListService,
-    private jsonService: JSONPreviewService) { }
+    private jsonService: JSONPreviewService,) { }
 
   formProperties = new FormArray(Array());
 
@@ -57,7 +55,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
 
   onChanges$() {
     this.formProperties.valueChanges.subscribe(values => {
-      // console.log('changes', changes)
       this.jsonService.json = values;
     })
   }
@@ -79,7 +76,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   //     const d = (value as FormGroup)?.dirty;
   //     const v = (value as FormGroup)?.valid
   //     const valid = v ? true : d ? false : true;
-  //     // console.log('dirty',)
   //     const item: ListItem = { formName: key, valid }
   //     formValidity.push(item);
   //   }
@@ -97,23 +93,34 @@ export class PropertyListComponent implements OnInit, OnDestroy {
       const values = property;
       this.genesService.geneChangeEvent({ values, id: name, event: GENE_EVENT.PAINT });
     }
-    console.log(this.formProperties)
   }
 
 
   onSelectProperty(property: FormGroup) {
-    console.log('propety', property)
     this.propertiesService.selectedFormGroup = property;
+    this.listService.showGenes = false;
   }
 
   deleteProperty(property: any) {
     const name = property.get('description').value;
     let i=0;
     for(let formGroup of this.propertiesService.formProperties.controls) {
-      if(formGroup.get('description')?.value == name) this.propertiesService.formProperties.removeAt(i)
+      this.genesService.geneChangeEvent({ id: name, event: GENE_EVENT.RESET })
+      if(formGroup.get('description')?.value == name) {
+            // this.genesService.reset('one', name)
+        if(this.propertiesService.selectedFormGroup == this.propertiesService.formProperties.controls[i]) {
+          this.propertiesService.selectedFormGroup = this.propertiesService.formProperties.controls[i - 1 < 0 ? 0 : i - 1] as FormGroup;
+        }
+        this.propertiesService.formProperties.removeAt(i)
+
+        if(this.propertiesService.formProperties.controls?.length == 0) {
+          this.propertiesService.selectedFormGroup = new FormGroup({});
+        }
+      }
 
       i++;
     }
+    // this.propertiesService.selectedFormGroup = this.propertiesService.formProperties.controls[]
     // this.propertiesService.removeProperty(property);
   }
 
@@ -144,9 +151,6 @@ export class PropertyListComponent implements OnInit, OnDestroy {
       for (const field of json) {
         this.propertiesService.addProperty(field);
       }
-      // // const properties = [...this.propertiesService.]
-      // // const this.propertiesService
-      // this.propertiesService.setForm = properties;
     };
   }
 

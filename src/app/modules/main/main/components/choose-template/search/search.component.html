@@ -5,7 +5,7 @@
 
     <mat-icon [svgIcon]="'search'"></mat-icon>
 
-    <input type="text">
+    <input (blur)="onBlur($event)" [formControl]="control" type="text">
 
     <mat-icon class="close" [svgIcon]="'cancel'"></mat-icon>
 </div>

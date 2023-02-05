@@ -1,5 +1,6 @@
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AssetsService } from '@app/core/services/assets.service';
+import { ListService } from '@app/core/services/list.service';
 import { PopupsService } from '@app/core/services/popups.service';
 import { PropertiesService } from '@app/core/services/properties.service';
 import { PROPERTIES } from '../../../../../core/enums/properties.enum';
@@ -13,7 +14,8 @@ export class PropertyTypesComponent implements OnInit {
 
   constructor(private popupService: PopupsService,
               private propertiesService: PropertiesService,
-              private assetsService: AssetsService) {}
+              private assetsService: AssetsService,
+              private listService: ListService) {}
   // properties: PropertiesModel[] = [
   //   { title: PROPERTIES.BOOLEAN, value: PROPERTIES_LOWERCASE.BOOLEAN },
   //   { title: PROPERTIES.INTEGER, value: PROPERTIES_LOWERCASE.INTEGER },
@@ -35,6 +37,7 @@ export class PropertyTypesComponent implements OnInit {
 
   addProperty(type: PROPERTIES): void {
     this.propertiesService.addDefaultProperty(type)
+    this.listService.showGenes = false;
     // this.assetsService.assetForm(type)
     // this.addProperty.emit(asset);
   }

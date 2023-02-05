@@ -1,29 +1,19 @@
 <div class="wraper">
-    <div class="row mb-2 justify-content-between">
-        <div class="col-md-2">
+    <div class="content">
+        <div>
             <span class="title">JSON</span>
         </div>
-        <div class="col-md-1">
-            <div class="row justify-content-end">
-                <div class="col-md-6 d-flex justify-content-end"
-                    matTooltip="Copy JSON to Clipboard"
-                    [matTooltipPosition]="'above'"
-                >
-                    <span class="copy_btn" [cdkCopyToClipboard]="jsonForClipboard()">
-                        <img src="assets/images/svg/content_copy.svg" alt="">
-                    </span>
-                </div>
-                <div class="col-md-6 d-flex justify-content-end" 
-                    matTooltip="Download Json File"
-                    [matTooltipPosition]="'above'"
-                >
-                    <div class="download"
-                        (click)="onClickDownload()">
-                        <span>
-                            <img src="assets/images/svg/download.svg" alt="">
-                        </span>
-                    </div>
-                </div>
+        <div class="copy" matTooltip="Copy JSON to Clipboard"
+            [matTooltipPosition]="'above'">
+            <span class="copy_btn" [cdkCopyToClipboard]="jsonForClipboard()">
+                <img src="assets/images/svg/content_copy.svg" alt="">
+            </span>
+        </div>
+        <div class="donwload" matTooltip="Download Json File" [matTooltipPosition]="'above'">
+            <div class="download" (click)="onClickDownload()">
+                <span>
+                    <img src="assets/images/svg/download.svg" alt="">
+                </span>
             </div>
         </div>
     </div>

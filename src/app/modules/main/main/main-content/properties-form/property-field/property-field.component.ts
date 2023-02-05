@@ -53,21 +53,19 @@ export class PropertyFieldComponent implements ControlValueAccessor {
         // this.valueChanges.emit(this.parentName);
     }
     registerOnChange(fn: any): void {
-        // console.log('fn', fn)
         this.onChange = fn;
         fn = (val: any) => {
-            console.log('on change')
             this.onChange(val) 
             this.valueChanges.emit(this.parentName);
         }
         this.control.valueChanges.subscribe(fn);
     }
+    onClear() {
+        this.control.patchValue('')
+    }
     registerOnTouched(fn: any): void {
         fn = (val: any) => {
-            // console.log('touched', val)
         }
-        // console.log("on blur");
-        // console.log('touched', fn)
         this.onTouched = fn;
     }
     setDisabledState?(isDisabled: boolean): void {

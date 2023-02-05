@@ -4,14 +4,22 @@
     background-color: $yellow;
     margin-bottom: 10px;
     .container {
-        padding: 20px 12px;
-        padding-bottom: 25px;
-        .title {
-            font-family: "Totem";
-            text-transform: uppercase;
-            font-size: 36px;
-            padding: 10px 12px;
-            padding-top: 0;
+        .titel-wr {
+            display: flex;
+            justify-content: center;
+            .title {
+                padding-bottom: 40px;
+                padding-top: 40px;
+                white-space: nowrap;
+                font-family: "Totem";
+                text-transform: uppercase;
+                font-size: 36px;
+                @media screen and (max-width: 500px) {
+                    font-size: 24px;
+                    padding-top: 15px;
+                    padding-bottom: 15px;
+                }
+            }
         }
         .text {
             font-family: "Roboto-small";

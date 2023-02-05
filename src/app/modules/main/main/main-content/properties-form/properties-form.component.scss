@@ -6,6 +6,17 @@
     width: 100%;
     height: 100%;
 }
+.empty_form_placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    // vertical-align: middle;
+    // margin-top: ($main_column_height / 2) - 100;
+    align-items: center;
+    color: $middle_grey;
+}
 .bool-values {
     display: flex;
     flex-direction: column;
@@ -13,7 +24,7 @@
 }
 .content {
     overflow: scroll;
-    box-shadow: 0 4px 2px -2px gray;
+    // box-shadow: 0 4px 2px -2px gray;
     padding: 20px 40px;
 
     display: flex;
@@ -26,9 +37,23 @@
         flex-direction: column;
         border-bottom: 1px solid $light_grey;
         // margin-bottom: 15px;
-
+        position: relative;
         span {
             font-weight: 400 !important;
+        }
+        .desc-wrapper {
+            position: relative;
+            .arrow {
+                cursor: pointer;
+                position: absolute;
+                display: none;
+                left: -8px;
+                top: 50%;
+                transform: translate(-100%, -50%);
+                @media screen and (max-width: 1024px) {
+                    display: block;
+                }
+            }
         }
     }
 }
@@ -50,6 +75,7 @@
     // gap: 10px;
 }
 .error {
+    white-space: nowrap;
     display: flex;
     flex-direction: column;
     justify-content: end;
@@ -69,8 +95,6 @@
 .w-full {
     width: 100%;
 }
-
-
 
 // .wraper {
 //     min-height: $main_column_height;

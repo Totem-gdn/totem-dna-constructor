@@ -1,4 +1,7 @@
+import { BreakpointObserver, BreakpointState } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
+import { Animations } from '@app/core/animations/animations';
+import { ListService } from '@app/core/services/list.service';
 import { PROPERTIES } from '../../../core/enums/properties.enum';
 import { PropertyModel } from '../../../core/models/property.model';
 import { DataService } from '../services/data.service';
@@ -6,7 +9,10 @@ import { DataService } from '../services/data.service';
 @Component({
   selector: 'app-main-page',
   templateUrl: './main-page.component.html',
-  styleUrls: ['./main-page.component.scss']
+  styleUrls: ['./main-page.component.scss'],
+  animations: [
+    Animations.animations
+  ]
 })
 export class MainPageComponent implements OnInit {
   propertyList: PropertyModel[] = [
@@ -16,11 +22,26 @@ export class MainPageComponent implements OnInit {
   ];
   selectedProperty?: PropertyModel;
   indexSelectedProperty!: number;
+
+  get showGenes() { return this.listService.showGenes }
+  toggleActive = false;
+
   constructor(
     private dataService: DataService,
+    public breakpointObserver: BreakpointObserver,
+    private listService: ListService
   ) { }
 
   ngOnInit(): void {
+    this.breakpointObserver
+      .observe(['(max-width: 1024px)'])
+      .subscribe((state: BreakpointState) => {
+        if (state.matches) {
+          this.toggleActive = true;
+        } else {
+          this.toggleActive = false;
+        }
+      });
   }
 
   selectTypeAssetEvent(event: string): void {

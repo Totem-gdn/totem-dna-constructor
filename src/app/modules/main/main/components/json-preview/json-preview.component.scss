@@ -1,5 +1,16 @@
 @import "styles/scss/variables.scss";
 
+.content {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    .copy {
+        margin-left: auto;
+    }
+    .donwload {
+        margin-left: 15px;
+    }
+}
 .wraper {
     width: 100%;
     min-height: 100px;

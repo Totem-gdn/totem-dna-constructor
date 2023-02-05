@@ -1,4 +1,5 @@
 import { NgModule } from "@angular/core";
+import { ReactiveFormsModule } from "@angular/forms";
 import { MatIconModule } from "@angular/material/icon";
 import { SharedModule } from "@app/shared/shared.module";
 import { SearchComponent } from "./search.component";
@@ -9,7 +10,8 @@ import { SearchComponent } from "./search.component";
     ],
     imports: [
         SharedModule,
-        MatIconModule
+        MatIconModule,
+        ReactiveFormsModule
     ],
     exports: [
         SearchComponent

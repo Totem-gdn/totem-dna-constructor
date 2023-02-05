@@ -8,7 +8,7 @@ import { PropertiesFormModule } from "./main-content/properties-form/properties-
 import { PropertyListModule } from "./main-content/property-list/property-list.module";
 import { SelectTypeAssetModule } from "./components/asset-types/asset-types.module";
 import { MainPageComponent } from "./main-page.component";
-
+import { LayoutModule } from '@angular/cdk/layout';
 
 @NgModule({
     declarations: [
@@ -24,7 +24,8 @@ import { MainPageComponent } from "./main-page.component";
         GenesPreviewModule,
         ChooseTemplateModule,
         PropertyListModule,
-        SelectTypeAssetModule
+        SelectTypeAssetModule,
+        LayoutModule
     ],
     exports: [
         MainPageComponent

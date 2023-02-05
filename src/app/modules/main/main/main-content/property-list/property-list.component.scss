@@ -4,13 +4,20 @@
     flex-direction: column;
     gap: 8px;
     height: 100%;
+
+    @media screen and (max-width: 600px) {
+        // min-height: 48px;
+        height: 366px;
+    }
+
     .list {
         display: flex;
         flex-direction: column;
         gap: 8px;
-        overflow: auto;
+        overflow-y: overlay;
+        overflow-x: hidden;
         // height: 100%;
-        box-shadow: 0 4px 2px -2px gray;
+        box-shadow: 1px 1px 3px gray;
     }
     
     .col-reverse {
@@ -22,7 +29,8 @@
         transition: background-color .3s;
         width:100%;
         flex-grow: 1;
-        min-height: 240px;
+        min-height: 231px;
+        // height: 100%;
         border: 2px dashed $grey;
         // height: 100%;
         display: flex;
@@ -30,6 +38,11 @@
         span {
             margin: auto;
             color: $blue;
+        }
+        @media screen and (max-width: 600px) {
+            min-height: 48px;
+            max-height: 400px;
+            height: auto;
         }
     }
 

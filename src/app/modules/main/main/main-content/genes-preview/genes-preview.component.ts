@@ -49,7 +49,6 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
       .subscribe(e => {
 
       const index = this.tableItems.findIndex(item => item.id == e.id);
-      console.log('index', index)
       const length = e.values?.length;
       const start = e.values?.start;
       const gene = e.values?.gene;
@@ -64,9 +63,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
         this.clear('all');
         return;
       }
-      // console.log(start, length, gene)
       if (e.event == GENE_EVENT.PAINT) {
-        console.log('start',start, 'length', length, 'gene', gene)
         if(start == undefined || length == undefined || gene == undefined) {
           this.repaintItem('clear', this.tableItems[index]);
           return;
@@ -115,7 +112,7 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
     if(!genes?.length) return;
     const cells = genes[gene].getElementsByClassName('cell');
 
-    const maxCells = this.type == ASSET_TYPE.AVATAR ? 32 : this.type == ASSET_TYPE.ITEM ? 24 : 16;
+    const maxCells = 32;
 
     if(start + length > maxCells) allRed = true;
 
@@ -171,7 +168,6 @@ export class GenesPreviewComponent implements OnInit, OnDestroy {
     if (clear == 'all') {
       this.tableItems = [];
       const genes = this.matrix.nativeElement.getElementsByClassName('gene');
-      // console.log('reset all')
       for(let gene of genes) {
         for (let cell of gene.getElementsByClassName('cell')) {
           cell.style.backgroundColor = this.blue;

@@ -41,7 +41,6 @@ export class PropertiesService {
 
 
   addDefaultProperty(type: PROPERTIES, index?: number): void {
-    console.log('add form', this.formProperties?.value)
     const properties = this.formProperties?.value;
 
     let untitledMaxIndex = '';
@@ -86,7 +85,6 @@ export class PropertiesService {
         propertyForm.addControl(key, new FormControl(value));
         const formControl = propertyForm.get(key) as FormControl;
         this.validatorsService.propertyValidators(formControl, key, type)
-        // console.log('form control', formControl)
       } if (type == 'bool' && key == 'values') {
 
         propertyForm.addControl(key, new FormArray([]));
@@ -95,28 +93,23 @@ export class PropertiesService {
         for (let val of value) {
           valuesFormArray.push(new FormControl(val, Validators.required));
         }
-        console.log('bool', valuesFormArray)
       } if (key == 'values') {
         // if(!propertyForm) return;
         propertyForm.addControl('values', new FormArray([]));
         const valuesArray: FormArray = propertyForm.get('values' as string) as FormArray;
-        // console.log('key', key, 'type', type)
         if (type == 'map') {
           for (let [index, values] of value.entries()) {
             valuesArray.push(new FormGroup({}));
             const valuesFormGroup = valuesArray.controls[index] as FormGroup;
-            // console.log('value ket',values, values.key, values.value)
             valuesFormGroup.addControl('key', new FormControl(values.key))
             valuesFormGroup.addControl('value', new FormControl(values.value))
             // const valuesGroup
           }
-          // console.log('values array', valuesArray)
         }
 
       }
 
       
-      // console.log('form', this.formProperties)
     }
     this.formProperties.push(propertyForm);
     this.selectedFormGroup = propertyForm;

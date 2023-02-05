@@ -16,7 +16,6 @@ export class GenesService {
     get geneDataChanges$() { return this._changeEvent.asObservable() }
 
     geneChangeEvent(e: GeneChangeEvent) {
-        // console.log('event', e)
         this._changeEvent.next(e);
     }
 

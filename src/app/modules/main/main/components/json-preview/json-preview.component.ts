@@ -64,7 +64,6 @@ export class JSONPreviewComponent implements OnInit, OnDestroy {
   }
 
   // preparePropertyList(list: PropertyModel[]): PropertyModel[] {
-  //   // console.log('list', list)
   //   return list;
   //   // return list.map((property: PropertyModel) => {
   //   //   const modifyProperty = {
@@ -78,7 +77,6 @@ export class JSONPreviewComponent implements OnInit, OnDestroy {
 
 
   onClickDownload() {
-    console.log('download')
 
     if(!this.propertiesService.formProperties.valid) {
       this.markArrayDirty(this.propertiesService.formProperties);

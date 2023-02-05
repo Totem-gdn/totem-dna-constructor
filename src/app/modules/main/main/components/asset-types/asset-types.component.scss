@@ -19,9 +19,19 @@
         &:hover{
             background-color: $grey;
         }
+
+        @media screen and (max-width: 700px) {
+            padding: 0 20px;
+            flex-grow: 1;
+            justify-content: center;
+        }
     }
     .active{
         background-color: $grey;
+    }
+
+    @media screen and (max-width: 500px) {
+        justify-content: center;
     }
 }
 :host {

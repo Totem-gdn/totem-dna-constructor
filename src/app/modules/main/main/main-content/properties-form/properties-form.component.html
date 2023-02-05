@@ -1,11 +1,15 @@
 <div class="wrapper">
-    <ng-container *ngIf="!formGroup.controls">
-        <span class="empty">Add one property <br> for select</span>
+    <ng-container *ngIf="objectLength(formGroup.controls) == 0">
+        <span class="empty_form_placeholder">Add one property <br> for select</span>
     </ng-container>
-    <form class="content" [formGroup]="formGroup">
+    <form *ngIf="objectLength(formGroup.controls) != 0" class="content" [formGroup]="formGroup">
 
-        <div class="title" *ngIf="description">
-            <h2>{{description}}</h2>
+        <div class="title">
+
+            <div *ngIf="description" class="desc-wrapper">
+                <h2>{{description}}</h2>
+                <mat-icon (click)="onClickArrow()" class="arrow" [svgIcon]="'arrow_left'"></mat-icon>
+            </div>
             <p>Type: <span>{{type | mapProperty}}</span></p>
         </div>
         <ng-container *ngFor="let property of formGroup.controls | keyvalue: customSort">

@@ -1,13 +1,13 @@
-<div class="container">
+<div class="wrapper">
     <div class="assets">
         <asset-types (selectTypeEvent)="selectTypeAssetEvent($event)"></asset-types>
 
 
-        <choose-template></choose-template>
+        <choose-template class="choose-template"></choose-template>
 
     </div>
 
-    <div class="row mt-2">
+    <div class="mt-2">
         <property-types></property-types>
     </div>
     <div class="main-content">
@@ -15,17 +15,17 @@
         <div class="list">
             <property-list></property-list>
         </div>
-        <div class="form">
+        <div *ngIf="toggleActive == false || showGenes == false" @fade-in class="form">
             <properties-form></properties-form>
         </div>
-        <div class="genes">
+        <div *ngIf="toggleActive == false || showGenes == true" @fade-in class="genes">
             <genes-preview></genes-preview>
         </div>
 
     </div>
 
-    <div class="row">
+    <!-- <div class="row"> -->
         <json-preview></json-preview>
-    </div>
+    <!-- </div> -->
 
 </div>

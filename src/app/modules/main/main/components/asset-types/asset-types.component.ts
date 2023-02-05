@@ -41,7 +41,6 @@ export class AssetTypesComponent implements OnInit {
         // this._assetType.next(type);
         //   this.setForm = this.assetsService.getFormByType(type);
           this.genesService.reset();
-    // console.log('title', asset.title)
     // this.genesService.reset();
     this.assetsService.storeForm(this.assetsService.assetType, this.propertiesService.formProperties.value);
     this.propertiesService.formProperties.clear();
@@ -52,7 +51,7 @@ export class AssetTypesComponent implements OnInit {
     }
     const selected = this.propertiesService.formProperties.controls[0] as FormGroup;
     if(!selected) {
-      this.propertiesService.selectedFormGroup = null;
+      this.propertiesService.selectedFormGroup = new FormGroup({});
     } else {
       this.propertiesService.selectedFormGroup = selected;
     }

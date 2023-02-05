@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { ReactiveFormsModule } from "@angular/forms";
 import { MatError, MatFormFieldModule } from "@angular/material/form-field";
-import { MatIconModule } from "@angular/material/icon";
+import { MatIcon, MatIconModule } from "@angular/material/icon";
 import { MaterialModule } from "@app/shared/material/material.module";
 import { SharedModule } from "@app/shared/shared.module";
 import { PropertiesFormComponent } from "./properties-form.component";
@@ -18,7 +18,8 @@ import { ValueFieldModule } from "./value-field/value-field.module";
         ReactiveFormsModule,
 
         PropertyFieldModule,
-        ValueFieldModule
+        ValueFieldModule,
+        MatIconModule
         // MaterialModule
         // MatError
     ],

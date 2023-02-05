@@ -48,7 +48,6 @@ export class ValidatorsService {
 
       nameValidator(): ValidatorFn {
         return (selectedControl: AbstractControl): { [key: string]: any } | null => {
-            // console.log('name', name)
             const selectedName = selectedControl.parent?.get('description')?.value;
             const properties = selectedControl.parent?.parent as FormArray;
 

@@ -35,7 +35,6 @@ export class ValueFieldComponent {
     public onChange: any = () => { };
 
     writeValue(val: any): void {
-        console.log('write value')
         val != undefined && this.control.setValue(val, { emitEvent: false });
         this.valueChanges.emit(this.parentName);
     }
@@ -55,7 +54,6 @@ export class ValueFieldComponent {
     }
 
     validate(c: AbstractControl): ValidationErrors | null {
-        // console.log('valid', this.control.valid)
         return this.control.valid ? null : { invalidForm: { valid: false, message: "basicInfoForm fields are invalid" } };
 
     }

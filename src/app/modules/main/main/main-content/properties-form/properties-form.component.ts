@@ -29,6 +29,10 @@ import { PropertyModel } from '../../../../../core/models/property.model';
   ]
 })
 export class PropertiesFormComponent {
+  objectLength(obj: any) {
+
+    return Object.keys(obj)?.length;
+  }
   get type() { return this.formGroup.get('type')?.value }
   get description() { return this.formGroup.get('description')?.value }
   sortingOrder = ['id', 'description']
@@ -37,37 +41,36 @@ export class PropertiesFormComponent {
   }
   formArray(form: any) { return form as any }
   // form(form: any) { return form as any }
-  formControl(form: any) { 
+  formControl(form: any) {
     return form as any
-   }
+  }
 
   formControlValues(form: any, key: string) { return form.get(key) }
 
-  childrenErrors(form: any)  {
+  childrenErrors(form: any) {
 
-    for(let child of Object.values(form.controls)) {
+    for (let child of Object.values(form.controls)) {
       const c = child as any
 
-      if(c.errors && c.dirty) {
-        if(c.errors.required) return 'Required field';
-        if(c.errors.error) return c.errors.error;
+      if (c.errors && c.dirty) {
+        if (c.errors.required) return 'Required field';
+        if (c.errors.error) return c.errors.error;
       }
 
-      if(c instanceof FormArray) {
+      if (c instanceof FormArray) {
         const child1 = c.controls[0] as any;
         const child2 = c.controls[1] as any;
-        console.log('children', child1.dirty, child2)
         child2.updateValueAndValidity();
         child1.updateValueAndValidity();
-        if(child1.dirty) {
-          if(child1.errors?.required) return 'Required field';
-          if(child1.errors) {
+        if (child1.dirty) {
+          if (child1.errors?.required) return 'Required field';
+          if (child1.errors) {
             return child1.errors.error;
           }
-        } else if(child2.dirty) {
-          if(!child2.dirty) return null;
-          if(child2.errors?.required) return 'Required field';
-          if(child2.errors) {
+        } else if (child2.dirty) {
+          if (!child2.dirty) return null;
+          if (child2.errors?.required) return 'Required field';
+          if (child2.errors) {
 
             return child2.errors.error;
           }
@@ -79,9 +82,8 @@ export class PropertiesFormComponent {
   }
 
   getErrors(control: any) {
-    // console.log('errors', control)
-    if(control.errors.required) return 'Required field';
-    if(control.errors.error) return control.errors.error;
+    if (control.errors.required) return 'Required field';
+    if (control.errors.error) return control.errors.error;
     return '';
   }
 
@@ -139,7 +141,7 @@ export class PropertiesFormComponent {
         valuesFormGroup.addControl('value', new FormArray([]));
         rangeFormArray = valuesFormGroup.get('value' as string) as FormArray;
       }
-      rangeFormArray.push(new FormControl('',[Validators.required, this.validatorsService.minMaxValidator()] ));
+      rangeFormArray.push(new FormControl('', [Validators.required, this.validatorsService.minMaxValidator()]));
       // const minControl = rangeFormArray.at(0) as FormControl;
       // this.validatorsService.propertyValidators(minControl, 'range_min', 'range');
       rangeFormArray.push(new FormControl('', [Validators.required, this.validatorsService.minMaxValidator()]));
@@ -150,26 +152,29 @@ export class PropertiesFormComponent {
 
   controlValueChanges(formName: string, empty = false) {
     // if (!formName) return;
-    if(formName == 'start') this.formGroup.get('length')?.updateValueAndValidity();
-    if(formName == 'length') this.formGroup.get('start')?.updateValueAndValidity();
+    if (formName == 'start') this.formGroup.get('length')?.updateValueAndValidity();
+    if (formName == 'length') this.formGroup.get('start')?.updateValueAndValidity();
 
     // const value = this.formGroup.value;
     // this.jsonService.json = value;
     // const parentFormGroup = this.propertiesForms.get(formName);
 
-  const values: FormModel = this.formGroup?.value;
-  const name = this.formGroup?.get('description')?.value;
-  const gene = this.formGroup?.get('gene')?.value;
-  const length = this.formGroup?.get('length')?.value;
-  const start = this.formGroup?.get('start')?.value;
-  console.log('set')
-    if(gene == '' || length == '' || start == '') {
-      this.genesService.geneChangeEvent({id: name, event: GENE_EVENT.RESET})
+    const values: FormModel = this.formGroup?.value;
+    const name = this.formGroup?.get('description')?.value;
+    const gene = this.formGroup?.get('gene')?.value;
+    const length = this.formGroup?.get('length')?.value;
+    const start = this.formGroup?.get('start')?.value;
+    if (gene == '' || length == '' || start == '') {
+      this.genesService.geneChangeEvent({ id: name, event: GENE_EVENT.RESET })
       return;
     }
-  
 
-  this.genesService.geneChangeEvent({ values, id: name, event: GENE_EVENT.PAINT });
 
+    this.genesService.geneChangeEvent({ values, id: name, event: GENE_EVENT.PAINT });
+
+  }
+
+  onClickArrow() {
+    this.listService.showGenes = true;
   }
 }

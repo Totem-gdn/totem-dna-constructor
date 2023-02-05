@@ -19,22 +19,30 @@ export class AssetsService {
         private genesService: GenesService) { }
 
 
-        _assetType = new BehaviorSubject<ASSET_TYPE>(ASSET_TYPE.AVATAR);
-        get assetType() { return this._assetType.getValue(); }
-        get assetType$() { return this._assetType.asObservable() }
-        set assetType(type: ASSET_TYPE) {
+    _assetType = new BehaviorSubject<ASSET_TYPE>(ASSET_TYPE.AVATAR);
+    get assetType() { return this._assetType.getValue(); }
+    get assetType$() { return this._assetType.asObservable() }
+    set assetType(type: ASSET_TYPE) {
         //   this.storeForm(this.assetType, this.formProperties.value);
         //   this.formProperties.clear();
-          this._assetType.next(type);
+        this._assetType.next(type);
         //   this.setForm = this.assetsService.getFormByType(type);
-          this.genesService.reset();
-        }
+        this.genesService.reset();
+    }
 
 
     _avatars: PropertyModel[] = [];
     _gems: PropertyModel[] = [];
     _items: PropertyModel[] = [];
 
+    getGamesByFilter(filter: string, page: number = 1) {
+        const url = `${this.apiUrl}/games?search=${filter}&page=${page}`;
+
+        return this.http.get<ApiResponse<GameInfo[]>>(url)
+            .pipe(
+                map(games => games.data)
+            );
+    }
 
     storeForm(type: ASSET_TYPE, form: PropertyModel[]) {
         if (type == ASSET_TYPE.AVATAR) this._avatars = form;

@@ -7,7 +7,7 @@
         [placeholder]="type == 'bool' ? 'value' : title"
         [ngClass]="{'ng-invalid':control.invalid,'ng-valid':control.valid}">
 
-    <mat-icon [svgIcon]="'cancel'"></mat-icon>
+    <mat-icon (click)="onClear()" [svgIcon]="'cancel'"></mat-icon>
 </div>
 
 <div class="disabled-wrapper" *ngIf="disabledForm">
