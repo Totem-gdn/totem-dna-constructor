@@ -71,7 +71,7 @@ export class PropertiesService {
       defaultProp.values = ['', '']
     }
 
-    if(atIndex != undefined) {
+    if(atIndex == undefined) {
       this.addProperty(defaultProp)
     } else {
       this.addProperty(defaultProp, atIndex);
