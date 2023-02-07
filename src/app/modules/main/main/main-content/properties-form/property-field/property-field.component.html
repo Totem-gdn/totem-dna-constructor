@@ -10,7 +10,7 @@
     <mat-icon (click)="onClear()" [svgIcon]="'cancel'"></mat-icon>
 </div>
 
-<div class="disabled-wrapper" *ngIf="disabledForm">
-    <span>Length: </span>
-    <input [formControl]="control" type="text" [placeholder]="disabledForm ? 'null' : title">
+<div class="wrapper" *ngIf="disabledForm">
+    <span class="label">{{title}}</span>
+    <input class="events-none" [formControl]="control" type="text" [placeholder]="'0'">
 </div>

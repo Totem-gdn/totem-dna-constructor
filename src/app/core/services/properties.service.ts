@@ -40,7 +40,7 @@ export class PropertiesService {
   set selectedFormGroup(property: FormGroup | null) { this._selectedFormGroup.next(property) }
 
 
-  addDefaultProperty(type: PROPERTIES, index?: number): void {
+  addDefaultProperty(type: PROPERTIES, atIndex?: number): void {
     const properties = this.formProperties?.value;
 
     let untitledMaxIndex = '';
@@ -71,10 +71,14 @@ export class PropertiesService {
       defaultProp.values = ['', '']
     }
 
-    this.addProperty(defaultProp)
+    if(atIndex != undefined) {
+      this.addProperty(defaultProp)
+    } else {
+      this.addProperty(defaultProp, atIndex);
+    }
   }
 
-  addProperty(property: PropertyModel) {
+  addProperty(property: PropertyModel, atIndex?: number) {
 
     const propertyForm = new FormGroup({});
 
@@ -102,33 +106,98 @@ export class PropertiesService {
             valuesArray.push(new FormGroup({}));
             const valuesFormGroup = valuesArray.controls[index] as FormGroup;
             valuesFormGroup.addControl('key', new FormControl(values.key))
+            const keyControl = valuesFormGroup.get('key' as string) as FormControl;
+            this.validatorsService.propertyValidators(keyControl, 'map_key', 'map');
             valuesFormGroup.addControl('value', new FormControl(values.value))
-            // const valuesGroup
+            const valueControl = valuesFormGroup.get('value' as string) as FormControl;
+            this.validatorsService.propertyValidators(valueControl, 'map_value', 'map');
+
+          }
+        } else if (type == 'range') {
+          for (let [index, values] of value.entries()) {
+            propertyForm.addControl('values', new FormArray([]));
+            const valuesArray: FormArray = propertyForm.get('values' as string) as FormArray;
+
+            const valuesFormGroup = new FormGroup({});
+            for (let [key, value] of Object.entries(values)) {
+
+              if (key == 'key') {
+                valuesFormGroup.addControl('key', new FormControl(value)); // shoup exists
+                const keyControl = valuesFormGroup.get('key' as string) as FormControl;
+                this.validatorsService.propertyValidators(keyControl, 'map_key', 'map');
+              }
+
+              if (key == 'value') {
+                valuesFormGroup.addControl('value', new FormArray([])); // shoup exists
+                const rangeArray = valuesFormGroup.get('value' as string) as FormArray;
+                const rangeValues = value as any;
+                rangeArray.push(new FormControl(rangeValues[0], [Validators.required, this.validatorsService.minMaxValidator()]));
+                rangeArray.push(new FormControl(rangeValues[1], [Validators.required, this.validatorsService.minMaxValidator()]));
+              }
+
+            }
+            valuesArray.push(valuesFormGroup)
           }
         }
 
       }
 
-      
+
     }
-    this.formProperties.push(propertyForm);
-    this.selectedFormGroup = propertyForm;
+    if (atIndex != undefined) {
+      this.formProperties.insert(atIndex, propertyForm)
+    } else {
+      this.formProperties.push(propertyForm);
+      this.selectedFormGroup = propertyForm;
+    }
+    // this.formProperties.push(propertyForm);
+  }
+
+  deleteProperty(property: any) {
+    const name = property.get('description').value;
+    let i = 0;
+    for (let formGroup of this.formProperties.controls) {
+      this.genesService.geneChangeEvent({ id: name, event: GENE_EVENT.RESET })
+      if (formGroup.get('description')?.value == name) {
+        // this.genesService.reset('one', name)
+        if (this.selectedFormGroup == this.formProperties.controls[i]) {
+          this.selectedFormGroup = this.formProperties.controls[i - 1 < 0 ? 0 : i - 1] as FormGroup;
+        }
+        this.formProperties.removeAt(i)
+
+        if (this.formProperties.controls?.length == 0) {
+          this.selectedFormGroup = new FormGroup({});
+        }
+      }
+
+      i++;
+    }
   }
 
   swapProperties(prev: number, curr: number) {
-    // const props = [...this.form];
-    // const temp = props[prev];
-    // props[prev] = props[curr];
-    // props[curr] = temp;
-    // this.setForm = props;
+    const formArray = this.formProperties as FormArray;
+    const currValue = formArray.at(curr)?.value;
+    const prevValue = formArray.at(prev)?.value;
+    if(curr < prev) {
+      formArray.removeAt(prev);
+      this.addProperty(prevValue, curr)
+
+    } else {
+      formArray.removeAt(curr);
+      this.addProperty(currValue, prev)
+    }
+
   }
 
-  removeProperty(property: PropertyModel) {
-    // const properties = [...this.form];
-
-    // const filtered = properties.filter(prop => { return prop.description != property.description });
-    // for(let prop of filtered) this.genesService.removeGeneByProperty(prop)
-    // this.setForm = filtered;
+  geneEvent(formGroup: any) {
+    const name = formGroup?.get('description')?.value;
+    const gene = formGroup?.get('gene')?.value;
+    const length = formGroup?.get('length')?.value;
+    const start = formGroup?.get('start')?.value;
+    if (gene == '' || length == '' || start == '') {
+      this.genesService.geneChangeEvent({ id: name, event: GENE_EVENT.RESET })
+      return;
+    }
   }
 
   resetAll() {

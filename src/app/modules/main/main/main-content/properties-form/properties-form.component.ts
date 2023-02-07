@@ -142,12 +142,9 @@ export class PropertiesFormComponent {
         rangeFormArray = valuesFormGroup.get('value' as string) as FormArray;
       }
       rangeFormArray.push(new FormControl('', [Validators.required, this.validatorsService.minMaxValidator()]));
-      // const minControl = rangeFormArray.at(0) as FormControl;
-      // this.validatorsService.propertyValidators(minControl, 'range_min', 'range');
       rangeFormArray.push(new FormControl('', [Validators.required, this.validatorsService.minMaxValidator()]));
     }
     formArray.push(valuesFormGroup);
-    // formGroup.updateValueAndValidity();
   }
 
   controlValueChanges(formName: string, empty = false) {

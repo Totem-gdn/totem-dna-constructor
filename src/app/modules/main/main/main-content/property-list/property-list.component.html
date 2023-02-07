@@ -7,12 +7,23 @@
             *ngFor="let property of formProperties.controls; 
             let i = index;" 
             [cdkDragData]="'self'"
+            (cdkDragDropped)="onDrop($event)"
+            (cdkDragStarted)="dragStart($event)"
             (click)="onSelectProperty(getFormGroup(property))"
-            [ngClass]="{'red-border': (property.dirty && selectedPropertyName != formGroupName(property))}"
-            >
+            [ngClass]="{'red-border': (property.dirty && property.invalid)}">
 
-            <p class="truncate title">{{formGroupName(property)}}</p>
-            <mat-icon (click)="deleteProperty(property)" [svgIcon]="'delete'"></mat-icon>
+            <div cdkDragHandle class="drag-handle">
+                <mat-icon>reorder</mat-icon>
+            </div>
+
+            <div class="title-wrapper">
+                <p class="truncate title">{{formGroupName(property)}}</p>
+                <p *ngIf="formGroupId(property)" class="truncate sub-title">ID: {{formGroupId(property)}}</p>
+            </div>
+            
+            <div class="icon">
+                <mat-icon (click)="deleteProperty(property)" [svgIcon]="'delete'"></mat-icon>
+            </div>
             <!-- <properties-form [property]="property"></properties-form> -->
         </div>
     </div>

@@ -80,6 +80,7 @@ export class JSONPreviewComponent implements OnInit, OnDestroy {
 
     if(!this.propertiesService.formProperties.valid) {
       this.markArrayDirty(this.propertiesService.formProperties);
+
       return;
     }
     const blob = new Blob([JSON.stringify(this.properties)], { type: 'text/json' });

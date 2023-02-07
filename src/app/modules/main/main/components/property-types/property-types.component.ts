@@ -1,3 +1,4 @@
+import { CdkDragDrop, CdkDragStart } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { AssetsService } from '@app/core/services/assets.service';
 import { ListService } from '@app/core/services/list.service';
@@ -35,9 +36,22 @@ export class PropertyTypesComponent implements OnInit {
     
   }
 
+  bodyElement: HTMLElement = document.body;
+
+  dragStart(event: CdkDragStart) {
+    this.bodyElement.classList.add('inheritCursors');
+    this.bodyElement.style.cursor = 'move'; 
+    //replace 'move' with what ever type of cursor you want
+  }
+
+  drop(event: CdkDragDrop<string[]>) {
+    this.bodyElement.classList.remove('inheritCursors');
+    this.bodyElement.style.cursor = 'unset';
+  }
+
   addProperty(type: PROPERTIES): void {
     this.propertiesService.addDefaultProperty(type)
-    this.listService.showGenes = false;
+    // this.listService.showGenes = false;
     // this.assetsService.assetForm(type)
     // this.addProperty.emit(asset);
   }

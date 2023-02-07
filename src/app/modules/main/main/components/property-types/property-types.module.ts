@@ -2,6 +2,7 @@ import { NgModule } from "@angular/core";
 import { SharedModule } from "@app/shared/shared.module";
 import { PropertyTypesComponent } from "./property-types.component";
 import {DragDropModule} from '@angular/cdk/drag-drop';
+import { MatIconModule } from "@angular/material/icon";
 
 @NgModule({
     declarations: [
@@ -10,7 +11,8 @@ import {DragDropModule} from '@angular/cdk/drag-drop';
     imports: [
         SharedModule,
         // PropertyModule
-        DragDropModule
+        DragDropModule,
+        MatIconModule
     ],
     exports: [
         PropertyTypesComponent

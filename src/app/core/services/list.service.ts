@@ -8,7 +8,8 @@ export class ListService {
 
     private _formValidity = new BehaviorSubject<ListItem[]>([]);
 
-    showGenes = false;
+    showGenes: boolean = false;
+    
     get formValidity$() { return this._formValidity.asObservable()}
 
     set formValidity(form: ListItem[]) {

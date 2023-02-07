@@ -6,10 +6,13 @@
     <div class="buttons" cdkDropList id="property-types" [cdkDropListConnectedTo]="['property-list', 'drop-zone']">
         <button 
         cdkDrag
+        (cdkDragDropped)="drop($event)"
+        (cdkDragStarted)="dragStart($event)"
         [cdkDragData]="prop"
             class="totem-button" 
             *ngFor="let prop of properties"
-            (click)="addProperty(prop)">{{prop | mapProperty}}</button>
+            (click)="addProperty(prop)">{{prop | mapProperty}}
+        </button>
     </div>
 </div>
 <!-- <div class="row dna_container">

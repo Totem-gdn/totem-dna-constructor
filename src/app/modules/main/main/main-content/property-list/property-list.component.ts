@@ -1,4 +1,4 @@
-import { CdkDrag } from '@angular/cdk/drag-drop';
+import { CdkDrag, CdkDragDrop, CdkDragStart } from '@angular/cdk/drag-drop';
 import { AfterViewInit, ChangeDetectorRef, Component, EventEmitter, Input, OnChanges, OnDestroy, OnInit, Output, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { ASSET_TYPE } from '@app/core/enums/asset.enum';
@@ -21,9 +21,8 @@ import { PropertyModel } from '../../../../../core/models/property.model';
   styleUrls: ['./property-list.component.scss']
 })
 export class PropertyListComponent implements OnInit, OnDestroy {
-  formGroupName(control: any) {
-    return control.get('description')?.value
-  }
+  formGroupName(control: any) { return control.get('description')?.value }
+  formGroupId(control: any) { return control.get('id')?.value}
   get selectedPropertyName() { 
     return this.propertiesService.selectedFormGroup?.get('description')?.value
   }
@@ -67,6 +66,25 @@ export class PropertyListComponent implements OnInit, OnDestroy {
 
   }
 
+  bodyElement: HTMLElement = document.body;
+
+  dragStart(event: CdkDragStart) {
+    this.bodyElement.classList.add('inheritCursors');
+    this.bodyElement.style.cursor = 'move'; 
+    //replace 'move' with what ever type of cursor you want
+  }
+
+  onDrop(event: CdkDragDrop<string[]>) {
+    this.bodyElement.classList.remove('inheritCursors');
+    this.bodyElement.style.cursor = 'unset';
+  }
+  drop(e: any) {
+    if (e.item.data == 'self') {
+      this.propertiesService.swapProperties(e.previousIndex, e.currentIndex)
+    } else {
+      this.propertiesService.addDefaultProperty(e.item.data, e.currentIndex);
+    }
+  }
 
   // exportJson() {
   //   const form: PropertyModel[] = Object.values(this.propertiesForms.value);
@@ -102,36 +120,25 @@ export class PropertyListComponent implements OnInit, OnDestroy {
   }
 
   deleteProperty(property: any) {
-    const name = property.get('description').value;
-    let i=0;
-    for(let formGroup of this.propertiesService.formProperties.controls) {
-      this.genesService.geneChangeEvent({ id: name, event: GENE_EVENT.RESET })
-      if(formGroup.get('description')?.value == name) {
-            // this.genesService.reset('one', name)
-        if(this.propertiesService.selectedFormGroup == this.propertiesService.formProperties.controls[i]) {
-          this.propertiesService.selectedFormGroup = this.propertiesService.formProperties.controls[i - 1 < 0 ? 0 : i - 1] as FormGroup;
-        }
-        this.propertiesService.formProperties.removeAt(i)
+    this.propertiesService.deleteProperty(property);
+    // const name = property.get('description').value;
+    // let i=0;
+    // for(let formGroup of this.propertiesService.formProperties.controls) {
+    //   this.genesService.geneChangeEvent({ id: name, event: GENE_EVENT.RESET })
+    //   if(formGroup.get('description')?.value == name) {
+    //         // this.genesService.reset('one', name)
+    //     if(this.propertiesService.selectedFormGroup == this.propertiesService.formProperties.controls[i]) {
+    //       this.propertiesService.selectedFormGroup = this.propertiesService.formProperties.controls[i - 1 < 0 ? 0 : i - 1] as FormGroup;
+    //     }
+    //     this.propertiesService.formProperties.removeAt(i)
 
-        if(this.propertiesService.formProperties.controls?.length == 0) {
-          this.propertiesService.selectedFormGroup = new FormGroup({});
-        }
-      }
+    //     if(this.propertiesService.formProperties.controls?.length == 0) {
+    //       this.propertiesService.selectedFormGroup = new FormGroup({});
+    //     }
+    //   }
 
-      i++;
-    }
-    // this.propertiesService.selectedFormGroup = this.propertiesService.formProperties.controls[]
-    // this.propertiesService.removeProperty(property);
-  }
-
-  drop(e: any) {
-    if (e.item.data == 'self') {
-      this.propertiesService.swapProperties(e.previousIndex, e.currentIndex)
-    } else {
-      const type = (e.item.data as PROPERTIES)
-      const index: number = e.currentIndex;
-      // this.propertiesService.addProperty(type, index);
-    }
+    //   i++;
+    // }
   }
 
   onSelect(e: any) {

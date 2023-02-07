@@ -15,12 +15,25 @@
         <div class="list">
             <property-list></property-list>
         </div>
-        <div *ngIf="toggleActive == false || showGenes == false" @fade-in class="form">
+
+        <div *ngIf="mode != 'small'" @fade-in class="form">
             <properties-form></properties-form>
         </div>
-        <div *ngIf="toggleActive == false || showGenes == true" @fade-in class="genes">
+
+       <ng-container *ngIf="mode == 'small' && showGenes == false">
+
+        <div @fade-in class="overlay" (click)="showGenes = true"></div>
+        <div @fade-in class="content">
+            <div class="form">
+                <properties-form></properties-form>
+            </div>
+        </div>
+       </ng-container>
+
+        <div *ngIf="(mode == 'large' || showGenes == true) || mode == 'small'" @fade-in class="genes">
             <genes-preview></genes-preview>
         </div>
+
 
     </div>
 

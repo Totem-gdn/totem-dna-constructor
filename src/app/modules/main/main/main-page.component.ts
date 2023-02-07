@@ -23,8 +23,16 @@ export class MainPageComponent implements OnInit {
   selectedProperty?: PropertyModel;
   indexSelectedProperty!: number;
 
-  get showGenes() { return this.listService.showGenes }
-  toggleActive = false;
+  get showGenes() {
+    // if(this.listService.showGenes == true) {
+    //   document.body.style.position = 'fixed';
+    // } else {
+    //   document.body.style.position = 'flex';
+    // }
+    return this.listService.showGenes;
+  }
+  set showGenes(show: boolean) { this.listService.showGenes = show }
+  mode: 'large' | 'medium' | 'small' = 'large';
 
   constructor(
     private dataService: DataService,
@@ -34,12 +42,15 @@ export class MainPageComponent implements OnInit {
 
   ngOnInit(): void {
     this.breakpointObserver
-      .observe(['(max-width: 1024px)'])
+      .observe(['(max-width: 600px)', '(max-width: 1024px)'])
       .subscribe((state: BreakpointState) => {
-        if (state.matches) {
-          this.toggleActive = true;
+        if (state.breakpoints['(max-width: 600px)'] == true) {
+          this.showGenes = true;
+          this.mode = 'small';
+        } else if (state.breakpoints['(max-width: 1024px)'] == true) {
+          this.mode = 'medium';
         } else {
-          this.toggleActive = false;
+          this.mode = 'large';
         }
       });
   }
@@ -58,12 +69,12 @@ export class MainPageComponent implements OnInit {
     // this.toastr.success('Property is updated')
   }
 
-  onDeleteProperty(event: { item: PropertyModel, index: number }): void {
-    this.propertyList.splice(event.index, 1);
-    // if (event.item.active) {
-    //   this.selectedProperty = undefined;
-    // }
-  }
+  // onDeleteProperty(event: { item: PropertyModel, index: number }): void {
+  //   this.propertyList.splice(event.index, 1);
+  //   // if (event.item.active) {
+  //   //   this.selectedProperty = undefined;
+  //   // }
+  // }
 
   onSelectProperty(indexSelectedItem: number): void {
     this.propertyList.forEach((item: PropertyModel, index: number) => {
